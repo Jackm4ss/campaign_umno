@@ -1,0 +1,44 @@
+.nav-logo img { height: 60px; width: auto; max-width: 280px; object-fit: contain; }
+.nav-menu.open { right: 0; }
+.hero-slide:first-child { background-position: center; }
+.hero-container { width: 100%; }
+.hero-title span { color: #8fb3ff; }
+.about-grid { align-items: start; }
+.about-title { color: var(--blue-deep); margin-bottom: 24px; font: clamp(32px, 4vw, 56px) / 1 'Bebas Neue', sans-serif; }
+.about-item { margin-bottom: 24px; }
+.about-item h3 { color: var(--blue); font: 24px 'Bebas Neue', sans-serif; margin-bottom: 8px; }
+.about-item p { color: var(--text); }
+.mengenai-image-wrap { display: flex; align-items: center; justify-content: center; }
+.mengenai-image-wrap img { width: 100%; max-width: 440px; aspect-ratio: 4 / 5; border-radius: 12px; object-fit: cover; box-shadow: 0 10px 30px rgba(0, 0, 0, .15); }
+.kegiatan-header .mengenai-text, .pimpinan .mengenai-text { text-align: center; margin: 0; }
+.event-meta { margin-bottom: 10px; color: var(--red); font-size: 12px; font-weight: 700; letter-spacing: .8px; text-transform: uppercase; }
+.aspirations-title { font-size: clamp(32px, 4vw, 48px); }
+.aspirasi-scroll { display: flex; flex-direction: column; gap: 30px; }
+.aspirasi-item { display: flex; gap: 24px; align-items: flex-start; padding: 24px 0; }
+.aspirasi-marker { flex: 0 0 40px; display: flex; justify-content: center; }
+.aspirasi-item h3 { margin-bottom: 8px; color: var(--blue-deep); font: 32px 'Bebas Neue', sans-serif; }
+.aspirasi-item p { color: var(--text); }
+.aspirasi-item img { width: 120px; aspect-ratio: 1; border-radius: 8px; object-fit: cover; }
+.article-list { display: grid; max-width: 900px; margin: 40px auto 0; gap: 1px; border: 1px solid var(--border); background: var(--border); }
+.article-list a { display: flex; align-items: center; gap: 18px; padding: 22px 24px; background: #fff; transition: background .2s, color .2s; }
+.article-list a:hover { color: var(--red); background: #f8f9ff; }
+.article-number { min-width: 32px; color: var(--red); font: 42px/1 'Bebas Neue', sans-serif; }
+.article-list h3 { font: 600 18px/1.35 'Playfair Display', serif; }
+.article-list p { margin-top: 4px; color: var(--text-muted); font-size: 12px; }
+.empty-state { padding: 25px; color: var(--text-muted); text-align: center; }
+.join { background: linear-gradient(135deg, #f9fafc, #eef2ff); }
+.join-grid { display: grid; grid-template-columns: .8fr 1.2fr; gap: 64px; align-items: start; }
+.join-copy { position: sticky; top: 100px; }
+.join-copy .section-title { margin: 14px 0 20px; }
+.public-form { padding: 36px; border: 1px solid var(--border); background: #fff; box-shadow: 0 18px 50px rgba(2, 11, 38, .08); }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.field { display: flex; flex-direction: column; gap: 7px; margin-bottom: 18px; }
+.field label { font-size: 12px; font-weight: 700; letter-spacing: .7px; text-transform: uppercase; }
+.field input, .field textarea { width: 100%; padding: 13px; border: 1px solid #d9deea; border-radius: 4px; color: var(--text); font: inherit; }
+.field input:focus, .field textarea:focus { border-color: var(--blue); outline: 2px solid rgba(26, 60, 158, .18); }
+.field textarea { min-height: 130px; resize: vertical; }
+.form-feedback { display: none; margin-top: 16px; padding: 13px 15px; border-left: 3px solid var(--blue); background: #f0f4ff; font-size: 14px; }
+.form-feedback.error { border-color: var(--red); background: #fff4f4; }
+.form-feedback.show { display: block; }
+@media (max-width: 992px) { .join-grid { grid-template-columns: 1fr; gap: 30px; } .join-copy { position: static; } }
+@media (max-width: 768px) { .form-row { grid-template-columns: 1fr; gap: 0; } .public-form { padding: 24px; } .article-list a { gap: 12px; padding: 18px; } .article-list h3 { font-size: 16px; } }

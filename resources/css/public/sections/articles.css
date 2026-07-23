@@ -1,0 +1,8 @@
+.article-list { display: grid; max-width: 900px; margin: 40px auto 0; gap: 1px; border: 1px solid var(--border); background: var(--border); }
+.article-list a { display: flex; align-items: center; gap: 18px; padding: 22px 24px; background: #fff; transition: background .2s, color .2s; }
+.article-list a:hover { color: var(--red); background: #f8f9ff; }
+.article-number { min-width: 32px; color: var(--red); font: 42px/1 'Bebas Neue', sans-serif; }
+.article-list h3 { font: 600 18px/1.35 'Playfair Display', serif; }
+.article-list p { margin-top: 4px; color: var(--text-muted); font-size: 12px; }
+.empty-state { padding: 25px; color: var(--text-muted); text-align: center; }
+@media (max-width: 768px) { .article-list a { gap: 12px; padding: 18px; } .article-list h3 { font-size: 16px; } }

@@ -1,0 +1,98 @@
+/* MENGENAI KAMI (SPLIT SCREEN) */
+.mengenai-kami {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100vh;
+  padding-top: var(--nav-height);
+  padding-bottom: 40px;
+  overflow: hidden;
+  background: var(--bg2);
+  position: relative;
+  z-index: 1;
+}
+.mengenai-kami::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.08;
+  background-image: url('/assets/login-bg-transparent-v2.png');
+  background-size: 240px 70px;
+  background-repeat: repeat;
+  background-position: 0 0;
+  background-attachment: fixed;
+}
+.mengenai-grid {
+  display: grid;
+  gap: 40px;
+  align-items: center;
+  grid-template-columns: 46% 48%;
+  justify-content: space-between;
+}
+@media (max-width: 992px) {
+  .mengenai-grid { grid-template-columns: 1fr; gap: 40px; }
+}
+.mengenai-img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(2, 11, 38, 0.08);
+}
+.section-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.section-label::before {
+  content: '';
+  display: none;
+}
+.section-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(40px, 4.5vw, 64px);
+  color: var(--text);
+  line-height: 0.95;
+  margin-bottom: 24px;
+}
+.mengenai-text {
+  font-size: 15px;
+  color: var(--text2);
+  line-height: 1.7;
+  margin-bottom: 16px;
+}
+.stats-row {
+  display: flex;
+  gap: 40px;
+  margin-top: 16px;
+  padding-top: 24px;
+  border-top: 1.5px solid var(--border);
+}
+.stat-item {
+  display: flex;
+  flex-direction: column;
+}
+.stat-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 48px;
+  color: var(--blue);
+  line-height: 1;
+}
+.stat-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+

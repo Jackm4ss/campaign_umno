@@ -1,0 +1,81 @@
+/* KEGIATAN KAMI */
+.kegiatan {
+  background: var(--bg);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: var(--nav-height);
+  padding-bottom: 40px;
+}
+.kegiatan-header {
+  text-align: center;
+  max-width: 900px;
+  margin: 0 auto 24px;
+}
+.kegiatan-header .section-label {
+  justify-content: center;
+}
+.kegiatan-header .section-label::before,
+.kegiatan-header .section-label::after {
+  content: none;
+}
+.kegiatan-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+}
+@media (max-width: 992px) {
+  .kegiatan-grid { grid-template-columns: 1fr; }
+}
+.kegiatan-card {
+  border-radius: 0;
+  overflow: hidden;
+  box-shadow: none;
+  background: transparent;
+  border: none;
+  display: flex;
+  flex-direction: column;
+}
+.kegiatan-card:hover {
+  transform: translateY(-4px);
+}
+.kegiatan-img {
+  height: 240px;
+  width: 100%;
+  object-fit: cover;
+}
+.kegiatan-content {
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.kegiatan-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--blue-deep);
+  margin-bottom: 12px;
+}
+.kegiatan-desc {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+  flex: 1;
+}
+.kegiatan-link {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--red);
+  letter-spacing: 1px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: gap 0.3s ease;
+}
+.kegiatan-link:hover {
+  color: var(--red-dark);
+  gap: 12px;
+}

@@ -1,0 +1,15 @@
+@extends('layouts.admin')
+
+@section('content')
+  @include('admin.partials.runtime-config')
+  @include('admin.partials.navigation')
+  @include('admin.partials.dashboard-tools')
+  @include('admin.views.overview')
+  @include('admin.views.members')
+  @include('admin.views.events')
+  @include('admin.views.articles')
+  @include('admin.views.content')
+  @include('admin.views.account')
+  @include('admin.views.settings')
+  @include('admin.modals.all')
+@endsection

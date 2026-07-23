@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Login — Campaign Tak Banyak Alasan</title>
+<link rel="icon" type="image/jpeg" href="umno-logo.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red:#CC1A1A;--red-light:#E03030;--red-dark:#9E1212;--red-tint:#FFF5F5;--red-tint2:#FDF2F2;
+    --blue:#1A3C9E;--blue-light:#2A52C4;--blue-dark:#071E63;--blue-deep:#020B26;--blue-tint:#F0F3FC;
+    --bg:#FFFFFF;--bg2:#F5F7FA;--text:#1A1A2E;--text2:#555566;--muted:#9999AA;
+    --border:#E0E4EF;--border-md:#C5CADB;--green:#2E7D32;--yellow:#F57F17;--container:1280px;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{font-family:'Inter',sans-serif;color:var(--text);background:var(--bg);overflow-x:hidden;}
+  a{text-decoration:none;color:inherit;}
+  button{cursor:pointer;font-family:inherit;border:none;background:none;}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;border-radius:6px;font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;transition:all 0.2s;cursor:pointer;}
+  .btn-red{background:var(--red);color:#fff;border:2px solid var(--red);}
+  .btn-red:hover{background:var(--red-dark);border-color:var(--red-dark);transform:scale(1.02);box-shadow:0 8px 24px rgba(204,26,26,0.22);}
+  .btn:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+    transform: none !important;
+  }
+  .label-tag{font-size:11px;font-weight:600;letter-spacing:4px;text-transform:uppercase;display:flex;align-items:center;gap:10px;}
+  .label-tag.red{color:var(--red);}
+
+  .login-shell{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:40px 20px;background:radial-gradient(circle at 78% 20%,rgba(26,60,158,0.18),transparent 32%),linear-gradient(135deg,var(--red-tint) 0%,#fff 42%,var(--blue-tint) 100%);position:relative;overflow:hidden;z-index:1;}
+  .login-shell::before{content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;opacity:0.12;background-image:url('assets/login-bg-transparent-v2.png');background-size:240px 70px;background-repeat:repeat;background-position:0 0;animation:slidePattern 16s linear infinite;}
+  .login-loader{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:16px;z-index:10;opacity:0;animation:fadeInLoader 0.8s ease forwards, hideLoader 0.8s ease 1.6s forwards;}
+  .login-loader img{width:64px;height:64px;border-radius:10px;object-fit:cover;box-shadow:0 8px 24px rgba(204,26,26,0.25);animation:pulseLoader 0.6s ease-in-out infinite alternate;}
+  .login-loader-spinner{width:28px;height:28px;border:3px solid rgba(204,26,26,0.1);border-top-color:var(--red);border-bottom-color:var(--blue);border-left-color:transparent;border-right-color:transparent;border-radius:50%;animation:spin 0.8s linear infinite;}
+  .login-loader-text{margin-top:16px;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text2);opacity:0;transition:opacity 0.4s ease 0.2s;}
+  .login-content-wrap{width:100%;display:flex;flex-direction:column;align-items:center;opacity:0;transform:translateY(20px);animation:showLoginCard 0.8s cubic-bezier(0.16, 1, 0.3, 1) 2.0s forwards;}
+  .login-shell.is-authenticating .login-content-wrap{animation:none;opacity:0;pointer-events:none;transition:opacity 0.8s;}
+  .login-shell.is-authenticating .login-loader{animation:fadeInLoader 0.8s ease forwards;}
+  .login-shell.is-authenticating .login-loader-text{opacity:1;}
+  .login-shell.is-authenticating.fade-out-loader .login-loader{animation:hideLoader 0.8s ease forwards;}
+  .meteor-shower{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none;}
+  .meteor{position:absolute;top:-150px;width:2px;height:120px;background:linear-gradient(to bottom,transparent,var(--red));animation:meteorFall linear infinite;opacity:0;}
+  .meteor.blue{background:linear-gradient(to bottom,transparent,var(--blue));}
+  .meteor::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:4px;height:4px;border-radius:50%;background:#fff;box-shadow:0 0 8px 2px rgba(255,255,255,0.8);animation:meteorFlash linear infinite;animation-duration:inherit;animation-delay:inherit;}
+  .login-card{width:min(420px,100%);background:#fff;border:1px solid var(--border);border-top:5px solid var(--red);border-radius:12px;padding:36px;box-shadow:0 20px 60px rgba(26,60,158,0.14);}
+  .login-card.shake{animation:shake 0.8s cubic-bezier(.36,.07,.19,.97) both;}
+  .login-logo{display:flex;align-items:center;justify-content:center;gap:12px;font-family:'Bebas Neue',sans-serif;font-size:clamp(24px, 5vw, 36px);color:var(--red);letter-spacing:1px;margin-bottom:28px;}
+  .login-logo img{width:58px;height:58px;border-radius:8px;object-fit:cover;}
+  .login-form{display:flex;flex-direction:column;gap:16px;}
+  .form-group{display:flex;flex-direction:column;gap:8px;margin-bottom:0;}
+  .form-group label{font-size:13px;font-weight:600;color:var(--text);}
+  .form-group input{padding:12px 16px;border:1.5px solid var(--border-md);border-radius:8px;font-size:14px;font-family:inherit;color:var(--text);background:#fff;transition:border-color 0.2s,box-shadow 0.2s;outline:none;}
+  .form-group input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(26,60,158,0.1);}
+  .login-note{font-size:12px;color:var(--muted);text-align:center;margin-top:16px;}
+
+  .modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:999;display:flex;align-items:center;justify-content:center;padding:32px;backdrop-filter:blur(4px);opacity:0;visibility:hidden;transition:opacity 0.3s ease,visibility 0.3s ease;}
+  .modal-backdrop.open{opacity:1;visibility:visible;}
+  .modal{background:#fff;border-radius:16px;overflow:hidden;max-width:600px;width:100%;max-height:90vh;overflow-y:auto;position:relative;opacity:0;transform:scale(0.95) translateY(10px);transition:opacity 0.3s ease,transform 0.3s cubic-bezier(0.25,1,0.5,1);}
+  .modal-backdrop.open .modal{opacity:1;transform:scale(1) translateY(0);}
+  .modal-close{position:absolute;top:16px;right:16px;z-index:10;width:42px;height:42px;border-radius:8px;background:#fff url('umno-logo.jpg') center/cover no-repeat;border:2px solid rgba(255,255,255,0.86);box-shadow:0 8px 22px rgba(2,11,38,0.18);font-size:0;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform 0.2s,box-shadow 0.2s,border-color 0.2s;}
+  .modal-close::after{content:'×';position:absolute;right:-7px;top:-7px;width:18px;height:18px;border-radius:50%;background:var(--red);color:#fff;font-size:13px;font-weight:800;line-height:18px;text-align:center;}
+  .modal-close:hover{transform:translateY(-1px);border-color:#fff;box-shadow:0 12px 26px rgba(2,11,38,0.26);}
+  .modal-body{padding:28px 32px 32px;}
+  .modal-title{font-family:'Bebas Neue',sans-serif;font-size:40px;line-height:0.95;color:var(--text);margin-bottom:16px;}
+  .modal-desc{font-size:15px;color:var(--text2);line-height:1.7;margin-bottom:24px;}
+  .modal-actions{display:flex;gap:12px;}
+  .policy-modal{max-width:560px;}
+  .policy-modal .modal-body{padding:36px;}
+
+  @keyframes fadeInLoader{0%{opacity:0;visibility:visible;transform:translate(-50%,-50%);}100%{opacity:1;visibility:visible;transform:translate(-50%,-50%);}}
+  @keyframes hideLoader{to{opacity:0;visibility:hidden;pointer-events:none;transform:translate(-50%,-60%);}}
+  @keyframes pulseLoader{from{transform:scale(0.95);}to{transform:scale(1.05);}}
+  @keyframes showLoginCard{to{opacity:1;transform:translateY(0);}}
+  @keyframes slidePattern{from{background-position-x:0;}to{background-position-x:-238px;}}
+  @keyframes meteorFall{0%{opacity:0;transform:rotate(45deg) translateY(0);}10%{opacity:1;}60%{opacity:0;transform:rotate(45deg) translateY(1800px);}100%{opacity:0;transform:rotate(45deg) translateY(1800px);}}
+  @keyframes meteorFlash{0%{transform:translateX(-50%) scale(1);box-shadow:0 0 8px 2px rgba(255,255,255,0.8);}8%{transform:translateX(-50%) scale(2.8);box-shadow:0 0 24px 8px #fff;}16%{transform:translateX(-50%) scale(1);box-shadow:0 0 8px 2px rgba(255,255,255,0.8);}100%{transform:translateX(-50%) scale(1);box-shadow:0 0 8px 2px rgba(255,255,255,0.8);}}
+  @keyframes shake {10%, 90% {transform: translateX(-1px);} 20%, 80% {transform: translateX(2px);} 30%, 50%, 70% {transform: translateX(-4px);} 40%, 60% {transform: translateX(4px);}}
+  @keyframes spin{to{transform:rotate(360deg);}}
+
+  @media(max-width:768px){
+    .login-card{padding:28px 22px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="login-shell">
+  <div class="meteor-shower">
+    <span class="meteor red" style="left: 40%; animation-duration: 4s; animation-delay: 0.2s;"></span>
+    <span class="meteor blue" style="left: 80%; animation-duration: 3.5s; animation-delay: 1.5s;"></span>
+    <span class="meteor red" style="left: 120%; animation-duration: 5s; animation-delay: 2.8s;"></span>
+    <span class="meteor blue" style="left: 20%; animation-duration: 4.5s; animation-delay: 3.2s;"></span>
+    <span class="meteor red" style="left: 60%; animation-duration: 3.8s; animation-delay: 4.1s;"></span>
+    <span class="meteor blue" style="left: 100%; animation-duration: 4.2s; animation-delay: 0.8s;"></span>
+    <span class="meteor red" style="left: 140%; animation-duration: 5.5s; animation-delay: 1.8s;"></span>
+  </div>
+  <div class="login-loader">
+    <img src="umno-logo.jpg" alt="Loading Tak Banyak Alasan">
+    <div class="login-loader-spinner"></div>
+    <div class="login-loader-text" id="login-loader-text"></div>
+  </div>
+  <div class="login-content-wrap" style="z-index:1;">
+    <div class="login-card">
+      <div class="login-logo" style="margin-bottom:8px; display:flex; flex-direction:row; align-items:center; justify-content:center; gap:16px;">
+        <img src="umno-logo.jpg" alt="Logo" style="width:64px; height:64px; border-radius:12px; object-fit:contain;">
+        <img src="assets/admin-logo-red.png" alt="Tak Banyak Alasan" style="height:40px; width:auto; border-radius:0; object-fit:contain;">
+      </div>
+
+      <div style="text-align:center; margin-bottom:28px; font-size:12px; font-weight:700; color:var(--text2); letter-spacing:2px; text-transform:uppercase;">
+        Portal Pentadbir
+      </div>
+
+      <form id="login-form" class="login-form" method="POST" action="{{ route('admin.login.submit') }}" novalidate>
+        @csrf
+        <div class="form-group">
+          <label for="admin-email">E-mel</label>
+          <input
+            type="email"
+            id="admin-email"
+            name="email"
+            value="{{ old('email') }}"
+            placeholder="admin@gmail.org.my"
+            autocomplete="email"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="admin-password">Kata Laluan</label>
+
+          <div style="position:relative;">
+            <input
+              type="password"
+              id="admin-password"
+              name="password"
+              placeholder="Masukkan kata laluan"
+              autocomplete="current-password"
+              required
+              style="width: 100%; padding-right: 40px;"
+            >
+            <button
+              type="button"
+              onclick="togglePasswordVisibility('admin-password', this)"
+              style="position:absolute; right:12px; top:50%; transform:translateY(-50%); display:flex; align-items:center; justify-content:center; color:var(--text2);"
+              aria-label="Tunjuk/Sembunyi Kata Laluan"
+            >
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <button
+          type="submit"
+          id="login-submit"
+          class="btn btn-red"
+          style="width:100%;justify-content:center;margin-top:8px;"
+        >
+          LOG MASUK →
+        </button>
+      </form>
+
+      <div class="login-note" id="login-note" role="alert" aria-live="assertive">@if ($errors->any()){{ $errors->first() }}@endif</div>
+    </div>
+
+    <div style="margin-top:32px; text-align:center;">
+      <a
+        href="/"
+        style="font-size:13px; color:var(--text2); font-weight:600; display:inline-flex; align-items:center; gap:6px; transition:color 0.2s;"
+        onmouseover="this.style.color='var(--blue)'"
+        onmouseout="this.style.color='var(--text2)'"
+      >
+        ← Kembali ke Laman Utama
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- FORGOT PASSWORD MODAL -->
+<div class="modal-backdrop" id="forgot-password-modal" onclick="closeModal('forgot-password-modal')">
+  <div class="modal policy-modal" onclick="event.stopPropagation()">
+    <button class="modal-close" type="button" aria-label="Tutup modal" onclick="closeModal('forgot-password-modal')"></button>
+    <div class="modal-body">
+      <div class="label-tag red" style="margin-bottom:16px">Set Semula Kata Laluan</div>
+      <h3 class="modal-title">HUBUNGI SUPER ADMIN</h3>
+      <p class="modal-desc">Untuk tujuan keselamatan, proses set semula kata laluan untuk Portal Pentadbir perlu dilakukan secara manual oleh Super Admin. Sila hubungi pentadbir utama sistem untuk bantuan lanjut.</p>
+      <div class="modal-actions">
+        <button class="btn btn-red" onclick="closeModal('forgot-password-modal')">BAIK, FAHAM</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const emailInput = document.getElementById('admin-email');
+  const passwordInput = document.getElementById('admin-password');
+  const loginForm = document.getElementById('login-form');
+  const submitBtn = document.getElementById('login-submit');
+  const note = document.getElementById('login-note');
+  const shell = document.querySelector('.login-shell');
+  const loaderText = document.getElementById('login-loader-text');
+  const loginCard = document.querySelector('.login-card');
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  function setMessage(msg, isError = true) {
+    note.textContent = msg || '';
+    note.style.color = isError ? 'var(--red)' : 'var(--green)';
+  }
+
+  function triggerShake() {
+    if (!loginCard) return;
+    loginCard.classList.remove('shake');
+    void loginCard.offsetWidth;
+    loginCard.classList.add('shake');
+    setTimeout(() => loginCard.classList.remove('shake'), 820);
+  }
+
+  function setLoading(isLoading) {
+    submitBtn.disabled = isLoading;
+    if (isLoading) {
+      submitBtn.textContent = 'MENGESAHKAN...';
+      loaderText.textContent = 'Mengesahkan...';
+      shell.classList.add('is-authenticating');
+    } else {
+      submitBtn.textContent = 'LOG MASUK ?';
+      shell.classList.remove('is-authenticating');
+      shell.classList.remove('fade-out-loader');
+    }
+  }
+
+  function validateInputs(showMessage = false) {
+    const email = emailInput.value.trim();
+    const password = passwordInput.value.trim();
+
+    if (!email) {
+      if (showMessage) { setMessage('Sila masukkan e-mel.'); triggerShake(); }
+      return false;
+    }
+    if (!emailRegex.test(email)) {
+      if (showMessage) { setMessage('Format e-mel tidak sah.'); triggerShake(); }
+      return false;
+    }
+    if (!password) {
+      if (showMessage) { setMessage('Sila masukkan kata laluan.'); triggerShake(); }
+      return false;
+    }
+    if (password.length < 6) {
+      if (showMessage) { setMessage('Kata laluan mesti sekurang-kurangnya 6 aksara.'); triggerShake(); }
+      return false;
+    }
+    setMessage('', false);
+    return true;
+  }
+
+  emailInput.addEventListener('input', () => emailInput.value.trim() ? validateInputs() : setMessage(''));
+  passwordInput.addEventListener('input', () => passwordInput.value.trim() ? validateInputs() : setMessage(''));
+
+  loginForm.addEventListener('submit', function (e) {
+    if (!validateInputs(true)) {
+      e.preventDefault();
+      return;
+    }
+    setMessage('');
+    setLoading(true);
+  });
+
+  if (note.textContent.trim()) {
+    note.style.color = 'var(--red)';
+    setTimeout(triggerShake, 250);
+  }
+
+  function togglePasswordVisibility(inputId, btn) {
+    const input = document.getElementById(inputId);
+    if (!input) return;
+    input.type = input.type === 'password' ? 'text' : 'password';
+    btn.innerHTML = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>';
+  }
+
+  function openForgotPasswordModal() {
+    document.getElementById('forgot-password-modal')?.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal(id) {
+    const modal = document.getElementById(id);
+    if (modal) modal.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeModal('forgot-password-modal');
+  });
+</script>
+</body>
+</html>
+
+

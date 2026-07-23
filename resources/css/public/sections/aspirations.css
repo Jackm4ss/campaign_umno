@@ -1,0 +1,85 @@
+/* ASPIRASI KAMI (STICKY TIMELINE) */
+.aspirasi {
+  background: var(--bg2);
+  position: relative;
+}
+.aspirasi-layout {
+  display: flex;
+  gap: 80px;
+  align-items: flex-start;
+}
+@media (max-width: 992px) {
+  .aspirasi-layout { flex-direction: column; gap: 40px; }
+}
+.aspirasi-sticky {
+  flex: 0 0 35%;
+  position: sticky;
+  top: calc(var(--nav-height) + 60px);
+  padding-right: 40px;
+}
+@media (max-width: 992px) {
+  .aspirasi-sticky { position: relative; top: 0; padding-right: 0; }
+}
+.aspirasi-sticky .section-title {
+  margin-bottom: 24px;
+}
+.aspirasi-scroll {
+  flex: 1;
+  position: relative;
+  padding-left: 0;
+}
+.aspirasi-scroll::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 20px; /* Center of 40px container */
+  width: 2px;
+  background: var(--yellow);
+}
+.aspirasi-item {
+  position: relative;
+  opacity: 0.4;
+  transition: opacity 0.4s ease;
+}
+.aspirasi-item.active {
+  opacity: 1;
+}
+.aspirasi-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid var(--yellow);
+  z-index: 2;
+  transition: all 0.4s ease;
+  margin-top: 14px;
+}
+.aspirasi-item.active .aspirasi-dot {
+  background: var(--blue-deep);
+  box-shadow: 0 0 0 4px rgba(255, 204, 0, 0.2);
+}
+.aspirasi-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 80px;
+  font-weight: 700;
+  line-height: 0.8;
+  color: rgba(26, 60, 158, 0.05);
+  margin-bottom: 16px;
+  transition: color 0.4s ease;
+}
+.aspirasi-item.active .aspirasi-num {
+  color: rgba(26, 60, 158, 0.15);
+}
+.aspirasi-item-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  color: var(--blue-deep);
+  margin-bottom: 16px;
+}
+.aspirasi-item-desc {
+  font-size: 16px;
+  color: var(--text-muted);
+  line-height: 1.8;
+}
+

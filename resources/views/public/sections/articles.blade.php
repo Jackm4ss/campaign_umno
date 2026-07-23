@@ -1,0 +1,3 @@
+<section id="artikel" class="section-pad"><div class="container"><div class="kegiatan-header fade-up"><span class="section-label">Media &amp; Berita</span><h2 class="section-title">ARTIKEL TERBARU</h2><p class="mengenai-text">Ringkasan berita kempen yang paling baru.</p></div><div class="article-list">
+  @forelse($articles as $index => $article)<a href="#artikel"><span class="article-number">0{{ $index + 1 }}</span><span><h3>{{ $article['title'] ?? 'Kemaskini Tak Banyak Alasan' }}</h3><p>{{ $article['date'] ?? '' }}</p></span></a>@empty <p class="empty-state">Artikel terbaru akan dipaparkan di sini.</p> @endforelse
+</div></div></section>

@@ -62,18 +62,19 @@
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    background: #000;
-    border: 1px solid #000;
+    background: var(--blue);
+    border: 1px solid var(--blue);
     color: #fff;
     display: flex;
     align-items: center;
     justify-content: center;
     /* un-rotate icon so chevron still points left */
     transform: rotate(180deg);
-    transition: background 0.2s ease, transform 0.2s ease;
+    transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
 }
 .bantuan-card-back:hover .bantuan-back-circle {
-    background: #1a1a1a;
+    background: var(--blue-dark);
+    border-color: var(--blue-dark);
     transform: rotate(180deg) scale(1.04);
 }
 /* Colabs fillet SVGs — verbatim path, size, placement, rotate */

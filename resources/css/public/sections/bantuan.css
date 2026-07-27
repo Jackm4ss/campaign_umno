@@ -333,9 +333,11 @@
 
 /* Conditional fields */
 .aid-section-body {
-    border-left: 3px solid var(--blue);
-    padding-left: 16px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
     margin-top: 16px;
+    background: #fff;
 }
 .aid-conditional {
     margin-top: 28px;

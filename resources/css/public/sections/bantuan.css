@@ -378,13 +378,19 @@
     box-shadow: 0 24px 60px rgba(2, 11, 38, 0.1);
     padding: 48px 40px;
     text-align: center;
+    position: relative;
 }
 @media (max-width: 768px) {
     .bantuan-qr-card { padding: 36px 24px; }
     .bantuan-qr-page { padding: 60px 0; }
 }
-.bantuan-qr-card .bantuan-back {
-    margin-bottom: 32px;
+.bantuan-qr-home {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    margin-top: 12px;
 }
 .bantuan-qr-header .section-label {
     display: block;
@@ -468,7 +474,10 @@
 }
 .bantuan-qr-cta {
     width: 100%;
+    display: inline-flex;
+    align-items: center;
     justify-content: center;
+    gap: 8px;
     margin-bottom: 16px;
 }
 .bantuan-qr-url {

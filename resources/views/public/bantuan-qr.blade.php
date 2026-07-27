@@ -3,11 +3,6 @@
 @section('content')
 <section class="bantuan-qr-page">
     <div class="bantuan-qr-container">
-        <a href="{{ route('home') }}" class="bantuan-back">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-            Kembali ke Laman Utama
-        </a>
-
         <div class="bantuan-qr-card">
             <div class="bantuan-qr-header">
                 <span class="section-label">Bantuan Rakyat</span>
@@ -36,10 +31,14 @@
             </div>
 
             <a href="{{ route('bantuan.index') }}" class="btn btn-red btn-lg bantuan-qr-cta">
-                Buka Borang Bantuan &rarr;
+                Buka Borang Bantuan
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </a>
 
-            <p class="bantuan-qr-url">{{ route('bantuan.index') }}</p>
+            <a href="{{ route('home') }}" class="btn btn-blue btn-lg bantuan-qr-home">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                Back to Home
+            </a>
         </div>
     </div>
 </section>

@@ -5,43 +5,41 @@
       <h2 class="section-title">JOM SERTAI TAK BANYAK ALASAN</h2>
       <p class="mengenai-text">Program kempen dan komuniti UMNO Putrajaya yang dekat dengan rakyat.</p>
     </div>
+  </div>
 
-    <div class="kegiatan-grid">
-      @forelse($events as $index => $event)
-        @php
-          $fallbackImgs = ['assets/event-6.jpg', 'assets/event-5.jpg', 'assets/event-4.jpg'];
-          $img = $event['image_url'] ?? $event['image'] ?? $fallbackImgs[$index] ?? 'assets/event-1.jpg';
-          // Resolve relative paths via asset()
-          $imgUrl = (str_starts_with($img, 'http') || str_starts_with($img, 'data:'))
-            ? $img
-            : asset(ltrim($img, '/'));
-        @endphp
-        <article class="kegiatan-card fade-up">
-          <img loading="lazy" src="{{ $imgUrl }}" alt="{{ $event['title'] ?? 'Kegiatan' }}" class="kegiatan-img">
-          <div class="kegiatan-content">
-            <p class="event-meta">{{ $event['date'] ?? 'Program komuniti' }}</p>
-            <h3 class="kegiatan-title">{{ $event['title'] ?? 'Gerak kerja komuniti' }}</h3>
-            <p class="kegiatan-desc">{{ $event['desc'] ?? 'Kegiatan bersama warga Putrajaya.' }}</p>
-            <a href="#sertai" class="kegiatan-link">Sertai Kegiatan &rarr;</a>
-          </div>
-        </article>
-      @empty
-        @foreach([
-          ['28 Ogos 2026', 'DIALOG ASPIRASI WARGA PUTRAJAYA', 'Program komuniti Campaign Tak Banyak Alasan untuk menggerakkan warga Putrajaya melalui aktiviti, bantuan, dan ruang aspirasi bersama.', 'assets/event-6.jpg'],
-          ['21 Ogos 2026', 'BANTUAN MAKANAN ASAS KOMUNITI', 'Program komuniti Campaign Tak Banyak Alasan untuk menggerakkan warga Putrajaya melalui aktiviti, bantuan, dan ruang aspirasi bersama.', 'assets/event-5.jpg'],
-          ['14 Ogos 2026', 'SUKAN RAKYAT PUTRAJAYA', 'Program komuniti Campaign Tak Banyak Alasan untuk menggerakkan warga Putrajaya melalui aktiviti, bantuan, dan ruang aspirasi bersama.', 'assets/event-4.jpg'],
-        ] as [$meta, $title, $desc, $img])
-          <article class="kegiatan-card fade-up">
-            <img loading="lazy" src="{{ asset($img) }}" alt="{{ $title }}" class="kegiatan-img">
-            <div class="kegiatan-content">
-              <p class="event-meta">{{ $meta }}</p>
-              <h3 class="kegiatan-title">{{ $title }}</h3>
-              <p class="kegiatan-desc">{{ $desc }}</p>
-              <a href="#sertai" class="kegiatan-link">Sertai Kegiatan &rarr;</a>
-            </div>
-          </article>
-        @endforeach
-      @endforelse
+  {{-- Infinite photo marquee --}}
+  <div class="marquee-track" aria-hidden="true">
+    <div class="marquee-inner">
+      @php
+        $carouselImgs = [
+          'assets/carousel/umno-gotong-royong-kerja.jpg',
+          'assets/carousel/umno-gotong-royong-kumpulan.jpg',
+          'assets/carousel/umno-gotong-royong-putraharmoni.jpg',
+          'assets/carousel/umno-gotong-royong-surau.jpg',
+          'assets/carousel/tba-inisiatif-warga-2024.jpg',
+          'assets/carousel/tba-pek-makanan-ramadan-2025.jpg',
+          'assets/carousel/aspirasi-warga-putrajaya-1.jpg',
+          'assets/carousel/aspirasi-warga-putrajaya-2.jpg',
+          'assets/carousel/aspirasi-warga-putrajaya-3.jpg',
+          'assets/carousel/umno-pemuda-pek-makanan-2025.jpg',
+          'assets/carousel/umno-ziarah-prihatin-2025.jpg',
+          'assets/carousel/adnan-khidmat-2024.jpg',
+        ];
+      @endphp
+
+      {{-- First set --}}
+      @foreach($carouselImgs as $i => $src)
+        <div class="marquee-item">
+          <img src="{{ asset($src) }}" alt="Kegiatan Tak Banyak Alasan {{ $i + 1 }}" loading="lazy">
+        </div>
+      @endforeach
+
+      {{-- Duplicate for seamless loop --}}
+      @foreach($carouselImgs as $i => $src)
+        <div class="marquee-item" aria-hidden="true">
+          <img src="{{ asset($src) }}" alt="" loading="lazy">
+        </div>
+      @endforeach
     </div>
   </div>
 </section>

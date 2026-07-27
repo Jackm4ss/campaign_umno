@@ -1,125 +1,99 @@
-/* KEGIATAN KAMI */
+/* KEGIATAN / JOM SERTAI — infinite marquee */
 .kegiatan {
   background: var(--bg);
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding-top: var(--nav-height);
-  padding-bottom: 40px;
+  padding: 100px 0 0;
+  overflow: hidden;
 }
+
 .kegiatan-header {
   text-align: center;
   max-width: 900px;
-  margin: 0 auto 24px;
+  margin: 0 auto 64px;
 }
+
 .kegiatan-header .section-label {
   justify-content: center;
 }
+
 .kegiatan-header .section-label::before,
 .kegiatan-header .section-label::after {
   content: none;
 }
-.kegiatan-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 40px;
-}
-@media (max-width: 992px) {
-  .kegiatan-grid { grid-template-columns: 1fr; }
-}
-.kegiatan-card {
-  border-radius: 0;
-  overflow: hidden;
-  box-shadow: none;
-  background: transparent;
-  border: none;
-  display: flex;
-  flex-direction: column;
-}
-.kegiatan-card:hover {
-  transform: translateY(-4px);
-}
-.kegiatan-img {
-  height: 240px;
+
+/* MARQUEE */
+.marquee-track {
   width: 100%;
+  overflow: hidden;
+  /* fade edges */
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+}
+
+.marquee-inner {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  width: max-content;
+  animation: marquee-scroll 56s linear infinite;
+}
+
+.marquee-inner:hover {
+  animation-play-state: paused;
+}
+
+.marquee-item {
+  flex-shrink: 0;
+  width: 300px;
+  height: 400px;
+  overflow: hidden;
+  border-radius: 12px;
+  display: flex;
+  align-items: flex-start; /* odd: image flush top */
+}
+
+/* Even items: image pushed 60px down */
+.marquee-item:nth-child(even) {
+  align-items: flex-end;
+}
+
+.marquee-item img {
+  width: 100%;
+  height: 340px;
   object-fit: cover;
-}
-.kegiatan-content {
-  padding: 32px;
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-}
-.kegiatan-title {
-  font-family: 'Playfair Display', serif;
-  font-size: 22px;
-  font-weight: 700;
-  color: var(--blue-deep);
-  margin-bottom: 12px;
-}
-.kegiatan-desc {
-  font-size: 14px;
-  color: var(--text-muted);
-  margin-bottom: 24px;
-  flex: 1;
-}
-.kegiatan-link {
-  font-size: 13px;
-  font-weight: 700;
-  text-transform: uppercase;
-  color: var(--red);
-  letter-spacing: 1px;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  transition: gap 0.3s ease;
-}
-.kegiatan-link:hover {
-  color: var(--red-dark);
-  gap: 12px;
+  display: block;
+  flex-shrink: 0;
+  transition: transform 0.6s ease;
 }
 
-/* Text-only cards — photos moved to /galeri */
-.kegiatan-card--text {
-  background: var(--bg2, #f7f8fb);
-  border: 1px solid rgba(10, 22, 54, 0.08);
-  border-radius: 16px;
-  padding: 28px 28px 24px;
-  min-height: 240px;
-  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+.marquee-item:hover img {
+  transform: scale(1.04);
 }
 
-.kegiatan-card--text:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 16px 36px rgba(10, 22, 54, 0.08);
-  border-color: rgba(10, 22, 54, 0.14);
+@keyframes marquee-scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
 
-.kegiatan-card--text .event-meta {
-  margin: 0 0 12px;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--red);
-}
-
-.kegiatan-card--text .kegiatan-title {
-  margin-bottom: 12px;
-}
-
-.kegiatan-card--text .kegiatan-desc {
-  margin-bottom: 28px;
-}
-
-.kegiatan-card--text .kegiatan-content,
-.kegiatan-card--text {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-}
-
-.kegiatan-card--text .kegiatan-link {
-  margin-top: auto;
+@media (max-width: 768px) {
+  .kegiatan {
+    padding: 80px 0 0;
+  }
+  .kegiatan-header {
+    margin-bottom: 48px;
+  }
+  .marquee-item {
+    width: 220px;
+    height: 300px;
+    display: flex;
+    align-items: flex-start;
+  }
+  .marquee-item:nth-child(even) {
+    align-items: flex-end;
+  }
+  .marquee-item img {
+    height: 255px; /* 300 - 45px offset = ~85% */
+  }
+  .marquee-inner {
+    animation-duration: 42s;
+  }
 }

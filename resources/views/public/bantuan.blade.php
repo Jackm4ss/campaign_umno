@@ -3,12 +3,22 @@
 @section('content')
 <section class="bantuan-page section-pad">
     <div class="container bantuan-container">
-        <div class="bantuan-card-wrap">
-
-            {{-- Circle back button at top-left corner of card --}}
+        <div class="bantuan-card-shell">
+            {{--
+              Colabs-style corner: page-coloured pad + black circle + two SVG fillets.
+              Pattern reverse-engineered from https://colabs.com.au/ .Button_ArrowCont
+            --}}
             <a href="{{ route('home') }}" class="bantuan-card-back" title="Kembali ke Laman Utama">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                <span class="bantuan-back-pad">
+                    <svg class="bantuan-back-fillet bantuan-back-fillet--a" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" aria-hidden="true"><path d="m100,0H0v100C0,44.77,44.77,0,100,0Z" fill="currentColor"></path></svg>
+                    <span class="bantuan-back-circle">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                    </span>
+                    <svg class="bantuan-back-fillet bantuan-back-fillet--b" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" aria-hidden="true"><path d="m100,0H0v100C0,44.77,44.77,0,100,0Z" fill="currentColor"></path></svg>
+                </span>
             </a>
+
+        <div class="bantuan-card-wrap">
 
             {{-- Header inside card --}}
             <div class="bantuan-card-header">
@@ -180,6 +190,7 @@
         </form>
 
         </div>{{-- .bantuan-card-wrap --}}
+        </div>{{-- .bantuan-card-shell --}}
 
         {{-- Success state (hidden, shown by JS) --}}
         <div class="bantuan-success" id="bantuan-success" hidden>

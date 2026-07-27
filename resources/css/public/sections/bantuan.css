@@ -6,54 +6,95 @@
 .bantuan-container {
     max-width: 760px;
 }
-.bantuan-back {
-    display: inline-flex;
+/* Card wrap — white card that holds header + form */
+.bantuan-card-wrap {
+    position: relative;
+    background: var(--bg);
+    border-radius: 20px;
+    box-shadow: 0 4px 32px rgba(2,11,38,0.08);
+    margin-bottom: 80px;
+    overflow: hidden;
+}
+
+/* Circle back button — inside card, top-left corner */
+.bantuan-card-back {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--blue);
+    color: #fff;
+    display: flex;
     align-items: center;
-    gap: 8px;
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--text-muted);
-    letter-spacing: 0.5px;
-    margin-bottom: 40px;
-    transition: color 0.2s;
+    justify-content: center;
+    z-index: 10;
+    box-shadow: 0 4px 16px rgba(26,60,158,0.25);
+    transition: background 0.2s ease, transform 0.2s ease;
+    text-decoration: none;
 }
-.bantuan-back:hover {
-    color: var(--blue);
+.bantuan-card-back:hover {
+    background: var(--blue-dark);
+    transform: scale(1.08);
 }
-.bantuan-header {
+
+/* Header inside card — padding-left enough to clear the circle button */
+.bantuan-card-header {
+    padding: 28px 48px 28px;
     text-align: center;
-    margin-bottom: 48px;
 }
-.bantuan-header .section-label {
-    display: block;
-    margin-bottom: 12px;
+.bantuan-card-header .bantuan-intro {
+    margin-left: auto;
+    margin-right: auto;
+}
+/* Header <hr> only — inset to match form content (section dividers) */
+.bantuan-card-wrap > hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 0 48px;
+}
+.bantuan-card-header .section-label {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 8px;
     color: var(--red);
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 700;
     letter-spacing: 3px;
     text-transform: uppercase;
 }
 .bantuan-title {
-    font-size: clamp(40px, 6vw, 64px);
+    font-size: clamp(32px, 5vw, 52px);
     line-height: 1;
-    margin-bottom: 16px;
+    margin-bottom: 12px;
     color: var(--blue-deep);
 }
 .bantuan-intro {
-    font-size: 16px;
+    font-size: 15px;
     color: var(--text-muted);
     max-width: 540px;
-    margin: 0 auto;
     line-height: 1.7;
+    margin: 0;
 }
 
-/* Form card */
-.bantuan-form {
-    padding: 48px;
-    margin-bottom: 80px;
+/*
+ * Form sits inside the white card. Strip .public-form chrome (border/shadow)
+ * so its full-width top border does not show behind the inset header <hr>.
+ * Specificity must beat home.css `.public-form` (loaded after this file).
+ */
+.bantuan-card-wrap .bantuan-form.public-form {
+    padding: 40px 48px 48px;
+    margin-bottom: 0;
+    border: none;
+    box-shadow: none;
+    background: transparent;
 }
 @media (max-width: 768px) {
-    .bantuan-form { padding: 28px 24px; margin-bottom: 60px; }
+    .bantuan-card-header { padding: 32px 24px 24px; }
+    .bantuan-card-wrap > hr { margin: 0 24px; }
+    .bantuan-card-wrap .bantuan-form.public-form { padding: 28px 24px 36px; }
+    .bantuan-card-back { top: -16px; left: -8px; }
 }
 
 /* Form sections */
@@ -218,12 +259,16 @@
 }
 
 /* Conditional fields */
+.aid-section-body {
+    border-left: 3px solid var(--blue);
+    padding-left: 16px;
+    margin-top: 16px;
+}
 .aid-conditional {
     margin-top: 28px;
     padding: 24px;
     background: var(--bg2);
     border-radius: 8px;
-    border-left: 3px solid var(--blue);
 }
 
 /* Terms checkbox */

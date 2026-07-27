@@ -3,16 +3,21 @@
 @section('content')
 <section class="bantuan-page section-pad">
     <div class="container bantuan-container">
-        <a href="{{ route('home') }}" class="bantuan-back">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-            Kembali ke Laman Utama
-        </a>
+        <div class="bantuan-card-wrap">
 
-        <div class="bantuan-header fade-up">
-            <span class="section-label">Bantuan Rakyat</span>
-            <h1 class="section-title bantuan-title">BORANG BANTUAN</h1>
-            <p class="bantuan-intro">Jika anda memerlukan bantuan, sila lengkapkan borang di bawah. Data anda akan diterima oleh pentadbir UMNO Putrajaya untuk tindakan lanjut.</p>
-        </div>
+            {{-- Circle back button at top-left corner of card --}}
+            <a href="{{ route('home') }}" class="bantuan-card-back" title="Kembali ke Laman Utama">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            </a>
+
+            {{-- Header inside card --}}
+            <div class="bantuan-card-header">
+                <span class="section-label">Bantuan Rakyat</span>
+                <h1 class="section-title bantuan-title">BORANG BANTUAN</h1>
+                <p class="bantuan-intro">Jika anda memerlukan bantuan, sila lengkapkan borang di bawah. Data anda akan diterima oleh pentadbir UMNO Putrajaya untuk tindakan lanjut.</p>
+            </div>
+
+            <hr>
 
         <form id="bantuan-form" class="public-form bantuan-form" action="{{ route('members.store') }}" method="post" enctype="multipart/form-data" novalidate>
             @csrf
@@ -42,7 +47,7 @@
                     </div>
                     <div class="field">
                         <label for="birth_date">Tarikh Lahir</label>
-                        <input id="birth_date" name="birth_date" type="date" required>
+                        <input id="birth_date" name="birth_date" type="text" placeholder="Pilih tarikh lahir" autocomplete="off" required>
                     </div>
                 </div>
                 <div class="form-row">
@@ -87,7 +92,8 @@
             <div class="bantuan-section">
                 <h3 class="bantuan-section-title">Jenis Bantuan</h3>
                 <p class="bantuan-section-desc">Pilih satu jenis bantuan yang diperlukan.</p>
-                <div class="aid-options">
+                <div class="aid-section-body">
+                    <div class="aid-options">
                     <label class="aid-option" data-aid="katil_hospital">
                         <input type="radio" name="aid_types[]" value="katil_hospital" class="aid-radio">
                         <div class="aid-option-card">
@@ -150,6 +156,7 @@
                         </div>
                     </div>
                 </div>
+                </div>{{-- .aid-section-body --}}
             </div>
 
             {{-- Section 3: Verification --}}
@@ -171,6 +178,8 @@
             <button class="btn btn-red btn-lg bantuan-submit" type="submit">Hantar Borang Bantuan &rarr;</button>
             <div id="form-feedback" class="form-feedback" role="status"></div>
         </form>
+
+        </div>{{-- .bantuan-card-wrap --}}
 
         {{-- Success state (hidden, shown by JS) --}}
         <div class="bantuan-success" id="bantuan-success" hidden>
@@ -199,3 +208,31 @@
     </div>
 </div>
 @endsection
+
+@push('head')
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+@endpush
+
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    flatpickr('#birth_date', {
+        dateFormat: 'Y-m-d',
+        altInput: true,
+        altFormat: 'j F Y',
+        maxDate: 'today',
+        locale: {
+            months: {
+                shorthand: ['Jan','Feb','Mac','Apr','Mei','Jun','Jul','Ogo','Sep','Okt','Nov','Dis'],
+                longhand: ['Januari','Februari','Mac','April','Mei','Jun','Julai','Ogos','September','Oktober','November','Disember']
+            },
+            weekdays: {
+                shorthand: ['Ahd','Isn','Sel','Rab','Kha','Jum','Sab'],
+                longhand: ['Ahad','Isnin','Selasa','Rabu','Khamis','Jumaat','Sabtu']
+            }
+        }
+    });
+});
+</script>
+@endpush

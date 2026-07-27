@@ -14,6 +14,7 @@
   --bg: #FFFFFF;
   --bg2: #F8F9FA;
   --text: #1A1A2E;
+  --text2: #3D3D52;
   --text-muted: #555566;
   --border: #E5E7EB;
 
@@ -56,7 +57,7 @@ body {
   overflow-x: hidden;
 }
 
-h1, h2, h3, h4, h5, h6, .font-serif {
+h1, h3, h4, h5, h6, .font-serif {
   font-family: 'Playfair Display', serif;
 }
 
@@ -131,5 +132,31 @@ img {
 }
 @media (max-width: 768px) {
   .section-pad { padding: 80px 0; }
+}
+
+/* SHARED SECTION TYPOGRAPHY */
+.section-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 16px;
+}
+.section-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(40px, 4.5vw, 64px);
+  line-height: 0.95;
+  color: var(--text);
+  margin-bottom: 24px;
+}
+.mengenai-text {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--text2);
+  margin-bottom: 16px;
 }
 

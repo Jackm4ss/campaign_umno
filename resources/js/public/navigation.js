@@ -36,6 +36,8 @@ export function initNavigation() {
     });
 
     window.addEventListener('scroll', () => {
-        navbar?.classList.toggle('scrolled', window.scrollY > 50);
+        const scrolled = window.scrollY > 50;
+        navbar?.classList.toggle('scrolled', scrolled);
+        navbar?.classList.toggle('nav-visible', scrolled);
     }, { passive: true });
 }

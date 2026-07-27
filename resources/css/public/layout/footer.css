@@ -35,12 +35,12 @@
 
 .footer-grid {
   display: grid;
-  grid-template-columns: 2.5fr 1.2fr 1.2fr 1.2fr 1fr;
+  grid-template-columns: 2fr 1.2fr 1.4fr;
   gap: 40px;
   margin-bottom: 60px;
 }
 @media (max-width: 1200px) {
-  .footer-grid { grid-template-columns: 2fr 1fr 1fr; }
+  .footer-grid { grid-template-columns: 2fr 1fr 1.2fr; }
 }
 @media (max-width: 768px) {
   .footer-grid { grid-template-columns: 1fr; }
@@ -134,15 +134,7 @@
   color: #fff;
 }
 .footer-legal {
-  display: flex;
-  gap: 24px;
-}
-.footer-legal a {
-  color: #fff;
-  transition: opacity 0.3s;
-}
-.footer-legal a:hover {
-  opacity: 0.7;
+  display: none;
 }
 .footer-country {
   display: flex;
@@ -151,10 +143,8 @@
   color: #fff;
 }
 .country-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--blue);
+  font-size: 16px;
+  line-height: 1;
 }
 @media (max-width: 992px) {
   .footer-bottom { flex-direction: column; gap: 20px; text-align: center; }

@@ -5,7 +5,6 @@
   @include('public.sections.about')
   @include('public.sections.activities')
   @include('public.sections.aspirations')
-  @include('public.sections.leaders')
   @include('public.sections.articles')
   @include('public.sections.join')
 @endsection

@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\AdminSyncController;
 use App\Http\Controllers\PublicBantuanController;
+use App\Http\Controllers\PublicGalleryController;
 use App\Http\Controllers\PublicHomeController;
 use App\Http\Controllers\PublicSubmissionController;
 use Illuminate\Support\Facades\Route;
@@ -10,7 +11,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', PublicHomeController::class)->name('home');
 Route::get('/front-sync', [AdminSyncController::class, 'publicIndex'])->name('front-sync.index');
 
-// Standalone bantuan (aid request) page — QR target
+// Standalone public pages
+Route::get('/galeri', PublicGalleryController::class)->name('gallery.index');
 Route::get('/bantuan', [PublicBantuanController::class, 'index'])->name('bantuan.index');
 Route::get('/bantuan/qr', [PublicBantuanController::class, 'qrPage'])->name('bantuan.qr-page');
 Route::get('/bantuan/qr-image', [PublicBantuanController::class, 'qr'])->name('bantuan.qr');
@@ -46,9 +48,12 @@ Route::post('/kegiatan/daftar', [PublicSubmissionController::class, 'eventRegist
 Route::post('/kegiatan/{event:slug}/daftar', [PublicSubmissionController::class, 'eventRegistration'])->name('events.register');
 
 Route::get('/{page}', function (string $page) {
-    if (in_array($page, ['kegiatan', 'pimpinan', 'artikel', 'aspirasi', 'daftar', 'bantuan'], true)) {
+    if (in_array($page, ['kegiatan', 'pimpinan', 'galeri', 'artikel', 'aspirasi', 'daftar', 'bantuan'], true)) {
         if ($page === 'bantuan') {
             return redirect()->route('bantuan.index');
+        }
+        if ($page === 'galeri' || $page === 'pimpinan') {
+            return redirect()->route('gallery.index');
         }
         return redirect('/#'.$page);
     }

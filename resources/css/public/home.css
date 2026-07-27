@@ -1,15 +1,7 @@
-.nav-logo img { height: 60px; width: auto; max-width: 280px; object-fit: contain; }
 .nav-menu.open { right: 0; }
 .hero-slide:first-child { background-position: center; }
 .hero-container { width: 100%; }
 .hero-title span { color: #8fb3ff; }
-.about-grid { align-items: start; }
-.about-title { color: var(--blue-deep); margin-bottom: 24px; font: clamp(32px, 4vw, 56px) / 1 'Bebas Neue', sans-serif; }
-.about-item { margin-bottom: 24px; }
-.about-item h3 { color: var(--blue); font: 24px 'Bebas Neue', sans-serif; margin-bottom: 8px; }
-.about-item p { color: var(--text); }
-.mengenai-image-wrap { display: flex; align-items: center; justify-content: center; }
-.mengenai-image-wrap img { width: 100%; max-width: 440px; aspect-ratio: 4 / 5; border-radius: 12px; object-fit: cover; box-shadow: 0 10px 30px rgba(0, 0, 0, .15); }
 .kegiatan-header .mengenai-text, .pimpinan .mengenai-text { text-align: center; margin: 0; }
 .event-meta { margin-bottom: 10px; color: var(--red); font-size: 12px; font-weight: 700; letter-spacing: .8px; text-transform: uppercase; }
 .aspirations-title { font-size: clamp(32px, 4vw, 48px); }

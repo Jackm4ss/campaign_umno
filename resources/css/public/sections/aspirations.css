@@ -83,3 +83,35 @@
   line-height: 1.8;
 }
 
+/* Text-only timeline — photos moved to /galeri */
+.aspirasi-item--text {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  gap: 20px;
+  padding: 28px 0 40px;
+}
+
+.aspirasi-item--text .aspirasi-body h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 26px;
+  color: var(--blue-deep);
+  margin: 0 0 12px;
+}
+
+.aspirasi-item--text .aspirasi-body p {
+  margin: 0;
+  font-size: 16px;
+  color: var(--text-muted);
+  line-height: 1.8;
+  max-width: 42ch;
+}
+
+.aspirasi-item--text .aspirasi-num {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.aspirasi-item--text img {
+  display: none;
+}
+

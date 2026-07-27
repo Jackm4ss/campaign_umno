@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <meta name="description" content="Tak Banyak Alasan ialah kempen UMNO Putrajaya yang membawa gerak kerja penerangan, khidmat rakyat, dan mobilisasi akar umbi.">
-  <title>{{ $settings['metaTitle'] ?? 'Tak Banyak Alasan - Kempen UMNO Putrajaya' }}</title>
+  <title>@yield('title', $settings['metaTitle'] ?? 'Tak Banyak Alasan - Kempen UMNO Putrajaya')</title>
   <link rel="icon" type="image/png" href="{{ asset('assets/admin-logo-blue.png') }}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

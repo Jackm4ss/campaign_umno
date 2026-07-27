@@ -197,14 +197,17 @@
                     <span class="field-hint">Sila muat naik tangkap layar daftar pemilih dari portal SPR</span>
                 </div>
                 <div class="field bantuan-terms">
-                    <label class="checkbox-label">
+                    <label class="checkbox-label" for="terms">
                         <input type="checkbox" id="terms" required>
-                        <span>Saya mengaku bahawa semua maklumat di atas adalah benar dan saya bersetuju dengan terma dan syarat serta polisi privasi (PDPA).</span>
+                        <span class="checkbox-copy">Saya mengaku bahawa semua maklumat di atas adalah benar dan saya bersetuju dengan terma dan syarat serta polisi privasi (PDPA).</span>
                     </label>
                 </div>
             </div>
 
-            <button class="btn btn-red btn-lg bantuan-submit" type="submit">Hantar Borang Bantuan &rarr;</button>
+            <button class="btn btn-red btn-lg bantuan-submit" type="submit">
+                <span class="bantuan-submit-label">Hantar Borang Bantuan</span>
+                <span class="bantuan-submit-arrow" aria-hidden="true">&rarr;</span>
+            </button>
             <div id="form-feedback" class="form-feedback" role="status"></div>
         </form>
 

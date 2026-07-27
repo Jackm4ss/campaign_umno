@@ -30,7 +30,7 @@
     </div>
 
     <div class="nav-btn">
-      <a class="btn btn-red nav-cta" href="{{ url('/') }}#sertai">Join Our Movement</a>
+      <a class="btn btn-red nav-cta" href="{{ route('bantuan.index') }}">Inisiatif Tak Banyak Alasan</a>
     </div>
   </aside>
 </nav>

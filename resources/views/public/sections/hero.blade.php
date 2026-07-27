@@ -13,7 +13,7 @@
             <img src="{{ asset('assets/logo-tba.png') }}" alt="Tak Banyak Alasan" class="hero-logo" id="heroLogo">
             <p class="hero-tagline">Terbukti, Terlihat &amp; Terjamin<br>Proven, Seen &amp; Guaranteed</p>
             <div class="hero-buttons">
-                <a href="#sertai" class="hero-btn hero-btn-primary">
+                <a href="{{ route('bantuan.index') }}" class="hero-btn hero-btn-primary">
                     <span>Aspirasi Anda, Tekad Kami</span>
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                 </a>

@@ -1,104 +1,140 @@
-<section id="galeri" class="galeri galeri-page section-pad">
-  <div class="container">
-    <header class="galeri-header fade-up">
-      <a href="{{ route('home') }}" class="galeri-back">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-        Kembali ke Laman Utama
-      </a>
-      <span class="section-label">Dokumentasi Kempen</span>
-      <h1 class="section-title galeri-title">Galeri Kempen</h1>
-      <p class="mengenai-text galeri-lead">
-        Dokumentasi visual kerja kami di Putrajaya — aktiviti, komuniti, dan kepimpinan, dibingkaikan seperti catatan sosial kempen.
-      </p>
+@php
+  $galleryItems = $gallery ?? [];
+  $postCount = count($galleryItems);
+  $categoryMeta = [
+      'all' => 'Semua',
+      'kegiatan' => 'Kegiatan',
+      'komuniti' => 'Komuniti',
+      'kepimpinan' => 'Kepimpinan',
+      'media' => 'Media',
+  ];
+@endphp
+
+<section id="galeri" class="ig-galeri" aria-labelledby="ig-galeri-title">
+  <div class="ig-shell">
+    <a href="{{ route('home') }}" class="ig-back">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      <span>back</span>
+    </a>
+
+    {{-- Profile header --}}
+    <header class="ig-profile">
+      <div class="ig-profile-avatar" aria-hidden="true">
+        <img src="{{ asset('assets/admin-logo-blue.png') }}" alt="" width="120" height="120" loading="eager">
+      </div>
+      <div class="ig-profile-meta">
+        <div class="ig-profile-row">
+          <h1 id="ig-galeri-title" class="ig-handle" translate="no">umno.putrajaya</h1>
+          <span class="ig-badge">Galeri</span>
+        </div>
+        <ul class="ig-stats" aria-label="Statistik galeri">
+          <li><strong id="ig-stat-count">{{ $postCount }}</strong> <span>catatan</span></li>
+          <li><strong>{{ count(array_filter($galleryItems, fn ($i) => ! empty($i['video_url']))) }}</strong> <span>video</span></li>
+          <li><strong>{{ max(0, $postCount - count(array_filter($galleryItems, fn ($i) => ! empty($i['video_url'])))) }}</strong> <span>foto</span></li>
+        </ul>
+        <div class="ig-bio">
+          <p class="ig-bio-name">Tak Banyak Alasan</p>
+          <p class="ig-bio-text">Dokumentasi visual kempen UMNO Putrajaya — kegiatan, komuniti, kepimpinan & media.</p>
+        </div>
+      </div>
     </header>
 
-    <div class="galeri-storybar fade-up" role="tablist" aria-label="Tapis galeri mengikut kategori">
-      <button type="button" class="galeri-story is-active" data-filter="all" role="tab" aria-selected="true" aria-label="Tapis: Semua">
-        <span class="galeri-story-ring" aria-hidden="true"></span>
-        <span class="galeri-story-label">Semua</span>
-      </button>
-      <button type="button" class="galeri-story" data-filter="kegiatan" role="tab" aria-selected="false" aria-label="Tapis: Kegiatan">
-        <span class="galeri-story-ring" aria-hidden="true"></span>
-        <span class="galeri-story-label">Kegiatan</span>
-      </button>
-      <button type="button" class="galeri-story" data-filter="komuniti" role="tab" aria-selected="false" aria-label="Tapis: Komuniti">
-        <span class="galeri-story-ring" aria-hidden="true"></span>
-        <span class="galeri-story-label">Komuniti</span>
-      </button>
-      <button type="button" class="galeri-story" data-filter="kepimpinan" role="tab" aria-selected="false" aria-label="Tapis: Kepimpinan">
-        <span class="galeri-story-ring" aria-hidden="true"></span>
-        <span class="galeri-story-label">Kepimpinan</span>
-      </button>
-      <button type="button" class="galeri-story" data-filter="media" role="tab" aria-selected="false" aria-label="Tapis: Media">
-        <span class="galeri-story-ring" aria-hidden="true"></span>
-        <span class="galeri-story-label">Media</span>
-      </button>
+    {{-- Category chips (Instagram highlights feel, practical filters) --}}
+    <div class="ig-filters" role="tablist" aria-label="Tapis galeri">
+      @foreach ($categoryMeta as $key => $label)
+        <button
+          type="button"
+          class="ig-chip{{ $key === 'all' ? ' is-active' : '' }}"
+          data-filter="{{ $key }}"
+          role="tab"
+          aria-selected="{{ $key === 'all' ? 'true' : 'false' }}"
+        >{{ $label }}</button>
+      @endforeach
     </div>
 
-    <div class="galeri-feed" id="galeri-grid">
-      @foreach($gallery as $item)
+    {{-- Dense square grid --}}
+    <div class="ig-grid" id="galeri-grid" role="list">
+      @forelse ($galleryItems as $item)
         @php
-          $i = $loop->index;
-          $shape = ($i % 7 === 0) ? 'feature' : (($i % 3 === 0) ? 'square' : 'landscape');
           $isVideo = ! empty($item['video_url']);
         @endphp
         <button
           type="button"
-          class="galeri-card galeri-card--{{ $shape }}{{ $isVideo ? ' galeri-card--video' : '' }} fade-up"
-          data-category="{{ $item['category'] }}"
+          class="ig-cell{{ $isVideo ? ' ig-cell--video' : '' }}"
+          role="listitem"
+          data-category="{{ $item['category'] ?? 'kegiatan' }}"
           data-src="{{ $item['src'] }}"
           data-title="{{ $item['title'] }}"
           data-caption="{{ $item['caption'] ?? '' }}"
+          data-label="{{ $item['label'] ?? '' }}"
           @if($isVideo) data-embed-id="{{ $item['video_url'] }}" @endif
           aria-label="Buka {{ $item['title'] }}"
         >
-          <span class="galeri-card-postbar">
-            <span class="galeri-card-avatar" data-cat="{{ $item['category'] }}" aria-hidden="true"></span>
-            <span class="galeri-card-handle" translate="no">@umno.putrajaya</span>
-            <span class="galeri-card-chip">{{ $item['label'] }}</span>
-          </span>
-          <span class="galeri-card-media">
-            <img
-              loading="lazy"
-              decoding="async"
-              src="{{ $item['src'] }}"
-              alt="{{ $item['title'] }}"
-              width="{{ $shape === 'feature' ? 1200 : ($shape === 'square' ? 600 : 800) }}"
-              height="{{ $shape === 'feature' ? 600 : ($shape === 'square' ? 600 : 600) }}"
-            >
-            @if($isVideo)
-              <span class="galeri-card-play" aria-hidden="true">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-              </span>
-            @endif
-          </span>
-          <span class="galeri-card-copy">
-            <span class="galeri-card-title">{{ $item['title'] }}</span>
-            @if(! empty($item['caption']))
-              <span class="galeri-card-caption">{{ $item['caption'] }}</span>
-            @endif
+          <img
+            loading="lazy"
+            decoding="async"
+            src="{{ $item['src'] }}"
+            alt="{{ $item['title'] }}"
+            width="400"
+            height="400"
+          >
+          <span class="ig-cell-shade" aria-hidden="true"></span>
+          @if ($isVideo)
+            <span class="ig-cell-video" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            </span>
+          @endif
+          <span class="ig-cell-hover">
+            <span class="ig-cell-title">{{ $item['title'] }}</span>
           </span>
         </button>
-      @endforeach
+      @empty
+        <p class="ig-empty-full">Belum ada dokumentasi untuk dipaparkan.</p>
+      @endforelse
     </div>
 
-    <p class="galeri-empty" id="galeri-empty" hidden>Tiada catatan untuk penapis ini.</p>
+    <p class="ig-empty" id="galeri-empty" hidden>Tiada catatan untuk penapis ini.</p>
   </div>
 </section>
 
-<div class="galeri-lightbox" id="galeri-lightbox" hidden>
-  <div class="galeri-lightbox-backdrop" data-close-lightbox></div>
-  <div class="galeri-lightbox-dialog" role="dialog" aria-modal="true" aria-label="Pratonton catatan galeri">
-    <button type="button" class="galeri-lightbox-close" data-close-lightbox aria-label="Tutup pratonton">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+{{-- Instagram-style lightbox --}}
+<div class="ig-lightbox" id="galeri-lightbox" hidden>
+  <div class="ig-lightbox-scrim" data-close-lightbox></div>
+
+  <button type="button" class="ig-lightbox-nav ig-lightbox-prev" id="galeri-prev" aria-label="Catatan sebelumnya">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+  </button>
+  <button type="button" class="ig-lightbox-nav ig-lightbox-next" id="galeri-next" aria-label="Catatan seterusnya">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+  </button>
+
+  <div class="ig-lightbox-stage" role="dialog" aria-modal="true" aria-labelledby="galeri-lightbox-title">
+    <button type="button" class="ig-lightbox-close" data-close-lightbox aria-label="Tutup">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
     </button>
-    <div class="galeri-lightbox-media">
-      <img src="" alt="" id="galeri-lightbox-img">
+
+    <div class="ig-lightbox-frame">
+      <div class="ig-lightbox-media">
+        <img src="" alt="" id="galeri-lightbox-img">
+      </div>
+      <aside class="ig-lightbox-side">
+        <div class="ig-lightbox-side-head">
+          <span class="ig-lightbox-avatar" aria-hidden="true">
+            <img src="{{ asset('assets/admin-logo-blue.png') }}" alt="" width="36" height="36">
+          </span>
+          <div class="ig-lightbox-side-meta">
+            <span class="ig-lightbox-handle" translate="no">umno.putrajaya</span>
+            <span class="ig-lightbox-chip" id="galeri-lightbox-chip"></span>
+          </div>
+        </div>
+        <div class="ig-lightbox-side-body">
+          <h2 id="galeri-lightbox-title"></h2>
+          <p id="galeri-lightbox-caption"></p>
+        </div>
+        <div class="ig-lightbox-side-foot">
+          <span id="galeri-lightbox-counter" class="ig-lightbox-counter"></span>
+        </div>
+      </aside>
     </div>
-    <aside class="galeri-lightbox-panel">
-      <span class="galeri-lightbox-handle" translate="no">@umno.putrajaya</span>
-      <h2 id="galeri-lightbox-title"></h2>
-      <p id="galeri-lightbox-caption"></p>
-    </aside>
   </div>
 </div>

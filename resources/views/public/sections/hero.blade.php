@@ -14,11 +14,11 @@
             <p class="hero-tagline">Terbukti, Terlihat &amp; Terjamin<br>Proven, Seen &amp; Guaranteed</p>
             <div class="hero-buttons">
                 <a href="{{ route('bantuan.index') }}" class="hero-btn hero-btn-primary">
-                    <span>Aspirasi Anda, Tekad Kami</span>
+                    <span>Inisiatif Tak Banyak Alasan</span>
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                 </a>
-                <a href="{{ route('bantuan.index') }}" class="hero-btn hero-btn-outline">
-                    <span>Inisiatif Tak Banyak Alasan</span>
+                <a href="{{ url('/') }}#sertai" class="hero-btn hero-btn-outline">
+                    <span>Aspirasi Anda, Tekad Kami</span>
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                 </a>
             </div>

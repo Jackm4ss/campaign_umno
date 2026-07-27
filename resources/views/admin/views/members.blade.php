@@ -42,11 +42,11 @@
           </select>
           <select id="admMemberAid">
             <option value="">Semua Bantuan</option>
-            <option>Katil Hospital</option>
-            <option>Makanan Asas</option>
-            <option>Wang Tunai RM300</option>
-            <option>Biasiswa Pelajaran</option>
-            <option>Bantuan Perubatan</option>
+            <option>Keperluan Asas Dapur</option>
+            <option>Bantuan Wang Tunai</option>
+            <option>Katil Hospital / Kerusi Roda</option>
+            <option>Van Jenazah Percuma</option>
+            <option>Kad Kesihatan KuNan</option>
           </select>
           <select id="admMemberStatus">
             <option value="">Semua Status</option>
@@ -69,11 +69,11 @@
               </tr>
             </thead>
             <tbody id="admMemberRows">
-              <tr data-presint="Presint 9" data-aid="Katil Hospital" data-status="Belum Tindakan">
+              <tr data-presint="Presint 9" data-aid="Katil Hospital / Kerusi Roda" data-status="Belum Tindakan">
                 <td><div style="font-weight:600;color:#1e293b;">Nur Aisyah Binti Rahman</div></td>
                 <td style="font-family:monospace;font-size:12px;">XXXXXX-XX-4821</td>
                 <td>Presint 9</td>
-                <td><span style="background:#dbeafe;color:#1d4ed8;padding:2px 8px;border-radius:99px;font-size:11px;font-weight:600;">Katil Hospital</span></td>
+                <td><span style="background:#dbeafe;color:#1d4ed8;padding:2px 8px;border-radius:99px;font-size:11px;font-weight:600;">Katil Hospital / Kerusi Roda</span></td>
                 <td style="font-size:12px;color:#64748b;">16 Jun 2026</td>
                 <td><span class="adm-badge pending">Belum Tindakan</span></td>
                 <td style="display:flex;gap:4px;">
@@ -82,11 +82,11 @@
                   <button class="adm-mini danger" type="button" data-member-action="Padam" data-member-id="1">Padam</button>
                 </td>
               </tr>
-              <tr data-presint="Presint 11" data-aid="Makanan Asas" data-status="Dirancang">
+              <tr data-presint="Presint 11" data-aid="Keperluan Asas Dapur" data-status="Dirancang">
                 <td><div style="font-weight:600;color:#1e293b;">Mohd Hafiz Bin Salleh</div></td>
                 <td style="font-family:monospace;font-size:12px;">XXXXXX-XX-1190</td>
                 <td>Presint 11</td>
-                <td><span style="background:#dcfce7;color:#16a34a;padding:2px 8px;border-radius:99px;font-size:11px;font-weight:600;">Makanan Asas</span></td>
+                <td><span style="background:#dcfce7;color:#16a34a;padding:2px 8px;border-radius:99px;font-size:11px;font-weight:600;">Keperluan Asas Dapur</span></td>
                 <td style="font-size:12px;color:#64748b;">15 Jun 2026</td>
                 <td><span class="adm-badge draft">Dirancang</span></td>
                 <td style="display:flex;gap:4px;">
@@ -95,11 +95,11 @@
                   <button class="adm-mini danger" type="button" data-member-action="Padam" data-member-id="2">Padam</button>
                 </td>
               </tr>
-              <tr data-presint="Presint 14" data-aid="Wang Tunai RM300" data-status="Selesai">
+              <tr data-presint="Presint 14" data-aid="Bantuan Wang Tunai" data-status="Selesai">
                 <td><div style="font-weight:600;color:#1e293b;">Siti Mariam Binti Noor</div></td>
                 <td style="font-family:monospace;font-size:12px;">XXXXXX-XX-7304</td>
                 <td>Presint 14</td>
-                <td><span style="background:#fef3c7;color:#b45309;padding:2px 8px;border-radius:99px;font-size:11px;font-weight:600;">Wang Tunai RM300</span></td>
+                <td><span style="background:#fef3c7;color:#b45309;padding:2px 8px;border-radius:99px;font-size:11px;font-weight:600;">Bantuan Wang Tunai</span></td>
                 <td style="font-size:12px;color:#64748b;">14 Jun 2026</td>
                 <td><span class="adm-badge active">Selesai</span></td>
                 <td style="display:flex;gap:4px;">
@@ -108,11 +108,11 @@
                   <button class="adm-mini danger" type="button" data-member-action="Padam" data-member-id="3">Padam</button>
                 </td>
               </tr>
-              <tr data-presint="Presint 9" data-aid="Bantuan Perubatan" data-status="Belum Tindakan">
+              <tr data-presint="Presint 9" data-aid="Kad Kesihatan KuNan" data-status="Belum Tindakan">
                 <td><div style="font-weight:600;color:#1e293b;">Ahmad Zaidi Bin Omar</div></td>
                 <td style="font-family:monospace;font-size:12px;">XXXXXX-XX-3318</td>
                 <td>Presint 9</td>
-                <td><span style="background:#fee2e2;color:#dc2626;padding:2px 8px;border-radius:99px;font-size:11px;font-weight:600;">Bantuan Perubatan</span></td>
+                <td><span style="background:#fee2e2;color:#dc2626;padding:2px 8px;border-radius:99px;font-size:11px;font-weight:600;">Kad Kesihatan KuNan</span></td>
                 <td style="font-size:12px;color:#64748b;">18 Jun 2026</td>
                 <td><span class="adm-badge pending">Belum Tindakan</span></td>
                 <td style="display:flex;gap:4px;">
@@ -121,11 +121,11 @@
                   <button class="adm-mini danger" type="button" data-member-action="Padam" data-member-id="4">Padam</button>
                 </td>
               </tr>
-              <tr data-presint="Presint 16" data-aid="Biasiswa Pelajaran" data-status="Dirancang">
+              <tr data-presint="Presint 16" data-aid="Van Jenazah Percuma" data-status="Dirancang">
                 <td><div style="font-weight:600;color:#1e293b;">Nurul Ain Binti Ishak</div></td>
                 <td style="font-family:monospace;font-size:12px;">XXXXXX-XX-9902</td>
                 <td>Presint 16</td>
-                <td><span style="background:#f3e8ff;color:#7c3aed;padding:2px 8px;border-radius:99px;font-size:11px;font-weight:600;">Biasiswa Pelajaran</span></td>
+                <td><span style="background:#f3e8ff;color:#7c3aed;padding:2px 8px;border-radius:99px;font-size:11px;font-weight:600;">Van Jenazah Percuma</span></td>
                 <td style="font-size:12px;color:#64748b;">12 Jun 2026</td>
                 <td><span class="adm-badge draft">Dirancang</span></td>
                 <td style="display:flex;gap:4px;">

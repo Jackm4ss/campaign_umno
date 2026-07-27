@@ -104,45 +104,64 @@
                 <p class="bantuan-section-desc">Pilih satu jenis bantuan yang diperlukan.</p>
                 <div class="aid-section-body">
                     <div class="aid-options">
-                    <label class="aid-option" data-aid="katil_hospital">
-                        <input type="radio" name="aid_types[]" value="katil_hospital" class="aid-radio">
-                        <div class="aid-option-card">
-                            <div class="aid-icon">
-                                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 18v-6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v6"/><path d="M3 18h18"/><path d="M7 10V6a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v4"/></svg>
-                            </div>
-                            <div class="aid-body">
-                                <h4>Katil Hospital</h4>
-                                <p>Bantuan kos rawatan katil hospital</p>
-                            </div>
-                        </div>
-                    </label>
-                    <label class="aid-option" data-aid="makanan_asas">
-                        <input type="radio" name="aid_types[]" value="makanan_asas" class="aid-radio">
+                    <label class="aid-option" data-aid="keperluan_asas_dapur">
+                        <input type="radio" name="aid_types[]" value="keperluan_asas_dapur" class="aid-radio">
                         <div class="aid-option-card">
                             <div class="aid-icon">
                                 <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11h18l-1.5 9a2 2 0 0 1-2 2h-11a2 2 0 0 1-2-2L3 11z"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
                             </div>
                             <div class="aid-body">
-                                <h4>Makanan Asas</h4>
-                                <p>Bantuan barang keperluan asas (sembako)</p>
+                                <h4>Keperluan Asas Dapur</h4>
                             </div>
                         </div>
                     </label>
-                    <label class="aid-option" data-aid="wang_tunai_rm_300">
-                        <input type="radio" name="aid_types[]" value="wang_tunai_rm_300" class="aid-radio">
+                    <label class="aid-option" data-aid="wang_tunai">
+                        <input type="radio" name="aid_types[]" value="wang_tunai" class="aid-radio">
                         <div class="aid-option-card">
                             <div class="aid-icon">
                                 <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></svg>
                             </div>
                             <div class="aid-body">
-                                <h4>Wang Tunai RM300</h4>
-                                <p>Bantuan wang tunai sebanyak RM300</p>
+                                <h4>Bantuan Wang Tunai</h4>
+                            </div>
+                        </div>
+                    </label>
+                    <label class="aid-option" data-aid="katil_hospital_kerusi_roda">
+                        <input type="radio" name="aid_types[]" value="katil_hospital_kerusi_roda" class="aid-radio">
+                        <div class="aid-option-card">
+                            <div class="aid-icon">
+                                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 18v-6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v6"/><path d="M3 18h18"/><path d="M7 10V6a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v4"/></svg>
+                            </div>
+                            <div class="aid-body">
+                                <h4>Katil Hospital / Kerusi Roda</h4>
+                            </div>
+                        </div>
+                    </label>
+                    <label class="aid-option" data-aid="van_jenazah_percuma">
+                        <input type="radio" name="aid_types[]" value="van_jenazah_percuma" class="aid-radio">
+                        <div class="aid-option-card">
+                            <div class="aid-icon">
+                                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 17V7a2 2 0 0 1 2-2h9l5 5v7"/><path d="M3 17h2"/><path d="M14 17h5"/><circle cx="7.5" cy="17.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg>
+                            </div>
+                            <div class="aid-body">
+                                <h4>Van Jenazah Percuma</h4>
+                            </div>
+                        </div>
+                    </label>
+                    <label class="aid-option" data-aid="kad_kesihatan_kunan">
+                        <input type="radio" name="aid_types[]" value="kad_kesihatan_kunan" class="aid-radio">
+                        <div class="aid-option-card">
+                            <div class="aid-icon">
+                                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/><path d="M6 15h4"/></svg>
+                            </div>
+                            <div class="aid-body">
+                                <h4>Kad Kesihatan KuNan</h4>
                             </div>
                         </div>
                     </label>
                 </div>
 
-                {{-- Conditional: Patient fields for katil_hospital --}}
+                {{-- Conditional: Patient fields for hospital / wheelchair aid --}}
                 <div class="aid-conditional" id="aid-patient-fields" hidden>
                     <h4 class="bantuan-subsection-title">Maklumat Pesakit</h4>
                     <div class="form-row">

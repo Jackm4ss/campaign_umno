@@ -12,15 +12,40 @@ export function initBantuanForm() {
     // --- Aid type conditional fields ---
     const aidRadios = form.querySelectorAll('.aid-radio');
     const patientFields = document.getElementById('aid-patient-fields');
+    const patientInputs = [
+        form.querySelector('#patient_name'),
+        form.querySelector('#patient_identity_number'),
+        form.querySelector('#patient_phone'),
+        form.querySelector('#patient_address'),
+    ].filter(Boolean);
+
+    function setPatientFieldsRequired(required) {
+        patientInputs.forEach((input) => {
+            input.required = required;
+            if (!required) {
+                input.setCustomValidity('');
+            }
+        });
+    }
+
+    function syncPatientFields() {
+        const selected = form.querySelector('.aid-radio:checked');
+        const needsPatient = selected?.value === 'katil_hospital_kerusi_roda';
+        if (patientFields) {
+            patientFields.hidden = !needsPatient;
+        }
+        setPatientFieldsRequired(Boolean(needsPatient));
+    }
 
     aidRadios.forEach((radio) => {
         radio.addEventListener('change', () => {
             const option = radio.closest('.aid-option');
             form.querySelectorAll('.aid-option').forEach((o) => o.classList.remove('selected'));
             option.classList.add('selected');
-            patientFields.hidden = radio.value !== 'katil_hospital';
+            syncPatientFields();
         });
     });
+    syncPatientFields();
 
     // --- Email match validation ---
     const email = form.querySelector('#email');

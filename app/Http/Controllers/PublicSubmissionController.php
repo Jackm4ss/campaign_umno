@@ -10,6 +10,7 @@ use App\Models\MemberAidRequest;
 use App\Services\TurnstileValidator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 
 class PublicSubmissionController extends Controller
@@ -47,7 +48,30 @@ class PublicSubmissionController extends Controller
             'presint' => ['required', 'string', 'max:100'],
             'voter_proof' => ['nullable', 'file', 'mimes:jpg,jpeg,png,pdf', 'max:5120'],
             'aid_types' => ['nullable', 'array'],
-            'aid_types.*' => ['in:katil_hospital,makanan_asas,wang_tunai_rm_300'],
+            'aid_types.*' => ['in:keperluan_asas_dapur,wang_tunai,katil_hospital_kerusi_roda,van_jenazah_percuma,kad_kesihatan_kunan'],
+            'patient_name' => [
+                Rule::requiredIf(fn () => in_array('katil_hospital_kerusi_roda', $request->input('aid_types', []), true)),
+                'nullable',
+                'string',
+                'max:255',
+            ],
+            'patient_identity_number' => [
+                Rule::requiredIf(fn () => in_array('katil_hospital_kerusi_roda', $request->input('aid_types', []), true)),
+                'nullable',
+                'string',
+                'max:50',
+            ],
+            'patient_phone' => [
+                Rule::requiredIf(fn () => in_array('katil_hospital_kerusi_roda', $request->input('aid_types', []), true)),
+                'nullable',
+                'string',
+                'max:50',
+            ],
+            'patient_address' => [
+                Rule::requiredIf(fn () => in_array('katil_hospital_kerusi_roda', $request->input('aid_types', []), true)),
+                'nullable',
+                'string',
+            ],
         ]);
 
         if ($request->hasFile('photo')) {
@@ -58,16 +82,28 @@ class PublicSubmissionController extends Controller
             $data['voter_proof_path'] = $request->file('voter_proof')->store('voter-proofs', 'public');
         }
 
-        $member = Member::create(collect($data)->except(['photo', 'email_confirmation', 'voter_proof', 'aid_types'])->all());
+        $member = Member::create(collect($data)->except([
+            'photo',
+            'email_confirmation',
+            'voter_proof',
+            'aid_types',
+            'patient_name',
+            'patient_identity_number',
+            'patient_phone',
+            'patient_address',
+        ])->all());
 
-        foreach ($request->input('aid_types', []) as $type) {
+        $aidTypes = $request->input('aid_types', []);
+        $needsPatient = in_array('katil_hospital_kerusi_roda', $aidTypes, true);
+
+        foreach ($aidTypes as $type) {
             MemberAidRequest::create([
                 'member_id' => $member->id,
                 'type' => $type,
-                'patient_name' => $request->input('patient_name'),
-                'patient_identity_number' => $request->input('patient_identity_number'),
-                'patient_phone' => $request->input('patient_phone'),
-                'patient_address' => $request->input('patient_address'),
+                'patient_name' => $needsPatient ? $request->input('patient_name') : null,
+                'patient_identity_number' => $needsPatient ? $request->input('patient_identity_number') : null,
+                'patient_phone' => $needsPatient ? $request->input('patient_phone') : null,
+                'patient_address' => $needsPatient ? $request->input('patient_address') : null,
             ]);
         }
 

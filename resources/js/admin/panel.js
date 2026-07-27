@@ -48,7 +48,7 @@
           name: 'Nur Aisyah Binti Rahman',
           kp: '950812-14-4821',
           presint: 'Presint 9',
-          aid: 'Katil Hospital',
+          aid: 'Katil Hospital / Kerusi Roda',
           date: '16 Jun 2026',
           status: 'Belum Tindakan'
         },
@@ -57,7 +57,7 @@
           name: 'Mohd Hafiz Bin Salleh',
           kp: '880315-10-1190',
           presint: 'Presint 11',
-          aid: 'Makanan Asas',
+          aid: 'Keperluan Asas Dapur',
           date: '15 Jun 2026',
           status: 'Dirancang'
         },
@@ -66,7 +66,7 @@
           name: 'Siti Mariam Binti Noor',
           kp: '921104-14-7304',
           presint: 'Presint 14',
-          aid: 'Wang Tunai RM300',
+          aid: 'Bantuan Wang Tunai',
           date: '14 Jun 2026',
           status: 'Selesai'
         }

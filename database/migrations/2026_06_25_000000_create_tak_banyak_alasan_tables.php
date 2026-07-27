@@ -63,7 +63,13 @@ return new class extends Migration
         Schema::create('member_aid_requests', function (Blueprint $table) {
             $table->id();
             $table->foreignId('member_id')->constrained()->cascadeOnDelete();
-            $table->enum('type', ['katil_hospital', 'makanan_asas', 'wang_tunai_rm_300']);
+            $table->enum('type', [
+                'keperluan_asas_dapur',
+                'wang_tunai',
+                'katil_hospital_kerusi_roda',
+                'van_jenazah_percuma',
+                'kad_kesihatan_kunan',
+            ]);
             $table->string('patient_name')->nullable();
             $table->string('patient_identity_number')->nullable();
             $table->string('patient_phone')->nullable();

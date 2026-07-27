@@ -183,9 +183,11 @@
           <div class="adm-field">
             <label for="admMemberAidInput">Jenis Bantuan</label>
             <select id="admMemberAidInput">
-              <option>Katil Hospital</option>
-              <option>Makanan Asas</option>
-              <option>Wang Tunai RM300</option>
+              <option>Keperluan Asas Dapur</option>
+              <option>Bantuan Wang Tunai</option>
+              <option>Katil Hospital / Kerusi Roda</option>
+              <option>Van Jenazah Percuma</option>
+              <option>Kad Kesihatan KuNan</option>
             </select>
           </div>
           <div class="adm-field">

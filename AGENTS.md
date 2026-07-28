@@ -14,8 +14,9 @@ Two faces share one Laravel app and MySQL:
 ### Request flow
 
 - **Homepage**: `PublicHomeController` → `PublicHomeViewData` → `AdminSyncController::publicPayload()` (settings + CMS-like keys) → `public.home` with section includes.
-- **Forms**: `PublicSubmissionController` handles `POST /aspirasi`, `POST /daftar` (member + optional aid), and event registration. Cloudflare Turnstile via `TurnstileValidator` (local bypass: `TURNSTILE_BYPASS_LOCAL=true`).
-- **Bantuan**: `PublicBantuanController` serves `/bantuan`, `/bantuan/qr` (page), `/bantuan/qr-image` (SVG QR via `simplesoftwareio/simple-qrcode`).
+- **Forms**: `PublicSubmissionController` handles `POST /aspirasi`, `POST /daftar` (member + optional aid), and event registration (`POST /kegiatan/daftar`, `POST /kegiatan/{event:slug}/daftar`). Cloudflare Turnstile via `TurnstileValidator` (local bypass: `TURNSTILE_BYPASS_LOCAL=true`).
+- **Bantuan**: `PublicBantuanController` serves `/bantuan`, `/bantuan/qr` (page), `/bantuan/qr-image` (SVG QR via `simplesoftwareio/simple-qrcode`). Member/aid form still posts to `/daftar`.
+- **Gallery**: `PublicGalleryController` at `/galeri` (also absorbs legacy `/{page}` for `galeri` / `pimpinan`).
 - **Admin content**: Panel reads/writes `/admin/sync`; public mirror at `/front-sync`. Keys allowlisted in `AdminSyncController`.
 - **Legacy path aliases**: `/login.html`, `/panel-admin.html` still map to login/panel for prototype parity.
 - **Hash routes**: `/{page}` for section names (`kegiatan`, `aspirasi`, …) redirects to `/#section` (or standalone routes where they exist).
@@ -35,11 +36,18 @@ Two faces share one Laravel app and MySQL:
 | `tbaAdminGallery` | yes | yes |
 | `tbaAdminLeaders` | yes | yes |
 
-When a key is missing in `site_settings`, payload falls back to Eloquent tables (`events`, `articles`, `members`, `gallery_items`, `leaders`). Homepage limits: 3 articles, 3 events, 4 leaders; gallery up to 24 (or curated defaults under `public/assets/`).
+When a key is missing in `site_settings`, payload falls back to Eloquent tables (`events`, `articles`, `members`, `gallery_items`, `leaders`). Homepage limits (via `PublicHomeViewData`): 3 articles, 3 events, 4 leaders; gallery up to 24 (or curated defaults under `public/assets/`).
 
 ### Domain data
 
-Single domain migration: `database/migrations/2026_06_25_000000_create_tak_banyak_alasan_tables.php` — events, registrations, members, aid requests, aspirations, gallery, leaders, articles, `site_settings`. Models are thin Eloquent mappers under `app/Models/`.
+Domain migrations:
+
+- `database/migrations/2026_06_25_000000_create_tak_banyak_alasan_tables.php` — events, event categories/registrations, members, aid requests, aspirations, gallery, leaders, articles, `site_settings`
+- `database/migrations/2026_07_28_000001_update_member_aid_request_types.php` — remaps aid type enum (MySQL `ALTER`; SQLite best-effort remaps)
+
+Models are thin Eloquent mappers under `app/Models/`.
+
+Member aid types (current): `keperluan_asas_dapur`, `wang_tunai`, `katil_hospital_kerusi_roda` (requires patient fields), `van_jenazah_percuma`, `kad_kesihatan_kunan`. Uploads for photo/voter proof go to `public` disk (`member-photos`, `voter-proofs`).
 
 Seeder default admin (local only): `admin@gmail.org.my` / `admin123` from `DatabaseSeeder`. Never use in production.
 
@@ -49,11 +57,11 @@ Seeder default admin (local only): `admin@gmail.org.my` / `admin123` from `Datab
 
 | Entry | Role |
 | --- | --- |
-| `resources/css/public/site.css` + `js/public/site.js` | Public site (`site.css` imports base/layout/sections) |
+| `resources/css/public/site.css` + `js/public/site.js` | Public site (`site.css` imports base/layout/sections; `site.js` boots preloader, nav, gallery, aspiration/bantuan forms, cookie consent) |
 | `resources/css/admin/panel.css` + `js/admin/panel.js` | Admin client SPA |
 | `resources/css/app.css` + `js/app.js` | Laravel defaults (minimal) |
 
-Runtime images live in `public/assets/`. Do not serve from `UI-Final/` or edit `public/build/` by hand.
+Runtime images live in `public/assets/`. Do not serve from `UI-Final/` or edit `public/build/` by hand. Prototype/spec notes under `scope/` and `UI-Final/` are reference only.
 
 ## Project map
 
@@ -64,8 +72,8 @@ app/Models/             Thin Eloquent mappers
 resources/views/        layouts/, public/{sections,partials}, admin/
 resources/css/public/   Modular CSS; variables in base.css
 resources/js/public/    Modules bootstrapped by site.js
-database/migrations/    Laravel defaults + one domain migration
-tests/Feature/          PHPUnit feature tests
+database/migrations/    Laravel defaults + domain migrations
+tests/Feature/          PHPUnit feature tests (Turnstile faked in setUp)
 ```
 
 ## Commands
@@ -118,7 +126,7 @@ Set `APP_ENV=production`, `APP_DEBUG=false`, real Turnstile keys, `TURNSTILE_BYP
 - **PHP**: PSR-12 via Pint. Controllers: `Public*` (public), `Admin*` (auth).
 - **Views**: `public/sections/*.blade.php` for homepage blocks; `public/partials/*` for shared chrome.
 - **CSS**: Vanilla with BEM-like classes (`galeri-card--video`). No ESLint/Prettier/CSS linter — do not add without asking.
-- **Routes**: Malay slugs (`/aspirasi`, `/daftar`, `/bantuan`, `/kegiatan/...`).
+- **Routes**: Malay slugs (`/aspirasi`, `/daftar`, `/bantuan`, `/kegiatan/...`, `/galeri`).
 - **Tests**: PHPUnit 12 (not Pest). Method names `test_snake_case`. For Turnstile-protected endpoints, bind a fake `TurnstileValidator` in `setUp()` — see `tests/Feature/BantuanFormTest.php`.
 - **Commits**: imperative, concise; mention route/section when relevant (e.g. "Fix /bantuan form validation").
 - Do not commit `.env` or hand-edit lockfiles / `public/build/`.

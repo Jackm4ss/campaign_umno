@@ -209,8 +209,11 @@
   display: flex !important;
   flex-direction: column;
   align-items: center;
-  pointer-events: none;
+  pointer-events: auto;
   user-select: none;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
 }
 .hero-scroll-btn {
   width: 52px;
@@ -221,6 +224,16 @@
   align-items: center;
   justify-content: center;
   animation: scrollBounce 1.8s ease-in-out infinite;
+  transition: background 0.2s ease;
+}
+.hero-scroll:hover .hero-scroll-btn {
+  background: var(--red-dark, #9E1212);
+}
+.hero-scroll:focus-visible {
+  outline: none;
+}
+.hero-scroll:focus-visible .hero-scroll-btn {
+  box-shadow: 0 0 0 3px rgba(204, 26, 26, 0.35);
 }
 @keyframes scrollBounce {
   0%, 100% { transform: translateY(0); }

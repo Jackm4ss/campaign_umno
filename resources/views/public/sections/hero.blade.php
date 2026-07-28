@@ -25,9 +25,9 @@
         </div>
     </div>
 
-    <div class="hero-scroll" aria-hidden="true">
-        <div class="hero-scroll-btn">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-        </div>
-    </div>
+    <a href="#mengenai" class="hero-scroll" aria-label="Ke bahagian seterusnya">
+        <span class="hero-scroll-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+        </span>
+    </a>
 </section>

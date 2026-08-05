@@ -19,5 +19,6 @@
   <main>@yield('content')</main>
 
   @include('public.partials.footer')
+  @include('public.partials.back-to-top')
 </body>
 </html>

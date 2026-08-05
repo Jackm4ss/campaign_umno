@@ -6,6 +6,8 @@
 .phpactor.json
 .phpunit.result.cache
 /.codex
+/.local
+/.playwright-mcp
 /.cursor/
 /.idea
 /.nova

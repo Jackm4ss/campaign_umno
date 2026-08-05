@@ -4,11 +4,15 @@
 @import './sections/about.css';
 @import './sections/aspirations.css';
 @import './sections/activities.css';
+@import './sections/upcoming-events.css';
 @import './sections/programs.css';
+@import './sections/program-detail.css';
+@import './sections/event-detail.css';
 @import './sections/leaders.css';
 @import './sections/gallery.css';
 @import './sections/articles.css';
 @import './sections/bantuan.css';
 @import './layout/footer.css';
 @import './layout/cookie-consent.css';
+@import './layout/back-to-top.css';
 @import './home.css';

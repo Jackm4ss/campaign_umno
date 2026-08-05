@@ -1,4 +1,5 @@
 import { initAspirationForm } from './aspiration-form.js';
+import { initBackToTop } from './back-to-top.js';
 import { initBantuanForm } from './bantuan-form.js';
 import { initCookieConsent } from './cookie-consent.js';
 import { initGallery } from './gallery.js';
@@ -9,6 +10,7 @@ import { initPreloader } from './preloader.js';
 function init() {
     initPreloader();
     initNavigation();
+    initBackToTop();
     initAspirationsTimeline();
     initGallery();
     initAspirationForm();

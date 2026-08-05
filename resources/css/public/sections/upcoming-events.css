@@ -1,0 +1,261 @@
+/* ACARA AKAN DATANG — marquee cards (same motion language as Jom Sertai) */
+.acara {
+  background: var(--bg);
+  padding: 100px 0 0;
+  overflow: hidden;
+}
+
+.acara.section-pad-top {
+  padding-top: 100px;
+}
+
+.acara-header {
+  text-align: center;
+  max-width: 900px;
+  margin: 0 auto 64px;
+}
+
+.acara-header .section-label {
+  justify-content: center;
+}
+
+.acara-header .section-label::before,
+.acara-header .section-label::after {
+  content: none;
+}
+
+.acara-marquee-track {
+  width: 100%;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+  padding-bottom: 24px;
+}
+
+.acara-marquee-inner {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  width: max-content;
+  animation: acara-marquee-scroll 56s linear infinite;
+  /* Room for hard offset shadow under cards */
+  padding: 4px 6px 14px;
+}
+
+.acara-marquee-inner:hover {
+  animation-play-state: paused;
+}
+
+/* Neubrutalist card: thick ink border + hard offset shadow, raw corners */
+.acara-card {
+  flex-shrink: 0;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  border-radius: 0;
+  overflow: hidden;
+  background: #fff;
+  border: 3px solid var(--blue-deep);
+  box-shadow: 6px 6px 0 var(--blue-deep);
+  transition: box-shadow 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+}
+
+/* Match Jom Sertai even/odd vertical offset on media well */
+.acara-card:nth-child(odd) {
+  margin-top: 0;
+  margin-bottom: 60px;
+}
+
+.acara-card:nth-child(even) {
+  margin-top: 60px;
+  margin-bottom: 0;
+}
+
+.acara-card:hover,
+.acara-card:focus-visible {
+  border-color: var(--red);
+  box-shadow: 8px 8px 0 var(--red);
+  transform: translate(-2px, -2px);
+}
+
+.acara-card:active {
+  border-color: var(--blue-deep);
+  box-shadow: 3px 3px 0 var(--blue-deep);
+  transform: translate(1px, 1px);
+}
+
+.acara-card:focus-visible {
+  outline: 3px solid var(--red);
+  outline-offset: 3px;
+}
+
+.acara-card-media {
+  position: relative;
+  width: 100%;
+  height: 340px;
+  overflow: hidden;
+  background: var(--bg2);
+  border-bottom: 3px solid var(--blue-deep);
+}
+
+.acara-card:hover .acara-card-media,
+.acara-card:focus-visible .acara-card-media {
+  border-bottom-color: var(--red);
+}
+
+.acara-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.35s ease;
+}
+
+.acara-card:hover .acara-card-img,
+.acara-card:focus-visible .acara-card-img {
+  transform: scale(1.03);
+}
+
+.acara-card-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(2, 11, 38, 0.55);
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.acara-card:hover .acara-card-overlay,
+.acara-card:focus-visible .acara-card-overlay {
+  opacity: 1;
+}
+
+.acara-card-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 16px;
+  border-radius: 0;
+  background: var(--red);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  border: 3px solid var(--blue-deep);
+  box-shadow: 4px 4px 0 var(--blue-deep);
+  transform: translateY(6px);
+  transition: transform 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+}
+
+.acara-card:hover .acara-card-cta,
+.acara-card:focus-visible .acara-card-cta {
+  transform: translateY(0);
+}
+
+.acara-card-cta:hover {
+  background: var(--red-dark);
+}
+
+.acara-card-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 14px 14px 16px;
+  background: #fff;
+}
+
+.acara-card-date {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--red);
+}
+
+.acara-card-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  font-weight: 800;
+  line-height: 1.35;
+  color: var(--blue-deep);
+}
+
+.acara-card-place {
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+@keyframes acara-marquee-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@media (max-width: 768px) {
+  .acara {
+    padding-top: 80px;
+  }
+
+  .acara-header {
+    margin-bottom: 48px;
+  }
+
+  .acara-card {
+    width: 220px;
+  }
+
+  .acara-card:nth-child(odd) {
+    margin-bottom: 45px;
+  }
+
+  .acara-card:nth-child(even) {
+    margin-top: 45px;
+  }
+
+  .acara-card-media {
+    height: 255px;
+  }
+
+  .acara-marquee-inner {
+    animation-duration: 42s;
+  }
+
+  /* Touch: always show CTA chip (hover weak on mobile) */
+  .acara-card-overlay {
+    opacity: 1;
+    background: linear-gradient(to top, rgba(2, 11, 38, 0.8) 0%, transparent 55%);
+    align-items: flex-end;
+    padding-bottom: 14px;
+  }
+
+  .acara-card-cta {
+    transform: none;
+    font-size: 11px;
+    padding: 10px 12px;
+    box-shadow: 3px 3px 0 var(--blue-deep);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .acara-marquee-inner {
+    animation: none;
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: var(--container);
+    margin: 0 auto;
+    padding: 0 24px 24px;
+    justify-content: center;
+  }
+
+  .acara-card:nth-child(odd),
+  .acara-card:nth-child(even) {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}

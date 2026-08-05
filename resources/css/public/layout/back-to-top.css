@@ -1,0 +1,75 @@
+/* Floating back-to-top — bottom-right, hero-scroll visual language */
+.back-to-top {
+  position: fixed;
+  right: max(20px, env(safe-area-inset-right, 0px));
+  bottom: max(20px, env(safe-area-inset-bottom, 0px));
+  z-index: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(12px);
+  transition: opacity 0.28s ease, visibility 0.28s ease, transform 0.28s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.back-to-top.is-visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.back-to-top-btn {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--red, #CC1A1A);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 24px rgba(204, 26, 26, 0.35);
+  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.back-to-top:hover .back-to-top-btn {
+  background: var(--red-dark, #9E1212);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(204, 26, 26, 0.45);
+}
+
+.back-to-top:focus-visible {
+  outline: none;
+}
+
+.back-to-top:focus-visible .back-to-top-btn {
+  box-shadow: 0 0 0 3px rgba(204, 26, 26, 0.35), 0 8px 24px rgba(204, 26, 26, 0.35);
+}
+
+@media (max-width: 480px) {
+  .back-to-top {
+    right: max(16px, env(safe-area-inset-right, 0px));
+    bottom: max(16px, env(safe-area-inset-bottom, 0px));
+  }
+
+  .back-to-top-btn {
+    width: 44px;
+    height: 44px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .back-to-top {
+    transition: none;
+  }
+
+  .back-to-top:hover .back-to-top-btn {
+    transform: none;
+  }
+}

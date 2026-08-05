@@ -3,9 +3,13 @@
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\AdminSyncController;
 use App\Http\Controllers\PublicBantuanController;
+use App\Http\Controllers\PublicEventController;
 use App\Http\Controllers\PublicGalleryController;
 use App\Http\Controllers\PublicHomeController;
+use App\Http\Controllers\PublicProgramController;
 use App\Http\Controllers\PublicSubmissionController;
+use App\Support\CampaignEvents;
+use App\Support\CampaignPrograms;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', PublicHomeController::class)->name('home');
@@ -16,6 +20,12 @@ Route::get('/galeri', PublicGalleryController::class)->name('gallery.index');
 Route::get('/bantuan', [PublicBantuanController::class, 'index'])->name('bantuan.index');
 Route::get('/bantuan/qr', [PublicBantuanController::class, 'qrPage'])->name('bantuan.qr-page');
 Route::get('/bantuan/qr-image', [PublicBantuanController::class, 'qr'])->name('bantuan.qr');
+Route::get('/program/{slug}', [PublicProgramController::class, 'show'])
+    ->name('programs.show')
+    ->whereIn('slug', CampaignPrograms::slugs());
+Route::get('/acara/{slug}', [PublicEventController::class, 'show'])
+    ->name('events.show')
+    ->whereIn('slug', CampaignEvents::slugs());
 
 Route::middleware('guest')->group(function () {
     Route::get('/login.html', [AdminAuthController::class, 'showLogin']);
@@ -48,7 +58,7 @@ Route::post('/kegiatan/daftar', [PublicSubmissionController::class, 'eventRegist
 Route::post('/kegiatan/{event:slug}/daftar', [PublicSubmissionController::class, 'eventRegistration'])->name('events.register');
 
 Route::get('/{page}', function (string $page) {
-    if (in_array($page, ['kegiatan', 'pimpinan', 'galeri', 'artikel', 'aspirasi', 'daftar', 'bantuan'], true)) {
+    if (in_array($page, ['kegiatan', 'pimpinan', 'galeri', 'artikel', 'aspirasi', 'daftar', 'bantuan', 'acara', 'program'], true)) {
         if ($page === 'bantuan') {
             return redirect()->route('bantuan.index');
         }

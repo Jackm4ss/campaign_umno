@@ -20,17 +20,34 @@
   gap: 24px;
 }
 .program-card {
+  display: block;
   background: #fff;
   border: 1px solid var(--border);
   border-radius: 16px;
   padding: 36px 28px 28px;
   text-align: center;
+  text-decoration: none;
+  color: inherit;
   transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  cursor: pointer;
 }
 .program-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 16px 36px rgba(2, 11, 38, 0.08);
   border-color: var(--red-light);
+}
+.program-card:focus-visible {
+  outline: 2px solid var(--red);
+  outline-offset: 3px;
+}
+.program-card-cta {
+  display: inline-block;
+  margin-top: 14px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--red);
 }
 .program-icon-wrap {
   width: 80px;

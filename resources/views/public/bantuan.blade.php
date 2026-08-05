@@ -24,7 +24,7 @@
             <div class="bantuan-card-header">
                 <span class="section-label">Bantuan Rakyat</span>
                 <h1 class="section-title bantuan-title">BORANG BANTUAN</h1>
-                <p class="bantuan-intro">Jika anda memerlukan bantuan, sila lengkapkan borang di bawah. Data anda akan diterima oleh pentadbir UMNO Putrajaya untuk tindakan lanjut.</p>
+                <p class="bantuan-intro">Sila lengkapkan borang di bawah. Permohonan anda akan diproses dalam tempoh lima (5) hari bekerja. Admin akan berhubung semula melalui E-Mel atau Whatsapp jika permohonan diluluskan.</p>
             </div>
 
             <hr>

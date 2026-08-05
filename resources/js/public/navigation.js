@@ -19,10 +19,6 @@ export function initNavigation() {
         menuButton?.setAttribute('aria-expanded', String(open));
         menuButton?.setAttribute('aria-label', open ? 'Tutup menu' : 'Buka menu');
 
-        if (open) {
-            // Keep top bar visible while drawer is open so brand context stays
-            navbar?.classList.add('nav-visible');
-        }
     };
 
     menuButton?.addEventListener('click', (event) => {
@@ -67,8 +63,11 @@ export function initNavigation() {
         if (isOpen()) {
             return;
         }
-        const scrolled = window.scrollY > 50;
-        navbar?.classList.toggle('scrolled', scrolled);
-        navbar?.classList.toggle('nav-visible', scrolled);
+        navbar?.classList.toggle('scrolled', window.scrollY > 50);
     }, { passive: true });
+
+    // Apply compact style if page loads mid-scroll
+    if (window.scrollY > 50) {
+        navbar?.classList.add('scrolled');
+    }
 }

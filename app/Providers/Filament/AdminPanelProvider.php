@@ -64,6 +64,7 @@ final class AdminPanelProvider extends PanelProvider
                 Authenticate::class,
             ])
             ->sidebarCollapsibleOnDesktop()
-            ->maxContentWidth('full');
+            ->maxContentWidth('full')
+            ->darkMode(false);
     }
 }

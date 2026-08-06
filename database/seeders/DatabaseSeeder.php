@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\GalleryItem;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -13,7 +12,6 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             ProgramSeeder::class,
-            CampaignEventContentSeeder::class,
         ]);
 
         User::updateOrCreate(
@@ -23,23 +21,5 @@ class DatabaseSeeder extends Seeder
                 'password' => Hash::make('admin123'),
             ],
         );
-
-        foreach ([
-            ['Aktiviti komuniti Putrajaya', 'photo', 'community-umno.jpg'],
-            ['Ceramah komuniti', 'photo', 'event-1.jpg'],
-            ['Program bantuan', 'photo', 'adnan-sumbangan-2025.jpeg'],
-            ['Gerak kerja sukarelawan', 'photo', 'hafiz-warroom.jpg'],
-        ] as $index => [$title, $type, $image]) {
-            GalleryItem::updateOrCreate(
-                ['title' => $title],
-                [
-                    'title' => $title,
-                    'type' => $type,
-                    'image_path' => "assets/{$image}",
-                    'sort_order' => $index + 1,
-                    'is_published' => true,
-                ],
-            );
-        }
     }
 }

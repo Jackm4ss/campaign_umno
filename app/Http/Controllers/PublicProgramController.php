@@ -32,7 +32,8 @@ final class PublicProgramController extends Controller
                 'slug' => $program->slug,
                 'title' => $program->title,
                 'short_desc' => $program->short_desc,
-                'image_url' => $program->image_path ? asset($program->image_path) : asset('assets/program-sukan.jpg'),
+                'image_url' => $program->getFirstMediaUrl('cover', 'webp')
+                    ?: ($program->image_path ? asset($program->image_path) : asset('assets/program-sukan.jpg')),
                 'lead' => $program->lead,
                 'sections' => $program->sections ?? [],
                 'cta' => $program->cta ?? [],

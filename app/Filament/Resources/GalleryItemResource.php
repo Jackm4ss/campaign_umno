@@ -17,22 +17,22 @@ final class GalleryItemResource extends Resource
 {
     protected static ?string $model = GalleryItem::class;
     protected static ?string $navigationIcon = 'heroicon-o-photo';
-    protected static ?string $navigationGroup = 'Kandungan';
-    protected static ?string $modelLabel = 'Galeri';
-    protected static ?string $pluralModelLabel = 'Galeri';
-    protected static ?int $navigationSort = 4;
+    protected static ?string $navigationGroup = 'Content';
+    protected static ?string $modelLabel = 'Gallery Item';
+    protected static ?string $pluralModelLabel = 'Gallery';
+    protected static ?int $navigationSort = 3;
 
     public static function form(Form $form): Form
     {
         return $form->schema([
-            Forms\Components\Section::make('Item Galeri')->schema([
-                Forms\Components\TextInput::make('title')->label('Tajuk')->required()->maxLength(255),
-                Forms\Components\Select::make('type')->label('Jenis')->options(GalleryType::class)->required()->default(GalleryType::Photo),
-                Forms\Components\TextInput::make('external_url')->label('URL Luaran (YouTube/TikTok)')->url()->maxLength(255),
-                Forms\Components\TextInput::make('sort_order')->label('Urutan')->numeric()->default(0),
-                Forms\Components\Toggle::make('is_published')->label('Diterbitkan')->default(true),
+            Forms\Components\Section::make('Gallery Item')->schema([
+                Forms\Components\TextInput::make('title')->label('Title')->required()->maxLength(255),
+                Forms\Components\Select::make('type')->label('Type')->options(GalleryType::class)->required()->default(GalleryType::Photo),
+                Forms\Components\TextInput::make('external_url')->label('External URL (YouTube/TikTok)')->url()->maxLength(255),
+                Forms\Components\TextInput::make('sort_order')->label('Sort Order')->numeric()->default(0),
+                Forms\Components\Toggle::make('is_published')->label('Published')->default(true),
                 Forms\Components\SpatieMediaLibraryFileUpload::make('image')
-                    ->label('Gambar')
+                    ->label('Image')
                     ->collection('image')
                     ->image()
                     ->maxSize(5120)
@@ -46,10 +46,10 @@ final class GalleryItemResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\SpatieMediaLibraryImageColumn::make('image')->collection('image')->label('')->square(),
-                Tables\Columns\TextColumn::make('title')->label('Tajuk')->searchable()->limit(40),
-                Tables\Columns\TextColumn::make('type')->label('Jenis')->badge(),
-                Tables\Columns\TextColumn::make('sort_order')->label('Urutan')->sortable(),
-                Tables\Columns\IconColumn::make('is_published')->label('Terbit')->boolean(),
+                Tables\Columns\TextColumn::make('title')->label('Title')->searchable()->limit(40),
+                Tables\Columns\TextColumn::make('type')->label('Type')->badge(),
+                Tables\Columns\TextColumn::make('sort_order')->label('Order')->sortable(),
+                Tables\Columns\IconColumn::make('is_published')->label('Published')->boolean(),
             ])
             ->reorderable('sort_order')
             ->actions([

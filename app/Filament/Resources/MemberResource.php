@@ -18,47 +18,47 @@ final class MemberResource extends Resource
 {
     protected static ?string $model = Member::class;
     protected static ?string $navigationIcon = 'heroicon-o-user-group';
-    protected static ?string $navigationGroup = 'Pendaftaran';
-    protected static ?string $modelLabel = 'Ahli';
-    protected static ?string $pluralModelLabel = 'Ahli';
+    protected static ?string $navigationGroup = 'Submissions';
+    protected static ?string $modelLabel = 'Member';
+    protected static ?string $pluralModelLabel = 'Members';
     protected static ?int $navigationSort = 1;
 
     public static function form(Form $form): Form
     {
         return $form->schema([
-            Forms\Components\Section::make('Maklumat Ahli')->schema([
+            Forms\Components\Section::make('Member Information')->schema([
                 Forms\Components\TextInput::make('full_name')
-                    ->label('Nama Penuh')
+                    ->label('Full Name')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('identity_number')
-                    ->label('No. Kad Pengenalan')
+                    ->label('Identity Number')
                     ->required()
                     ->maxLength(50),
                 Forms\Components\Select::make('identity_type')
-                    ->label('Jenis Dokumen')
+                    ->label('Identity Type')
                     ->options(IdentityType::class)
                     ->required(),
                 Forms\Components\DatePicker::make('birth_date')
-                    ->label('Tarikh Lahir')
+                    ->label('Date of Birth')
                     ->required(),
                 Forms\Components\TextInput::make('phone')
-                    ->label('Telefon')
+                    ->label('Phone')
                     ->tel()
                     ->required(),
                 Forms\Components\TextInput::make('email')
-                    ->label('E-mel')
+                    ->label('Email')
                     ->email()
                     ->required(),
                 Forms\Components\Textarea::make('address')
-                    ->label('Alamat')
+                    ->label('Address')
                     ->required(),
                 Forms\Components\TextInput::make('presint')
-                    ->label('Presint')
+                    ->label('Precinct')
                     ->required()
                     ->maxLength(100),
                 Forms\Components\Select::make('aid_status')
-                    ->label('Status Bantuan')
+                    ->label('Aid Status')
                     ->options(AidStatus::class)
                     ->default(AidStatus::Diterima),
             ])->columns(2),
@@ -70,16 +70,16 @@ final class MemberResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('full_name')
-                    ->label('Nama')
+                    ->label('Name')
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('identity_number')
-                    ->label('No. KP')
+                    ->label('IC Number')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('presint')
-                    ->label('Presint'),
+                    ->label('Precinct'),
                 Tables\Columns\TextColumn::make('aid_status')
-                    ->label('Status Bantuan')
+                    ->label('Aid Status')
                     ->badge()
                     ->color(fn (AidStatus $state): string => match ($state) {
                         AidStatus::Diterima => 'info',
@@ -88,7 +88,7 @@ final class MemberResource extends Resource
                         AidStatus::BelumAdaTindakan => 'danger',
                     }),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->label('Tarikh Daftar')
+                    ->label('Registered')
                     ->dateTime('d M Y')
                     ->sortable(),
             ])

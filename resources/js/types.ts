@@ -43,27 +43,6 @@ export interface CampaignEventContentData {
     cta: CtaGroup;
 }
 
-export interface ArticleData {
-    id: number;
-    title: string;
-    slug: string;
-    author: string;
-    category: string;
-    status: string;
-    date: string;
-    image_url: string;
-    body: string;
-}
-
-export interface LeaderData {
-    id: number;
-    name: string;
-    position: string;
-    image_url: string;
-    bio: string;
-    extra_info: string | null;
-}
-
 export interface GalleryItemData {
     id: number;
     type: string;
@@ -73,19 +52,6 @@ export interface GalleryItemData {
     category: string;
     label: string;
     url: string | null;
-}
-
-export interface EventData {
-    id: number;
-    title: string;
-    category: string;
-    status: string;
-    description: string;
-    date: string;
-    venue: string;
-    address: string;
-    image_url: string;
-    map_url: string | null;
 }
 
 export interface Section {
@@ -100,9 +66,6 @@ export interface CtaGroup {
 }
 
 export interface HomePageProps {
-    articles: ArticleData[];
-    events: EventData[];
-    leaders: LeaderData[];
     gallery: GalleryItemData[];
     programs: ProgramData[];
     campaignEvents: CampaignEventContentData[];

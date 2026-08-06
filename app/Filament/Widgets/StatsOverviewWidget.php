@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Filament\Widgets;
 
 use App\Models\Aspiration;
-use App\Models\Event;
-use App\Models\EventRegistration;
+use App\Models\CampaignEventContent;
 use App\Models\Member;
+use App\Models\Program;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 
@@ -16,21 +16,21 @@ final class StatsOverviewWidget extends BaseWidget
     protected function getStats(): array
     {
         return [
-            Stat::make('Jumlah Ahli', Member::count())
-                ->description('Ahli berdaftar')
+            Stat::make('Total Members', Member::count())
+                ->description('Registered members')
                 ->icon('heroicon-o-user-group')
                 ->color('primary'),
-            Stat::make('Aspirasi', Aspiration::count())
-                ->description('Aspirasi diterima')
+            Stat::make('Aspirations', Aspiration::count())
+                ->description('Aspirations received')
                 ->icon('heroicon-o-chat-bubble-left-right')
                 ->color('info'),
-            Stat::make('Acara', Event::count())
-                ->description('Acara kempen')
-                ->icon('heroicon-o-calendar-days')
+            Stat::make('Programs', Program::count())
+                ->description('Campaign programs')
+                ->icon('heroicon-o-flag')
                 ->color('success'),
-            Stat::make('Pendaftaran', EventRegistration::count())
-                ->description('Pendaftaran acara')
-                ->icon('heroicon-o-ticket')
+            Stat::make('Campaign Events', CampaignEventContent::count())
+                ->description('Published campaign events')
+                ->icon('heroicon-o-megaphone')
                 ->color('warning'),
         ];
     }

@@ -19,13 +19,13 @@ final class LatestMembersWidget extends BaseWidget
         return $table
             ->query(Member::query()->latest()->limit(5))
             ->columns([
-                Tables\Columns\TextColumn::make('full_name')->label('Nama'),
-                Tables\Columns\TextColumn::make('identity_number')->label('No. KP'),
-                Tables\Columns\TextColumn::make('presint')->label('Presint'),
-                Tables\Columns\TextColumn::make('aid_status')->label('Status Bantuan')->badge(),
-                Tables\Columns\TextColumn::make('created_at')->label('Tarikh')->dateTime('d M Y'),
+                Tables\Columns\TextColumn::make('full_name')->label('Name'),
+                Tables\Columns\TextColumn::make('identity_number')->label('IC Number'),
+                Tables\Columns\TextColumn::make('presint')->label('Precinct'),
+                Tables\Columns\TextColumn::make('aid_status')->label('Aid Status')->badge(),
+                Tables\Columns\TextColumn::make('created_at')->label('Date')->dateTime('d M Y'),
             ])
-            ->heading('5 Pendaftaran Terkini')
+            ->heading('Latest 5 Members')
             ->paginated(false);
     }
 }

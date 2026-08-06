@@ -57,6 +57,7 @@ final class AdminPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
+                \App\Http\Middleware\SetAdminLocale::class,
             ])
             ->authMiddleware([
                 Authenticate::class,

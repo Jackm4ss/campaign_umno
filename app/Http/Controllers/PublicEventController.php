@@ -34,7 +34,8 @@ final class PublicEventController extends Controller
                 'date_label' => $event->date_label,
                 'place' => $event->place,
                 'short_desc' => $event->short_desc,
-                'image_url' => $event->image_path ? asset($event->image_path) : asset('assets/event-1.jpg'),
+                'image_url' => $event->getFirstMediaUrl('banner', 'webp')
+                    ?: ($event->image_path ? asset($event->image_path) : asset('assets/event-1.jpg')),
                 'lead' => $event->lead,
                 'sections' => $event->sections ?? [],
                 'cta' => $event->cta ?? [],

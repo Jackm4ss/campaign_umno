@@ -4,11 +4,8 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use App\Models\Article;
 use App\Models\CampaignEventContent;
-use App\Models\Event;
 use App\Models\GalleryItem;
-use App\Models\Leader;
 use App\Models\Program;
 
 final class PublicHomeViewData
@@ -17,78 +14,11 @@ final class PublicHomeViewData
     public function toArray(): array
     {
         return [
-            'articles' => $this->articles(),
-            'events' => $this->events(),
-            'leaders' => $this->leaders(),
             'gallery' => $this->gallery(),
             'programs' => $this->programs(),
             'campaignEvents' => $this->campaignEvents(),
             'settings' => [],
         ];
-    }
-
-    /** @return array<int, array<string, mixed>> */
-    private function articles(): array
-    {
-        return Article::query()
-            ->published()
-            ->latest('published_at')
-            ->take(3)
-            ->get()
-            ->map(fn (Article $a) => [
-                'id' => $a->id,
-                'title' => $a->title,
-                'slug' => $a->slug,
-                'author' => $a->author,
-                'category' => $a->category ?: 'Artikel',
-                'status' => $a->status->value ?? 'draft',
-                'date' => $a->published_at?->translatedFormat('d F Y') ?? '',
-                'image_url' => $this->assetUrl($a->thumbnail_path, 'assets/article-main.jpg'),
-                'body' => $a->content,
-            ])
-            ->all();
-    }
-
-    /** @return array<int, array<string, mixed>> */
-    private function events(): array
-    {
-        return Event::query()
-            ->with('category')
-            ->latest('starts_at')
-            ->take(3)
-            ->get()
-            ->map(fn (Event $e) => [
-                'id' => $e->id,
-                'title' => $e->title,
-                'category' => $e->category?->name ?? 'Komuniti',
-                'status' => $e->status->value ?? 'upcoming',
-                'description' => $e->description,
-                'date' => $e->starts_at?->translatedFormat('d F Y') ?? '',
-                'venue' => $e->venue_name,
-                'address' => $e->address,
-                'image_url' => $this->assetUrl($e->banner_image, 'assets/event-1.jpg'),
-                'map_url' => $e->map_url,
-            ])
-            ->all();
-    }
-
-    /** @return array<int, array<string, mixed>> */
-    private function leaders(): array
-    {
-        return Leader::query()
-            ->published()
-            ->ordered()
-            ->take(4)
-            ->get()
-            ->map(fn (Leader $l) => [
-                'id' => $l->id,
-                'name' => $l->full_name,
-                'position' => $l->position,
-                'image_url' => $this->assetUrl($l->photo_path, 'assets/tengku-adnan-umno.jpg'),
-                'bio' => $l->bio,
-                'extra_info' => $l->extra_info,
-            ])
-            ->all();
     }
 
     /** @return array<int, array<string, mixed>> */
@@ -105,7 +35,7 @@ final class PublicHomeViewData
                 'id' => $item->id,
                 'type' => $item->type->value ?? 'photo',
                 'title' => $item->title,
-                'src' => $this->assetUrl($item->image_path, 'assets/event-1.jpg'),
+                'src' => $this->mediaOrPath($item, 'image', 'assets/event-1.jpg'),
                 'caption' => '',
                 'category' => str_contains(strtolower($item->type->value ?? ''), 'video') ? 'media' : 'kegiatan',
                 'label' => str_contains(strtolower($item->type->value ?? ''), 'video') ? 'Media' : 'Kegiatan',
@@ -128,7 +58,7 @@ final class PublicHomeViewData
                 'slug' => $p->slug,
                 'title' => $p->title,
                 'short_desc' => $p->short_desc,
-                'image_url' => $this->assetUrl($p->image_path, 'assets/program-sukan.jpg'),
+                'image_url' => $this->mediaOrPath($p, 'cover', 'assets/program-sukan.jpg'),
                 'lead' => $p->lead,
                 'sections' => $p->sections ?? [],
                 'cta' => $p->cta ?? [],
@@ -150,7 +80,7 @@ final class PublicHomeViewData
                 'date_label' => $e->date_label,
                 'place' => $e->place,
                 'short_desc' => $e->short_desc,
-                'image_url' => $this->assetUrl($e->image_path, 'assets/event-1.jpg'),
+                'image_url' => $this->mediaOrPath($e, 'banner', 'assets/event-1.jpg'),
                 'lead' => $e->lead,
                 'sections' => $e->sections ?? [],
                 'cta' => $e->cta ?? [],
@@ -158,7 +88,7 @@ final class PublicHomeViewData
             ->all();
     }
 
-    /** @return array<int, array{src: string, title: string, caption: string, category: string, label: string}> */
+    /** @return array<int, array{id: int, type: string, src: string, title: string, caption: string, category: string, label: string, url: null}> */
     private function defaultGallery(): array
     {
         $items = [
@@ -184,6 +114,25 @@ final class PublicHomeViewData
                 'url' => null,
             ];
         }, $items);
+    }
+
+    /**
+     * Prefer Spatie MediaLibrary upload (admin panel), fall back to legacy image path.
+     */
+    private function mediaOrPath(GalleryItem|Program|CampaignEventContent $model, string $collection, string $fallback): string
+    {
+        $mediaUrl = $model->getFirstMediaUrl($collection, 'webp');
+        if ($mediaUrl !== '') {
+            return $mediaUrl;
+        }
+
+        $path = match (true) {
+            $model instanceof GalleryItem => $model->image_path,
+            $model instanceof Program => $model->image_path,
+            $model instanceof CampaignEventContent => $model->image_path,
+        };
+
+        return $this->assetUrl($path, $fallback);
     }
 
     private function assetUrl(?string $path, string $fallback): string

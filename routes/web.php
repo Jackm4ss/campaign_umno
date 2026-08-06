@@ -36,17 +36,12 @@ Route::get('/admin/panel-admin.html', fn () => redirect('/admin'));
 // Form submissions
 Route::post('/aspirasi', [PublicSubmissionController::class, 'aspiration'])->name('aspirations.store');
 Route::post('/daftar', [PublicSubmissionController::class, 'member'])->name('members.store');
-Route::post('/kegiatan/daftar', [PublicSubmissionController::class, 'eventRegistrationStandalone'])->name('events.register.standalone');
-Route::post('/kegiatan/{event:slug}/daftar', [PublicSubmissionController::class, 'eventRegistration'])->name('events.register');
 
 // Hash route fallback
 Route::get('/{page}', function (string $page) {
-    if (in_array($page, ['kegiatan', 'pimpinan', 'galeri', 'artikel', 'aspirasi', 'daftar', 'bantuan', 'acara', 'program'], true)) {
+    if (in_array($page, ['kegiatan', 'aspirasi', 'daftar', 'bantuan', 'acara', 'program'], true)) {
         if ($page === 'bantuan') {
             return redirect()->route('bantuan.index');
-        }
-        if ($page === 'galeri' || $page === 'pimpinan') {
-            return redirect()->route('gallery.index');
         }
 
         return redirect('/#'.$page);

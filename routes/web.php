@@ -8,6 +8,11 @@ use App\Http\Controllers\PublicProgramController;
 use App\Http\Controllers\PublicSubmissionController;
 use Illuminate\Support\Facades\Route;
 
+// Subdomain redirect: bantuan.takbanyakalasan.com → /bantuan
+Route::domain('bantuan.takbanyakalasan.com')->group(function () {
+    Route::get('/', fn () => redirect('/bantuan'));
+});
+
 Route::get('/', PublicHomeController::class)->name('home');
 
 // Standalone public pages

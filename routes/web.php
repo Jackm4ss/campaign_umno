@@ -8,14 +8,6 @@ use App\Http\Controllers\PublicProgramController;
 use App\Http\Controllers\PublicSubmissionController;
 use Illuminate\Support\Facades\Route;
 
-// Subdomain: bantuan.takbanyakalasan.com serves form directly
-Route::domain('bantuan.takbanyakalasan.com')->group(function () {
-    Route::get('/', [PublicBantuanController::class, 'index']);
-    Route::get('/qr', [PublicBantuanController::class, 'qrPage']);
-    Route::get('/qr-image', [PublicBantuanController::class, 'qr']);
-    Route::post('/daftar', [PublicSubmissionController::class, 'member']);
-});
-
 Route::get('/', PublicHomeController::class)->name('home');
 
 // Standalone public pages

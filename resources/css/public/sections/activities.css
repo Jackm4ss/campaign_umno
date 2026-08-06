@@ -85,15 +85,14 @@
   100% { transform: translateX(-50%); }
 }
 
-/* Few items: render a static, single-copy row instead of looping. */
-.marquee-inner--static {
-  animation: none;
-  flex-wrap: wrap;
-  justify-content: center;
-  width: 100%;
-  max-width: var(--container);
-  margin: 0 auto;
-  padding: 0 24px 24px;
+/* Few items: single copy, animate traversing the screen */
+.marquee-inner--few {
+  animation: marquee-scroll-traverse 28s linear infinite;
+}
+
+@keyframes marquee-scroll-traverse {
+  0%   { transform: translateX(100vw); }
+  100% { transform: translateX(-100%); }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -129,5 +128,8 @@
   }
   .marquee-inner {
     animation-duration: 42s;
+  }
+  .marquee-inner--few {
+    animation-duration: 36s;
   }
 }

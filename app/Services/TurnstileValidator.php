@@ -8,7 +8,7 @@ class TurnstileValidator
 {
     public function passes(?string $token, ?string $ip = null): bool
     {
-        if (app()->environment('local') && config('services.turnstile.bypass_local')) {
+        if (config('services.turnstile.bypass_local')) {
             return true;
         }
 

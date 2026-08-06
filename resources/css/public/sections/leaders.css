@@ -1,0 +1,57 @@
+/* PIMPINAN */
+.pimpinan {
+  background: var(--blue-deep);
+  color: #fff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: var(--nav-height);
+  padding-bottom: 40px;
+}
+.pimpinan .section-title {
+  color: #fff;
+}
+.pimpinan .mengenai-text {
+  color: rgba(255,255,255,0.7);
+}
+.pimpinan-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
+  margin-top: 40px;
+}
+@media (max-width: 992px) {
+  .pimpinan-grid { grid-template-columns: repeat(2, 1fr); gap: 40px; }
+}
+@media (max-width: 576px) {
+  .pimpinan-grid { grid-template-columns: 1fr; }
+}
+.pimpinan-card {
+  text-align: center;
+}
+.pimpinan-img {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 0;
+  object-fit: cover;
+  object-position: top center;
+  margin-bottom: 20px;
+  border: none;
+  transition: opacity 0.3s ease;
+}
+.pimpinan-card:hover .pimpinan-img {
+  opacity: 0.8;
+}
+.pimpinan-name {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.pimpinan-role {
+  font-size: 13px;
+  color: var(--red);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+

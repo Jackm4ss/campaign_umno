@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Daftar untuk terlibat dalam kempen Tak Banyak Alasan UMNO Putrajaya sebagai sukarelawan, penyumbang aspirasi, atau jentera komuniti.">
+  <meta property="og:title" content="Daftar | Tak Banyak Alasan - Sertai Kempen">
+  <meta property="og:description" content="Daftar untuk terlibat dalam kempen Tak Banyak Alasan UMNO Putrajaya sebagai sukarelawan, penyumbang aspirasi, atau jentera komuniti.">
+  <meta property="og:image" content="assets/community-umno.jpg">
+  <meta property="og:type" content="website">
+  <title>Daftar | Tak Banyak Alasan - Sertai Kempen</title>
+  <link rel="icon" type="image/png" href="assets/admin-logo-blue.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style-v2.css">
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="container">
+      <div class="nav-logo">
+        <a href="index-v2.html">
+          <img src="assets/admin-logo-blue.png" alt="Tak Banyak Alasan" style="height: 60px; width: auto; max-width: 280px; object-fit: contain; border-radius: 0; box-shadow: none;">
+        </a>
+      </div>
+            <div class="menu-toggle" id="mobile-menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <div class="nav-menu">
+<div class="nav-links">
+        <a href="index-v2.html">Utama</a>
+        <a href="mengenai-kami.html">Mengenai Kami</a>
+        <a href="kegiatan-kami.html">Kegiatan Kami</a>
+        <a href="aspirasi.html">Aspirasi</a>
+        <a href="pimpinan.html">Pimpinan</a>
+        <a href="artikel.html">Artikel</a>
+      </div>
+      <div class="nav-btn">
+        <button class="btn btn-red" onclick="window.location.href='daftar.html'">JOIN OUR MOVEMENT &rarr;</button>
+      </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <section class="page-header" style="background: var(--blue-deep); padding: 160px 0 100px; text-align: center; color: #fff;">
+    <div class="container">
+      <h1 style="font-family: 'Bebas Neue', sans-serif; font-size: clamp(48px, 6vw, 80px); letter-spacing: 2px;">SERTAI KEMPEN KAMI</h1>
+      <p style="color: rgba(255,255,255,0.8); font-size: 18px;">Bersama gerak kerja Tak Banyak Alasan UMNO Putrajaya.</p>
+    </div>
+  </section>
+
+  <!-- DAFTAR FORM -->
+  <section class="section-pad" style="background: #f7f9fb;">
+    <div class="container" style="max-width: 800px; margin: 0 auto;">
+      
+      <div style="background: #fff; padding: 40px; border: 1px solid var(--border);">
+        <!-- STEPS HEADER -->
+        <div style="display: flex; gap: 16px; margin-bottom: 40px; border-bottom: 2px solid var(--border); padding-bottom: 16px;" class="steps-header-mobile">
+          <div id="step-tab-1" style="flex: 1; font-weight: bold; font-family: 'Bebas Neue', sans-serif; font-size: 24px; color: var(--red);">1. DATA PERIBADI</div>
+          <div id="step-tab-2" style="flex: 1; font-weight: bold; font-family: 'Bebas Neue', sans-serif; font-size: 24px; color: var(--text-muted);">2. MINAT & PERANAN</div>
+          <div id="step-tab-3" style="flex: 1; font-weight: bold; font-family: 'Bebas Neue', sans-serif; font-size: 24px; color: var(--text-muted);">3. PENGESAHAN</div>
+        </div>
+
+        <!-- PAGE 1 -->
+        <div id="dpage-1">
+          <div style="margin-bottom: 24px;">
+            <label style="display: block; font-weight: bold; margin-bottom: 8px; font-size: 14px; text-transform: uppercase;">Pas Foto *</label>
+            <div style="display: flex; gap: 16px; align-items: center;">
+              <img loading="lazy" id="daftarPhotoPreview" src="https://ui-avatars.com/api/?name=Baru&background=f1f5f9&color=1e293b&size=80" style="width:80px;height:80px;border-radius:0;object-fit:cover;border:1px solid var(--border);" alt="Preview">
+              <input id="daftarPhotoInput" type="file" accept="image/*" style="flex:1; padding: 12px; border: 1px dashed var(--border);" required onchange="
+                const file = this.files[0];
+                if (file) {
+                  const reader = new FileReader();
+                  reader.onload = function(e) {
+                    document.getElementById('daftarPhotoPreview').src = e.target.result;
+                  };
+                  reader.readAsDataURL(file);
+                }
+              ">
+            </div>
+          </div>
+          
+          <div style="margin-bottom: 24px;">
+            <label style="display: block; font-weight: bold; margin-bottom: 8px; font-size: 14px; text-transform: uppercase;">Nama Penuh *</label>
+            <input type="text" placeholder="Masukkan nama penuh" style="width: 100%; padding: 12px; border: 1px solid var(--border); font-family: inherit; font-size: 16px; background: transparent;">
+          </div>
+          
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px;" class="form-row-mobile">
+            <div>
+              <label style="display: block; font-weight: bold; margin-bottom: 8px; font-size: 14px; text-transform: uppercase;">No. Kad Pengenalan *</label>
+              <input type="text" placeholder="000000-00-0000" style="width: 100%; padding: 12px; border: 1px solid var(--border); font-family: inherit; font-size: 16px; background: transparent;">
+            </div>
+            <div>
+              <label style="display: block; font-weight: bold; margin-bottom: 8px; font-size: 14px; text-transform: uppercase;">No. Telefon *</label>
+              <input type="tel" placeholder="+60 1X-XXXXXXXX" style="width: 100%; padding: 12px; border: 1px solid var(--border); font-family: inherit; font-size: 16px; background: transparent;">
+            </div>
+          </div>
+          
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px;" class="form-row-mobile">
+            <div>
+              <label style="display: block; font-weight: bold; margin-bottom: 8px; font-size: 14px; text-transform: uppercase;">E-mel *</label>
+              <input type="email" placeholder="email@example.com" style="width: 100%; padding: 12px; border: 1px solid var(--border); font-family: inherit; font-size: 16px; background: transparent;">
+            </div>
+            <div>
+              <label style="display: block; font-weight: bold; margin-bottom: 8px; font-size: 14px; text-transform: uppercase;">Presint *</label>
+              <select style="width: 100%; padding: 12px; border: 1px solid var(--border); font-family: inherit; font-size: 16px; background: transparent;">
+                <option value="">-- Pilih Presint --</option>
+                <option>Presint 1 - 20</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="margin-top: 32px; display: flex; justify-content: flex-end;">
+            <button class="btn btn-red btn-lg" onclick="goPage(2)">SETERUSNYA &rarr;</button>
+          </div>
+        </div>
+
+        <!-- PAGE 2 -->
+        <div id="dpage-2" style="display: none;">
+          <p style="color:var(--text-muted); margin-bottom: 24px;">Pilih cara anda mahu terlibat dalam kempen. Pilihan ini membantu admin menyusun tindak lanjut yang sesuai.</p>
+          
+          <div style="margin-bottom: 16px; border: 1px solid var(--border); padding: 16px; cursor: pointer;">
+            <label style="display: flex; align-items: center; gap: 12px; font-weight: bold; font-size: 16px; cursor: pointer;">
+              <input type="radio" name="bantuan_type" value="Sukarelawan Jentera">
+              <span>Sukarelawan Jentera Kempen</span>
+            </label>
+          </div>
+          
+          <div style="margin-bottom: 16px; border: 1px solid var(--border); padding: 16px; cursor: pointer;">
+            <label style="display: flex; align-items: center; gap: 12px; font-weight: bold; font-size: 16px; cursor: pointer;">
+              <input type="radio" name="bantuan_type" value="Program Komuniti">
+              <span>Program Komuniti & Turun Padang</span>
+            </label>
+          </div>
+          
+          <div style="margin-bottom: 32px; border: 1px solid var(--border); padding: 16px; cursor: pointer;">
+            <label style="display: flex; align-items: center; gap: 12px; font-weight: bold; font-size: 16px; cursor: pointer;">
+              <input type="radio" name="bantuan_type" value="Aspirasi Warga">
+              <span>Aspirasi / Aduan Warga</span>
+            </label>
+          </div>
+
+          <div style="margin-top: 32px; display: flex; justify-content: space-between;">
+            <button class="btn btn-outline-white btn-lg" style="color: var(--text); border-color: var(--border);" onclick="goPage(1)">&larr; KEMBALI</button>
+            <button class="btn btn-red btn-lg" onclick="goPage(3)">SETERUSNYA &rarr;</button>
+          </div>
+        </div>
+
+        <!-- PAGE 3 -->
+        <div id="dpage-3" style="display: none;">
+          <p style="color:var(--text-muted); margin-bottom: 24px;">Muat naik dokumen sokongan jika ada, seperti bukti alamat Putrajaya, kad ahli, atau maklumat tambahan untuk admin kempen.</p>
+          
+          <div style="margin-bottom: 32px; border: 1px dashed var(--border); padding: 40px; text-align: center; cursor: pointer;" onclick="document.getElementById('file-upload').click()">
+            <input type="file" id="file-upload" accept=".jpg,.jpeg,.png,.pdf" style="display: none;">
+            <div style="font-size: 32px; margin-bottom: 16px;">&#128206;</div>
+            <div style="font-weight: bold;">Klik untuk muat naik atau seret fail ke sini</div>
+            <div style="font-size: 12px; color: var(--text-muted); margin-top: 8px;">Format: JPG, PNG atau PDF · Saiz maksimum: 5MB</div>
+          </div>
+          
+          <div style="margin-bottom: 32px;">
+            <label style="display: flex; gap: 12px; align-items: flex-start; cursor: pointer;">
+              <input type="checkbox" style="margin-top: 4px;">
+              <span style="font-size: 14px; color: var(--text-muted);">Saya mengesahkan bahawa semua maklumat yang diberikan adalah benar dan tepat. Saya bersetuju dengan Dasar Privasi dan Notis PDPA 2010 Tak Banyak Alasan.</span>
+            </label>
+          </div>
+
+          <button class="btn btn-red btn-lg" style="width: 100%; display: block;" onclick="submitDaftar()">HANTAR PENDAFTARAN &rarr;</button>
+
+          <div style="margin-top: 24px;">
+            <button class="btn btn-outline-white btn-lg" style="color: var(--text); border-color: var(--border);" onclick="goPage(2)">&larr; KEMBALI</button>
+          </div>
+        </div>
+        
+        <!-- SUCCESS PAGE -->
+        <div id="success-page" style="display: none; text-align: center; padding: 40px 0;">
+          <div style="font-size:72px; margin-bottom:24px;">&#127881;</div>
+          <h2 style="font-family:'Bebas Neue',sans-serif; font-size:48px; color:var(--blue); margin-bottom:16px;">PENDAFTARAN BERJAYA!</h2>
+          <p style="font-size:16px; color:var(--text-muted); max-width:480px; margin:0 auto 32px;">Data anda telah diterima. Terima kasih kerana menyertai kempen Tak Banyak Alasan. Admin akan menyemak dan menghubungi anda untuk tindak lanjut.</p>
+          <a href="index-v2.html" class="btn btn-red btn-lg">KEMBALI KE LAMAN UTAMA &rarr;</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <script>
+    function goPage(pageNumber) {
+      document.getElementById('dpage-1').style.display = 'none';
+      document.getElementById('dpage-2').style.display = 'none';
+      document.getElementById('dpage-3').style.display = 'none';
+      document.getElementById('success-page').style.display = 'none';
+      
+      document.getElementById('step-tab-1').style.color = 'var(--text-muted)';
+      document.getElementById('step-tab-2').style.color = 'var(--text-muted)';
+      document.getElementById('step-tab-3').style.color = 'var(--text-muted)';
+      
+      document.getElementById('dpage-' + pageNumber).style.display = 'block';
+      
+      if(pageNumber >= 1) document.getElementById('step-tab-1').style.color = 'var(--red)';
+      if(pageNumber >= 2) document.getElementById('step-tab-2').style.color = 'var(--red)';
+      if(pageNumber >= 3) document.getElementById('step-tab-3').style.color = 'var(--red)';
+      
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function submitDaftar() {
+      document.getElementById('dpage-1').style.display = 'none';
+      document.getElementById('dpage-2').style.display = 'none';
+      document.getElementById('dpage-3').style.display = 'none';
+      document.getElementById('success-page').style.display = 'block';
+      
+      document.querySelector('.steps-header-mobile').style.display = 'none';
+      
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  </script>
+  <style>
+    @media(max-width: 768px) {
+      .form-row-mobile {
+        grid-template-columns: 1fr !important;
+      }
+      .steps-header-mobile {
+        flex-direction: column;
+        gap: 8px !important;
+      }
+    }
+  </style>
+
+
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-stripes">
+      <div class="stripe-red" style="flex: 0 0 33%;"></div>
+      <div class="stripe-white" style="flex: 0 0 33%;"></div>
+      <div class="stripe-blue" style="flex: 0 0 34%;"></div>
+    </div>
+    <img loading="lazy" src="assets/admin-logo-blue.png" class="footer-watermark-img" alt="">
+    
+    <div class="container footer-content">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-brand-logo">
+            <img loading="lazy" src="assets/admin-logo-blue.png" class="logo-text" alt="Tak Banyak Alasan">
+          </div>
+          <p class="footer-desc">
+            Kempen UMNO Putrajaya melalui Tak Banyak Alasan: penerangan, khidmat rakyat, aspirasi warga, dan gerak kerja akar umbi.
+          </p>
+          <div class="footer-contact">
+            <p>Lokasi: Presint 9, Putrajaya, WP Malaysia</p>
+            <p>E-mel: info@takbanyakalasan.org.my</p>
+            <p>Telefon: +603-8888 XXXX</p>
+          </div>
+          <div class="footer-socials">
+            <a class="social-icon" href="#" aria-label="Instagram">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+            </a>
+            <a class="social-icon" href="#" aria-label="TikTok">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path></svg>
+            </a>
+            <a class="social-icon" href="#" aria-label="Facebook">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+            </a>
+            <a class="social-icon" href="#" aria-label="YouTube">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg>
+            </a>
+          </div>
+        </div>
+        
+        <div class="footer-col">
+          <h4 class="footer-title">KEMPEN</h4>
+          <div class="footer-links">
+            <a href="mengenai-kami.html">Mengenai Kami</a>
+            <a href="mengenai-kami.html">Hala Tuju</a>
+            <a href="pimpinan.html">Pimpinan</a>
+            <a href="daftar.html">Sertai Kempen</a>
+          </div>
+        </div>
+        
+        <div class="footer-col">
+          <h4 class="footer-title">GERAK KERJA</h4>
+          <div class="footer-links">
+            <a href="kegiatan-kami.html">Sesi Penerangan</a>
+            <a href="kegiatan-kami.html">Turun Padang</a>
+            <a href="aspirasi.html">Aspirasi Warga</a>
+            <a href="artikel.html">Media & Berita</a>
+          </div>
+        </div>
+        
+        <div class="footer-col">
+          <h4 class="footer-title">KEGIATAN</h4>
+          <div class="footer-links">
+            <a href="kegiatan-kami.html">Akan Datang</a>
+            <a href="kegiatan-kami.html">Sedang Berlangsung</a>
+            <a href="kegiatan-kami.html">Aktiviti Lepas</a>
+            <a href="daftar.html">Pendaftaran Sukarelawan</a>
+          </div>
+        </div>
+        
+        <div class="footer-col">
+          <h4 class="footer-title">MEDIA</h4>
+          <div class="footer-links">
+            <a href="artikel.html">Berita</a>
+            <a href="artikel.html">Penerangan</a>
+            <a href="kegiatan-kami.html">Galeri</a>
+            <a href="artikel.html">Kemaskini Kempen</a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <div class="footer-copy">
+          &copy; 2026 TAK BANYAK ALASAN - ALL RIGHTS RESERVED
+        </div>
+        <div class="footer-legal">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">PDPA Notice</a>
+          <a href="login.html">Admin</a>
+        </div>
+        <div class="footer-country">
+          <span class="country-dot"></span> MALAYSIA
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script-v2.js"></script>
+</body>
+</html>

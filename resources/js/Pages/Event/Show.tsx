@@ -1,55 +1,102 @@
-import { Head, Link } from '@inertiajs/react';
+import { Head } from '@inertiajs/react';
 import PublicLayout from '../../Layouts/PublicLayout';
 import type { EventShowProps } from '../../types';
 
+function resolveHref(href: string, listAnchor: string): string {
+    if (href === 'bantuan') return '/bantuan';
+    if (href === listAnchor) return '/#acara';
+
+    return `/#${href}`;
+}
+
 export default function EventShow({ event, siblings }: EventShowProps) {
+    const primaryCta = event.cta?.primary;
+    const secondaryCta = event.cta?.secondary;
+
     return (
         <PublicLayout>
-            <Head title={event.title} />
-            <section className="pt-24 pb-16 bg-white">
-                <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
-                    <Link href="/#kegiatan" className="inline-flex items-center gap-2 text-sm text-[#1A3C9E] hover:text-[#CC1A1A] transition-colors mb-8">
-                        ← Kembali ke senarai acara
-                    </Link>
+            <Head title={`${event.title} - Tak Banyak Alasan`} />
+            <section className="event-detail-page section-pad">
+                <div className="container event-detail-container">
+                    <div className="event-detail-shell">
+                        <a href="/#acara" className="event-detail-back" title="Kembali ke senarai acara">
+                            <span className="event-detail-back-pad">
+                                <svg className="event-detail-back-fillet event-detail-back-fillet--a" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" aria-hidden="true"><path d="m100,0H0v100C0,44.77,44.77,0,100,0Z" fill="currentColor"></path></svg>
+                                <span className="event-detail-back-circle">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
+                                </span>
+                                <svg className="event-detail-back-fillet event-detail-back-fillet--b" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" aria-hidden="true"><path d="m100,0H0v100C0,44.77,44.77,0,100,0Z" fill="currentColor"></path></svg>
+                            </span>
+                        </a>
 
-                    <div className="aspect-video rounded-xl overflow-hidden mb-8">
-                        <img src={event.image_url} alt={event.title} className="w-full h-full object-cover" />
-                    </div>
+                        <article className="event-detail-card">
+                            <header className="event-detail-header">
+                                <span className="section-label">Acara Akan Datang</span>
+                                <h1 className="section-title event-detail-title">{event.title}</h1>
+                                <div className="event-detail-meta">
+                                    <span className="event-detail-meta-item">
+                                        <strong>Tarikh</strong> {event.date_label}
+                                    </span>
+                                    <span className="event-detail-meta-sep" aria-hidden="true">·</span>
+                                    <span className="event-detail-meta-item">
+                                        <strong>Lokasi</strong> {event.place}
+                                    </span>
+                                </div>
+                                <p className="event-detail-lead">{event.lead}</p>
+                            </header>
 
-                    <div className="flex flex-wrap items-center gap-4 mb-4">
-                        <span className="px-3 py-1 bg-[#CC1A1A] text-white text-xs font-bold uppercase tracking-wider rounded">{event.date_label}</span>
-                        <span className="text-gray-500 text-sm">{event.place}</span>
-                    </div>
-
-                    <h1 className="font-['Bebas_Neue'] text-4xl md:text-5xl text-[#1A1A2E] mb-4">{event.title}</h1>
-                    <p className="text-gray-600 text-lg leading-relaxed mb-10">{event.lead}</p>
-
-                    {event.sections.map((section, i) => (
-                        <div key={i} className="mb-10">
-                            <h2 className="font-bold text-xl text-[#1A1A2E] mb-4">{section.heading}</h2>
-                            {section.paragraphs?.map((p, j) => (
-                                <p key={j} className="text-gray-600 leading-relaxed mb-4">{p}</p>
-                            ))}
-                            {section.bullets ? (
-                                <ul className="list-disc list-inside text-gray-600 space-y-2 ml-4">
-                                    {section.bullets.map((b, j) => <li key={j}>{b}</li>)}
-                                </ul>
-                            ) : null}
-                        </div>
-                    ))}
-
-                    {siblings.length > 0 ? (
-                        <div className="mt-16 pt-10 border-t border-gray-200">
-                            <h2 className="font-bold text-lg text-[#1A1A2E] mb-4">Acara lain</h2>
-                            <div className="flex flex-wrap gap-3">
-                                {siblings.map((s) => (
-                                    <Link key={s.slug} href={`/acara/${s.slug}`} className="px-4 py-2 bg-gray-100 rounded text-sm text-gray-700 hover:bg-[#CC1A1A] hover:text-white transition-colors">
-                                        {s.title}
-                                    </Link>
-                                ))}
+                            <div className="event-detail-media">
+                                <img
+                                    src={event.image_url}
+                                    alt={event.title}
+                                    className="event-detail-image"
+                                    loading="eager"
+                                />
                             </div>
-                        </div>
-                    ) : null}
+
+                            <div className="event-detail-body">
+                                {(event.sections ?? []).map((section, index) => (
+                                    <section className="event-detail-block" key={`${section.heading}-${index}`}>
+                                        <h2 className="event-detail-heading">{section.heading}</h2>
+                                        {(section.paragraphs ?? []).map((paragraph, i) => (
+                                            <p className="event-detail-text" key={i}>{paragraph}</p>
+                                        ))}
+                                        {section.bullets?.length ? (
+                                            <ul className="event-detail-list">
+                                                {section.bullets.map((bullet, i) => (
+                                                    <li key={i}>{bullet}</li>
+                                                ))}
+                                            </ul>
+                                        ) : null}
+                                    </section>
+                                ))}
+
+                                <p className="event-detail-closing">
+                                    Tak Banyak Alasan — terbukti, terlihat &amp; terjamin. Sertai kehadiran lapangan bersama warga Putrajaya.
+                                </p>
+
+                                {primaryCta || secondaryCta ? (
+                                    <div className="event-detail-cta">
+                                        {primaryCta ? <a className="btn btn-red" href={resolveHref(primaryCta.href, 'acara-list')}>{primaryCta.label} &rarr;</a> : null}
+                                        {secondaryCta ? <a className="btn btn-outline-dark" href={resolveHref(secondaryCta.href, 'acara-list')}>{secondaryCta.label}</a> : null}
+                                    </div>
+                                ) : null}
+                            </div>
+
+                            {siblings.length > 0 ? (
+                                <aside className="event-detail-siblings" aria-label="Acara lain">
+                                    <h2 className="event-detail-siblings-title">Acara lain</h2>
+                                    <ul className="event-detail-siblings-list">
+                                        {siblings.map((sibling) => (
+                                            <li key={sibling.slug}>
+                                                <a href={`/acara/${sibling.slug}`}>{sibling.title}</a>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </aside>
+                            ) : null}
+                        </article>
+                    </div>
                 </div>
             </section>
         </PublicLayout>

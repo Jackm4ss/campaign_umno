@@ -2,74 +2,14 @@ import { Link } from '@inertiajs/react';
 
 export default function Footer() {
     return (
-        <footer className="bg-[#020B26] text-white pt-16 pb-8">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
-                    <div>
-                        <div className="flex items-center gap-3 mb-4">
-                            <img
-                                src="/assets/admin-logo-blue.png"
-                                alt="Tak Banyak Alasan"
-                                className="h-10 w-auto brightness-0 invert"
-                                loading="lazy"
-                            />
-                        </div>
-                        <p className="text-gray-400 text-sm leading-relaxed mb-4">
-                            Kempen UMNO Putrajaya melalui Tak Banyak Alasan.
-                        </p>
-                        <div className="text-gray-400 text-sm space-y-1">
-                            <p>info@takbanyakalasan.com</p>
-                            <p>+603-8888 XXXX</p>
-                        </div>
-                    </div>
-
-                    <div>
-                        <h2 className="text-sm font-bold uppercase tracking-widest text-white mb-4">
-                            Kempen
-                        </h2>
-                        <div className="flex flex-col gap-2">
-                            <a href="/#mengenai" className="text-gray-400 text-sm hover:text-white transition-colors">
-                                Mengapa Tak Banyak Alasan
-                            </a>
-                            <Link href="/galeri" className="text-gray-400 text-sm hover:text-white transition-colors">
-                                Foto &amp; Video
-                            </Link>
-                            <Link href="/bantuan" className="text-gray-400 text-sm hover:text-white transition-colors">
-                                Borang Bantuan
-                            </Link>
-                            <a href="/#sertai" className="text-gray-400 text-sm hover:text-white transition-colors">
-                                Sertai Gerakan
-                            </a>
-                        </div>
-                    </div>
-
-                    <div>
-                        <h2 className="text-sm font-bold uppercase tracking-widest text-white mb-4">
-                            Sosial Media
-                        </h2>
-                        <div className="flex flex-col gap-2">
-                            <a href="#" target="_blank" rel="noopener" className="text-gray-400 text-sm hover:text-white transition-colors">
-                                Facebook
-                            </a>
-                            <a href="https://www.instagram.com/takbanyakalasan" target="_blank" rel="noopener" className="text-gray-400 text-sm hover:text-white transition-colors">
-                                Instagram
-                            </a>
-                            <a href="#" target="_blank" rel="noopener" className="text-gray-400 text-sm hover:text-white transition-colors">
-                                TikTok
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="border-t border-gray-800 pt-6 flex flex-col sm:flex-row justify-between items-center gap-4">
-                    <p className="text-gray-500 text-xs uppercase tracking-widest">
-                        &copy; 2026 TAK BANYAK ALASAN
-                    </p>
-                    <Link href="/admin" className="text-gray-600 text-xs hover:text-gray-400 transition-colors">
-                        Admin
-                    </Link>
-                </div>
-            </div>
+        <footer className="footer">
+            <div className="footer-stripes"><div className="stripe-red"></div><div className="stripe-white"></div><div className="stripe-blue"></div></div>
+            <img loading="lazy" src="/assets/admin-logo-blue.png" className="footer-watermark-img" alt="" />
+            <div className="container footer-content"><div className="footer-grid">
+                <div className="footer-brand"><div className="footer-brand-logo"><img loading="lazy" src="/assets/admin-logo-blue.png" className="logo-text" alt="Tak Banyak Alasan" /></div><p className="footer-desc">Kempen UMNO Putrajaya melalui Tak Banyak Alasan.</p><div className="footer-contact"><p>info@takbanyakalasan.com</p><p>+603-8888 XXXX</p></div></div>
+                <div className="footer-col"><h2 className="footer-title">Kempen</h2><div className="footer-links"><a href="/#mengenai">Mengapa Tak Banyak Alasan</a><Link href="/galeri">Foto &amp; Video</Link><Link href="/bantuan">Borang Bantuan</Link><a href="/#sertai">Join Our Movement</a></div></div>
+                <div className="footer-col"><h2 className="footer-title">Sosial Media Tak Banyak Alasan</h2><div className="footer-links"><a href="#" target="_blank" rel="noopener">Facebook</a><a href="https://www.instagram.com/takbanyakalasan?utm_source=qr" target="_blank" rel="noopener">Instagram</a><a href="#" target="_blank" rel="noopener">TikTok</a><a href="#" target="_blank" rel="noopener">Threads</a></div></div>
+            </div>  <div className="footer-bottom"><div className="footer-copy">&copy; {new Date().getFullYear()} TAK BANYAK ALASAN</div><div className="footer-legal"><a href="/admin">Admin</a></div><div className="footer-country"><span className="country-dot"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 18" width="28" height="18" style={{ display: 'block', borderRadius: '2px' }}><rect width="28" height="18" fill="#CC0001" /><rect y="2.571" width="28" height="2.571" fill="#fff" /><rect y="5.143" width="28" height="2.571" fill="#CC0001" /><rect y="7.714" width="28" height="2.571" fill="#fff" /><rect y="10.286" width="28" height="2.571" fill="#CC0001" /><rect y="12.857" width="28" height="2.571" fill="#fff" /><rect y="15.429" width="28" height="2.571" fill="#CC0001" /><rect width="14" height="9" fill="#010066" /><circle cx="6" cy="4.5" r="2.8" fill="#FC0" /><circle cx="7" cy="4.5" r="2.2" fill="#010066" /><polygon points="11,4.5 10.2,6.9 12.3,5.3 9.7,5.3 11.8,6.9" fill="#FC0" transform="translate(-0.5,0)" /><polygon points="11,4.5 10.2,6.9 12.3,5.3 9.7,5.3 11.8,6.9" fill="#FC0" transform="rotate(51.4,10.5,4.5)" /><polygon points="11,4.5 10.2,6.9 12.3,5.3 9.7,5.3 11.8,6.9" fill="#FC0" transform="rotate(102.9,10.5,4.5)" /><polygon points="11,4.5 10.2,6.9 12.3,5.3 9.7,5.3 11.8,6.9" fill="#FC0" transform="rotate(154.3,10.5,4.5)" /><polygon points="11,4.5 10.2,6.9 12.3,5.3 9.7,5.3 11.8,6.9" fill="#FC0" transform="rotate(205.7,10.5,4.5)" /><polygon points="11,4.5 10.2,6.9 12.3,5.3 9.7,5.3 11.8,6.9" fill="#FC0" transform="rotate(257.1,10.5,4.5)" /><polygon points="11,4.5 10.2,6.9 12.3,5.3 9.7,5.3 11.8,6.9" fill="#FC0" transform="rotate(308.6,10.5,4.5)" /></svg></span> Malaysia</div></div></div>
         </footer>
     );
 }

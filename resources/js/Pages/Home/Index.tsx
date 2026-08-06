@@ -8,15 +8,15 @@ import Activities from './sections/Activities';
 import JoinSection from './sections/JoinSection';
 import type { HomePageProps } from '../../types';
 
-export default function HomeIndex({ articles, events, leaders, gallery, programs, campaignEvents, settings }: HomePageProps) {
+export default function HomeIndex(props: HomePageProps) {
     return (
         <PublicLayout>
-            <Head title="Kempen UMNO Putrajaya" />
+            <Head title="Tak Banyak Alasan - Kempen UMNO Putrajaya" />
             <Hero />
             <About />
-            <UpcomingEvents events={campaignEvents ?? []} />
-            <Programs programs={programs ?? []} />
-            <Activities events={events ?? []} articles={articles ?? []} leaders={leaders ?? []} />
+            <UpcomingEvents events={props.campaignEvents ?? []} />
+            <Programs programs={props.programs ?? []} />
+            <Activities />
             <JoinSection />
         </PublicLayout>
     );

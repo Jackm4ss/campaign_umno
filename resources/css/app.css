@@ -1,1 +1,2 @@
-@import 'tailwindcss';
+/* Public site design system: original vanilla CSS (BEM classes). */
+@import './public/site.css';

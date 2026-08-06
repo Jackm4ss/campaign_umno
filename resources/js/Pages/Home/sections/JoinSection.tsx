@@ -1,93 +1,96 @@
-import { useForm } from '@inertiajs/react';
-import { FormEvent } from 'react';
+import { FormEvent, useState } from 'react';
+
+interface FormState {
+    name: string;
+    identity_number: string;
+    email: string;
+    phone: string;
+    message: string;
+}
+
+const initialState: FormState = {
+    name: '',
+    identity_number: '',
+    email: '',
+    phone: '',
+    message: '',
+};
 
 export default function JoinSection() {
-    const { data, setData, post, processing, errors, reset } = useForm({
-        name: '',
-        identity_number: '',
-        email: '',
-        phone: '',
-        message: '',
-    });
+    const [form, setForm] = useState<FormState>(initialState);
+    const [feedback, setFeedback] = useState('');
+    const [feedbackError, setFeedbackError] = useState(false);
+    const [submitting, setSubmitting] = useState(false);
 
-    const handleSubmit = (e: FormEvent) => {
-        e.preventDefault();
-        post('/aspirasi', {
-            onSuccess: () => reset(),
-        });
+    const set = (key: keyof FormState) => (event: { target: { value: string } }) =>
+        setForm((current) => ({ ...current, [key]: event.target.value }));
+
+    const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        setSubmitting(true);
+        setFeedback('');
+        setFeedbackError(false);
+
+        try {
+            const response = await fetch('/aspirasi', {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') ?? '',
+                },
+                body: new FormData(event.currentTarget),
+            });
+
+            const data = await response.json();
+            if (!response.ok) {
+                throw new Error(Object.values(data.errors ?? {})[0]?.[0] ?? data.message ?? 'Sila semak semula borang anda.');
+            }
+
+            setForm(initialState);
+            setFeedback(data.message ?? 'Aspirasi anda telah diterima.');
+        } catch (error) {
+            setFeedbackError(true);
+            setFeedback(error instanceof Error ? error.message : 'Sila cuba lagi.');
+        } finally {
+            setSubmitting(false);
+        }
     };
 
     return (
-        <section id="sertai" className="py-24 bg-[#020B26]">
-            <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="text-center mb-12">
-                    <p className="text-[#CC1A1A] text-xs font-bold uppercase tracking-[4px] mb-4">Aspirasi</p>
-                    <h2 className="font-['Bebas_Neue'] text-4xl md:text-5xl text-white mb-4">SUARA ANDA, TEKAD KAMI</h2>
-                    <p className="text-gray-400">Hantar aspirasi anda untuk masa depan Putrajaya yang lebih baik.</p>
+        <section id="sertai" className="join section-pad">
+            <div className="container join-grid">
+                <div className="join-copy">
+                    <span className="section-label">Sertai Gerakan</span>
+                    <h2 className="section-title">SUARA ANDA, TEKAD KAMI</h2>
+                    <p className="mengenai-text">Hantar aspirasi anda untuk masa depan Putrajaya yang lebih baik.</p>
                 </div>
-
-                <form onSubmit={handleSubmit} className="space-y-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <input
-                                type="text"
-                                placeholder="Nama penuh"
-                                value={data.name}
-                                onChange={(e) => setData('name', e.target.value)}
-                                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded text-white placeholder-gray-500 focus:outline-none focus:border-[#CC1A1A] transition-colors"
-                            />
-                            {errors.name ? <p className="text-red-400 text-xs mt-1">{errors.name}</p> : null}
+                <form id="aspiration-form" className="public-form" action="/aspirasi" method="post" noValidate onSubmit={handleSubmit}>
+                    <div className="form-row">
+                        <div className="field">
+                            <label htmlFor="name">Nama penuh</label>
+                            <input id="name" name="name" required maxLength={255} value={form.name} onChange={set('name')} />
                         </div>
-                        <div>
-                            <input
-                                type="text"
-                                placeholder="No. kad pengenalan"
-                                value={data.identity_number}
-                                onChange={(e) => setData('identity_number', e.target.value)}
-                                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded text-white placeholder-gray-500 focus:outline-none focus:border-[#CC1A1A] transition-colors"
-                            />
-                            {errors.identity_number ? <p className="text-red-400 text-xs mt-1">{errors.identity_number}</p> : null}
-                        </div>
-                        <div>
-                            <input
-                                type="email"
-                                placeholder="E-mel"
-                                value={data.email}
-                                onChange={(e) => setData('email', e.target.value)}
-                                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded text-white placeholder-gray-500 focus:outline-none focus:border-[#CC1A1A] transition-colors"
-                            />
-                            {errors.email ? <p className="text-red-400 text-xs mt-1">{errors.email}</p> : null}
-                        </div>
-                        <div>
-                            <input
-                                type="tel"
-                                placeholder="No. telefon"
-                                value={data.phone}
-                                onChange={(e) => setData('phone', e.target.value)}
-                                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded text-white placeholder-gray-500 focus:outline-none focus:border-[#CC1A1A] transition-colors"
-                            />
-                            {errors.phone ? <p className="text-red-400 text-xs mt-1">{errors.phone}</p> : null}
+                        <div className="field">
+                            <label htmlFor="identity_number">No. kad pengenalan</label>
+                            <input id="identity_number" name="identity_number" required maxLength={50} value={form.identity_number} onChange={set('identity_number')} />
                         </div>
                     </div>
-                    <div>
-                        <textarea
-                            placeholder="Aspirasi anda..."
-                            rows={5}
-                            value={data.message}
-                            onChange={(e) => setData('message', e.target.value)}
-                            className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded text-white placeholder-gray-500 focus:outline-none focus:border-[#CC1A1A] transition-colors resize-none"
-                        />
-                        {errors.message ? <p className="text-red-400 text-xs mt-1">{errors.message}</p> : null}
+                    <div className="form-row">
+                        <div className="field">
+                            <label htmlFor="email">E-mel</label>
+                            <input id="email" name="email" type="email" required maxLength={255} value={form.email} onChange={set('email')} />
+                        </div>
+                        <div className="field">
+                            <label htmlFor="phone">No. telefon</label>
+                            <input id="phone" name="phone" required maxLength={50} value={form.phone} onChange={set('phone')} />
+                        </div>
                     </div>
-                    <div className="text-center">
-                        <button
-                            type="submit"
-                            disabled={processing}
-                            className="inline-flex items-center gap-2 px-10 py-4 bg-[#CC1A1A] text-white text-xs font-bold uppercase tracking-widest rounded hover:bg-[#9E1212] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                        >
-                            {processing ? 'Menghantar...' : 'Hantar Aspirasi'}
-                        </button>
+                    <div className="field">
+                        <label htmlFor="message">Aspirasi anda</label>
+                        <textarea id="message" name="message" required maxLength={1500} value={form.message} onChange={set('message')}></textarea>
                     </div>
+                    <button className="btn btn-red" type="submit" disabled={submitting}>Hantar Aspirasi &rarr;</button>
+                    <div id="form-feedback" className={`form-feedback${feedback ? ' show' : ''}${feedbackError ? ' error' : ''}`} role="status">{feedback}</div>
                 </form>
             </div>
         </section>

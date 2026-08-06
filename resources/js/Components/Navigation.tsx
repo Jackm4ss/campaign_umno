@@ -1,46 +1,106 @@
-import { Link } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
+import { useEffect, useState } from 'react';
 
 export default function Navigation() {
-    return (
-        <nav className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-100">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex justify-between items-center h-16">
-                    <Link href="/" className="flex items-center gap-2">
-                        <img
-                            src="/assets/admin-logo-blue.png"
-                            alt="Tak Banyak Alasan"
-                            className="h-8 w-auto"
-                        />
-                        <span className="font-bold text-lg tracking-tight text-[#1A3C9E]">
-                            TAK BANYAK ALASAN
-                        </span>
-                    </Link>
+    const [open, setOpen] = useState(false);
+    const [scrolled, setScrolled] = useState(false);
+    const url = usePage().url;
 
-                    <div className="hidden md:flex items-center gap-6">
-                        <a href="/#mengenai" className="text-sm font-medium text-gray-700 hover:text-[#CC1A1A] transition-colors">
-                            Mengenai
-                        </a>
-                        <a href="/#kegiatan" className="text-sm font-medium text-gray-700 hover:text-[#CC1A1A] transition-colors">
-                            Kegiatan
-                        </a>
-                        <a href="/#program" className="text-sm font-medium text-gray-700 hover:text-[#CC1A1A] transition-colors">
-                            Program
-                        </a>
-                        <Link href="/galeri" className="text-sm font-medium text-gray-700 hover:text-[#CC1A1A] transition-colors">
-                            Galeri
-                        </Link>
-                        <Link href="/bantuan" className="text-sm font-medium text-gray-700 hover:text-[#CC1A1A] transition-colors">
-                            Bantuan
-                        </Link>
-                        <a
-                            href="/#sertai"
-                            className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#CC1A1A] text-white text-xs font-bold uppercase tracking-widest rounded hover:bg-[#9E1212] transition-colors"
-                        >
-                            Sertai Gerakan
-                        </a>
-                    </div>
+    useEffect(() => {
+        const onScroll = () => {
+            if (!open) {
+                setScrolled(window.scrollY > 50);
+            }
+        };
+        onScroll();
+        window.addEventListener('scroll', onScroll, { passive: true });
+        return () => window.removeEventListener('scroll', onScroll);
+    }, [open]);
+
+    useEffect(() => {
+        if (!open) return;
+
+        const onClick = (event: MouseEvent) => {
+            const target = event.target;
+            if (!(target instanceof Node)) return;
+            const menu = document.getElementById('main-menu');
+            const button = document.getElementById('mobile-menu');
+            if (menu?.contains(target) || button?.contains(target)) return;
+            setOpen(false);
+        };
+        const onKey = (event: KeyboardEvent) => {
+            if (event.key === 'Escape') setOpen(false);
+        };
+
+        document.addEventListener('click', onClick);
+        document.addEventListener('keydown', onKey);
+        document.body.classList.add('nav-open');
+
+        return () => {
+            document.removeEventListener('click', onClick);
+            document.removeEventListener('keydown', onKey);
+            document.body.classList.remove('nav-open');
+        };
+    }, [open]);
+
+    const close = () => setOpen(false);
+
+    return (
+        <>
+            <nav className={`navbar${scrolled ? ' scrolled' : ''}`} aria-label="Navigasi utama">
+                <div className="container nav-bar-inner">
+                    <a className="nav-logo" href="/#utama" aria-label="Tak Banyak Alasan">
+                        <img src="/assets/admin-logo-blue.png" alt="Tak Banyak Alasan" />
+                    </a>
+
+                    <button
+                        className={`menu-toggle${open ? ' active' : ''}`}
+                        id="mobile-menu"
+                        type="button"
+                        aria-label={open ? 'Tutup menu' : 'Buka menu'}
+                        aria-controls="main-menu"
+                        aria-expanded={open}
+                        onClick={(event) => {
+                            event.stopPropagation();
+                            setOpen(!open);
+                        }}
+                    >
+                        <span></span><span></span><span></span>
+                    </button>
                 </div>
-            </div>
-        </nav>
+            </nav>
+
+            {/* Overlay + drawer MUST sit outside .navbar: navbar uses transform, which traps fixed children */}
+            <div
+                className={`nav-overlay${open ? ' is-open' : ''}`}
+                id="nav-overlay"
+                hidden={!open}
+                aria-hidden={!open}
+                onClick={close}
+            ></div>
+
+            <aside className={`nav-menu${open ? ' active' : ''}`} id="main-menu" aria-label="Menu sisi">
+                <div className="nav-drawer-head">
+                    <div className="nav-drawer-brand">
+                        <img src="/assets/admin-logo-blue.png" alt="Tak Banyak Alasan" className="nav-drawer-logo" />
+                    </div>
+                    <button className="nav-close" id="nav-close" type="button" aria-label="Tutup menu" onClick={close}>
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div className="nav-links">
+                    <a href="/#utama" className={url === '/' ? 'active' : ''} onClick={close}>Utama</a>
+                    <a href="/#mengenai" onClick={close}>Mengapa Tak Banyak Alasan</a>
+                    <a href="/#kegiatan" onClick={close}>Aktiviti Tak Banyak Alasan</a>
+                    <a href="/#sertai" onClick={close}>Aspirasi Anda, Tekad Kami</a>
+                    <Link href="/galeri" className={url.startsWith('/galeri') ? 'active' : ''} onClick={close}>Foto &amp; Video</Link>
+                </div>
+
+                <div className="nav-btn">
+                    <Link className="btn btn-red nav-cta" href="/bantuan" onClick={close}>Inisiatif Tak Banyak Alasan</Link>
+                </div>
+            </aside>
+        </>
     );
 }

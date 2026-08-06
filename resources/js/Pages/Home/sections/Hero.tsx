@@ -1,34 +1,37 @@
 export default function Hero() {
     return (
-        <section id="hero" className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-[#020B26] via-[#071E63] to-[#1A3C9E] overflow-hidden pt-16">
-            <div className="absolute inset-0 opacity-20">
-                <img src="/assets/hero-bg.jpg" alt="" className="w-full h-full object-cover" loading="eager" />
+        <section className="hero" id="utama">
+            <div className="hero-bg">
+                <img src="/assets/collage-bg.jpg" alt="UMNO Activities Collage" className="hero-bg-collage" />
+                <div className="hero-bg-overlay"></div>
             </div>
-            <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
-                <p className="text-[#CC1A1A] text-xs font-bold uppercase tracking-[6px] mb-6">
-                    UMNO Putrajaya
-                </p>
-                <h1 className="font-['Bebas_Neue'] text-5xl md:text-7xl lg:text-8xl text-white leading-none mb-6">
-                    TAK BANYAK ALASAN
-                </h1>
-                <p className="text-gray-300 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
-                    Gerakan penerangan, khidmat rakyat, dan mobilisasi akar umbi untuk Putrajaya yang lebih baik.
-                </p>
-                <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                    <a
-                        href="#sertai"
-                        className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-[#CC1A1A] text-white text-xs font-bold uppercase tracking-widest rounded hover:bg-[#9E1212] transition-all hover:scale-105 shadow-lg shadow-red-900/30"
-                    >
-                        Sertai Gerakan
-                    </a>
-                    <a
-                        href="#mengenai"
-                        className="inline-flex items-center justify-center gap-2 px-8 py-4 border-2 border-white/30 text-white text-xs font-bold uppercase tracking-widest rounded hover:bg-white/10 transition-colors"
-                    >
-                        Ketahui Lebih
-                    </a>
+
+            <div className="hero-right">
+                <img src="/assets/tokoh.png" alt="Pemimpin UMNO" className="hero-tokoh" id="heroTokoh" />
+            </div>
+
+            <div className="hero-content">
+                <div className="hero-left">
+                    <img src="/assets/logo-tba.png" alt="Tak Banyak Alasan" className="hero-logo" id="heroLogo" />
+                    <p className="hero-tagline">Terbukti, Terlihat &amp; Terjamin<br />Proven, Seen &amp; Guaranteed</p>
+                    <div className="hero-buttons">
+                        <a href="/bantuan" className="hero-btn hero-btn-primary">
+                            <span>Inisiatif Tak Banyak Alasan</span>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+                        </a>
+                        <a href="/#sertai" className="hero-btn hero-btn-outline">
+                            <span>Aspirasi Anda, Tekad Kami</span>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+                        </a>
+                    </div>
                 </div>
             </div>
+
+            <a href="#mengenai" className="hero-scroll" aria-label="Ke bahagian seterusnya">
+                <span className="hero-scroll-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9" /></svg>
+                </span>
+            </a>
         </section>
     );
 }

@@ -6,45 +6,46 @@ interface Props {
 }
 
 export default function UpcomingEvents({ events }: Props) {
-    if (events.length === 0) return null;
-
     return (
-        <section id="kegiatan" className="py-24 bg-gray-50">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="text-center mb-16">
-                    <p className="text-[#CC1A1A] text-xs font-bold uppercase tracking-[4px] mb-4">Jadual Kempen</p>
-                    <h2 className="font-['Bebas_Neue'] text-4xl md:text-5xl text-[#1A1A2E]">ACARA AKAN DATANG</h2>
+        <section id="acara" className="acara section-pad-top">
+            <div className="container">
+                <div className="acara-header fade-up">
+                    <span className="section-label">Acara Akan Datang</span>
+                    <h2 className="section-title">ACARA AKAN DATANG</h2>
+                    <p className="mengenai-text">Jadual program dan kehadiran lapangan Tak Banyak Alasan untuk warga Putrajaya.</p>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {events.slice(0, 6).map((event) => (
-                        <Link
-                            key={event.id}
-                            href={`/acara/${event.slug}`}
-                            className="group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow"
-                        >
-                            <div className="aspect-video overflow-hidden">
-                                <img
-                                    src={event.image_url}
-                                    alt={event.title}
-                                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                    loading="lazy"
-                                />
-                            </div>
-                            <div className="p-6">
-                                <p className="text-xs font-bold uppercase tracking-widest text-[#CC1A1A] mb-2">
-                                    {event.date_label}
-                                </p>
-                                <h3 className="font-bold text-lg text-[#1A1A2E] mb-2 group-hover:text-[#CC1A1A] transition-colors">
-                                    {event.title}
-                                </h3>
-                                <p className="text-gray-600 text-sm mb-4 line-clamp-2">{event.short_desc}</p>
-                                <p className="text-xs text-gray-500">{event.place}</p>
-                                <span className="inline-block mt-4 text-xs font-bold uppercase tracking-widest text-[#1A3C9E]">
-                                    Detail selengkapnya →
-                                </span>
-                            </div>
-                        </Link>
-                    ))}
+            </div>
+
+            <div className="acara-marquee-track" role="region" aria-label="Senarai acara akan datang">
+                <div className="acara-marquee-inner">
+                    {[1, 2].map((loopSet) =>
+                        events.map((event) => (
+                            <Link
+                                key={`${loopSet}-${event.slug}`}
+                                href={`/acara/${event.slug}`}
+                                className="acara-card"
+                                {...(loopSet === 2 ? { 'aria-hidden': true, tabIndex: -1 } : {})}
+                                aria-label={`${event.title} — Detail selengkapnya`}
+                            >
+                                <div className="acara-card-media">
+                                    <img
+                                        src={event.image_url}
+                                        alt={loopSet === 1 ? event.title : ''}
+                                        loading="lazy"
+                                        className="acara-card-img"
+                                    />
+                                    <div className="acara-card-overlay">
+                                        <span className="acara-card-cta">Detail selengkapnya</span>
+                                    </div>
+                                </div>
+                                <div className="acara-card-meta">
+                                    <span className="acara-card-date">{event.date_label}</span>
+                                    <span className="acara-card-title">{event.title}</span>
+                                    <span className="acara-card-place">{event.place}</span>
+                                </div>
+                            </Link>
+                        )),
+                    )}
                 </div>
             </div>
         </section>

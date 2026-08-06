@@ -1,155 +1,363 @@
-import { Head, useForm } from '@inertiajs/react';
-import { FormEvent } from 'react';
+import { Head } from '@inertiajs/react';
+import { FormEvent, useEffect, useRef, useState } from 'react';
+import flatpickr from 'flatpickr';
+import 'flatpickr/dist/flatpickr.min.css';
 import PublicLayout from '../../Layouts/PublicLayout';
 
+const aidOptions = [
+    {
+        value: 'keperluan_asas_dapur',
+        title: 'Keperluan Asas Dapur',
+        icon: (
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 11h18l-1.5 9a2 2 0 0 1-2 2h-11a2 2 0 0 1-2-2L3 11z" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg>
+        ),
+    },
+    {
+        value: 'wang_tunai',
+        title: 'Bantuan Wang Tunai',
+        icon: (
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="6" width="20" height="12" rx="2" /><circle cx="12" cy="12" r="2" /><path d="M6 12h.01M18 12h.01" /></svg>
+        ),
+    },
+    {
+        value: 'katil_hospital_kerusi_roda',
+        title: 'Katil Hospital / Kerusi Roda',
+        icon: (
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 18v-6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v6" /><path d="M3 18h18" /><path d="M7 10V6a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v4" /></svg>
+        ),
+    },
+    {
+        value: 'van_jenazah_percuma',
+        title: 'Van Jenazah Percuma',
+        icon: (
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 17V7a2 2 0 0 1 2-2h9l5 5v7" /><path d="M3 17h2" /><path d="M14 17h5" /><circle cx="7.5" cy="17.5" r="2.5" /><circle cx="17.5" cy="17.5" r="2.5" /></svg>
+        ),
+    },
+    {
+        value: 'kad_kesihatan_kunan',
+        title: 'Kad Kesihatan KuNan',
+        icon: (
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="5" width="20" height="14" rx="2" /><path d="M2 10h20" /><path d="M6 15h4" /></svg>
+        ),
+    },
+];
+
 export default function BantuanIndex() {
-    const { data, setData, post, processing, errors, reset } = useForm({
-        full_name: '',
-        identity_number: '',
-        identity_type: 'MyKad',
-        birth_date: '',
-        phone: '',
-        email: '',
-        email_confirmation: '',
-        address: '',
-        presint: '',
-        aid_types: [] as string[],
-        patient_name: '',
-        patient_identity_number: '',
-        patient_phone: '',
-        patient_address: '',
-    });
+    const formRef = useRef<HTMLFormElement>(null);
+    const birthDateRef = useRef<HTMLInputElement>(null);
+    const [aidType, setAidType] = useState('');
+    const [modalOpen, setModalOpen] = useState(false);
+    const [success, setSuccess] = useState(false);
+    const [feedback, setFeedback] = useState('');
+    const [feedbackError, setFeedbackError] = useState(false);
+    const [submitting, setSubmitting] = useState(false);
 
-    const needsPatient = data.aid_types.includes('katil_hospital_kerusi_roda');
+    const needsPatient = aidType === 'katil_hospital_kerusi_roda';
 
-    const toggleAidType = (type: string) => {
-        const current = data.aid_types;
-        setData('aid_types', current.includes(type) ? current.filter((t) => t !== type) : [...current, type]);
+    useEffect(() => {
+        if (!birthDateRef.current) return;
+        const instance = flatpickr(birthDateRef.current, {
+            dateFormat: 'Y-m-d',
+            altInput: true,
+            altFormat: 'j F Y',
+            maxDate: 'today',
+            locale: {
+                months: {
+                    shorthand: ['Jan', 'Feb', 'Mac', 'Apr', 'Mei', 'Jun', 'Jul', 'Ogo', 'Sep', 'Okt', 'Nov', 'Dis'],
+                    longhand: ['Januari', 'Februari', 'Mac', 'April', 'Mei', 'Jun', 'Julai', 'Ogos', 'September', 'Oktober', 'November', 'Disember'],
+                },
+                weekdays: {
+                    shorthand: ['Ahd', 'Isn', 'Sel', 'Rab', 'Kha', 'Jum', 'Sab'],
+                    longhand: ['Ahad', 'Isnin', 'Selasa', 'Rabu', 'Khamis', 'Jumaat', 'Sabtu'],
+                },
+            },
+        });
+        return () => {
+            (Array.isArray(instance) ? instance : [instance]).forEach((i) => i.destroy());
+        };
+    }, []);
+
+    useEffect(() => {
+        if (!modalOpen) return;
+        document.body.style.overflow = 'hidden';
+        const onKey = (event: KeyboardEvent) => {
+            if (event.key === 'Escape') setModalOpen(false);
+        };
+        document.addEventListener('keydown', onKey);
+        return () => {
+            document.body.style.overflow = '';
+            document.removeEventListener('keydown', onKey);
+        };
+    }, [modalOpen]);
+
+    const showFeedback = (message: string, isError = false) => {
+        setFeedback(message);
+        setFeedbackError(isError);
     };
 
-    const handleSubmit = (e: FormEvent) => {
-        e.preventDefault();
-        post('/daftar', { onSuccess: () => reset() });
+    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        const form = formRef.current;
+        if (!form) return;
+
+        setFeedback('');
+        setFeedbackError(false);
+
+        const email = (form.querySelector('#email') as HTMLInputElement)?.value ?? '';
+        const emailConf = (form.querySelector('#email_confirmation') as HTMLInputElement)?.value ?? '';
+
+        if (email !== emailConf) {
+            showFeedback('E-mel dan pengesahan e-mel tidak sepadan.', true);
+            (form.querySelector('#email_confirmation') as HTMLInputElement)?.focus();
+            return;
+        }
+
+        if (!aidType) {
+            showFeedback('Sila pilih jenis bantuan.', true);
+            return;
+        }
+
+        const terms = form.querySelector('#terms') as HTMLInputElement;
+        if (!terms.checked) {
+            showFeedback('Sila setujui terma dan syarat.', true);
+            return;
+        }
+
+        if (!form.checkValidity()) {
+            form.reportValidity();
+            return;
+        }
+
+        setModalOpen(true);
     };
 
-    const aidOptions = [
-        { value: 'keperluan_asas_dapur', label: 'Keperluan Asas Dapur' },
-        { value: 'wang_tunai', label: 'Bantuan Wang Tunai' },
-        { value: 'katil_hospital_kerusi_roda', label: 'Katil Hospital / Kerusi Roda' },
-        { value: 'van_jenazah_percuma', label: 'Van Jenazah Percuma' },
-        { value: 'kad_kesihatan_kunan', label: 'Kad Kesihatan KuNan' },
-    ];
+    const confirmSubmit = async () => {
+        const form = formRef.current;
+        if (!form) return;
+
+        setModalOpen(false);
+        setSubmitting(true);
+
+        try {
+            const response = await fetch('/daftar', {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') ?? '',
+                },
+                body: new FormData(form),
+            });
+
+            const data = await response.json();
+            if (!response.ok) {
+                throw new Error(Object.values(data.errors ?? {})[0]?.[0] ?? data.message ?? 'Sila semak semula borang anda.');
+            }
+
+            setSuccess(true);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        } catch (error) {
+            showFeedback(error instanceof Error ? error.message : 'Sila cuba lagi.', true);
+        } finally {
+            setSubmitting(false);
+        }
+    };
 
     return (
         <PublicLayout>
-            <Head title="Borang Bantuan" />
-            <section className="pt-24 pb-16 bg-white">
-                <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
-                    <div className="text-center mb-12">
-                        <p className="text-[#CC1A1A] text-xs font-bold uppercase tracking-[4px] mb-4">Kebajikan</p>
-                        <h1 className="font-['Bebas_Neue'] text-4xl md:text-5xl text-[#1A1A2E] mb-4">BORANG BANTUAN</h1>
-                        <p className="text-gray-600">
-                            Permohonan anda akan diproses dalam tempoh lima (5) hari bekerja.
-                            Admin akan berhubung melalui E-Mel atau Whatsapp jika diluluskan.
-                        </p>
-                    </div>
+            <Head title="Borang Bantuan - Tak Banyak Alasan" />
+            <section className="bantuan-page section-pad">
+                <div className="container bantuan-container">
+                    <div className="bantuan-card-shell">
+                        <a href="/" className="bantuan-card-back" title="Kembali ke Laman Utama">
+                            <span className="bantuan-back-pad">
+                                <svg className="bantuan-back-fillet bantuan-back-fillet--a" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" aria-hidden="true"><path d="m100,0H0v100C0,44.77,44.77,0,100,0Z" fill="currentColor"></path></svg>
+                                <span className="bantuan-back-circle">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
+                                </span>
+                                <svg className="bantuan-back-fillet bantuan-back-fillet--b" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" aria-hidden="true"><path d="m100,0H0v100C0,44.77,44.77,0,100,0Z" fill="currentColor"></path></svg>
+                            </span>
+                        </a>
 
-                    <form onSubmit={handleSubmit} className="space-y-6">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Nama Penuh</label>
-                                <input type="text" value={data.full_name} onChange={(e) => setData('full_name', e.target.value)} className="w-full px-4 py-3 border border-gray-200 rounded focus:outline-none focus:border-[#CC1A1A]" />
-                                {errors.full_name ? <p className="text-red-500 text-xs mt-1">{errors.full_name}</p> : null}
+                        <div className="bantuan-card-wrap">
+                            <div className="bantuan-card-header">
+                                <span className="section-label">Bantuan Rakyat</span>
+                                <h1 className="section-title bantuan-title">BORANG BANTUAN</h1>
+                                <p className="bantuan-intro">Sila lengkapkan borang di bawah. Permohonan anda akan diproses dalam tempoh lima (5) hari bekerja. Admin akan berhubung semula melalui E-Mel atau Whatsapp jika permohonan diluluskan.</p>
                             </div>
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">No. Kad Pengenalan</label>
-                                <input type="text" value={data.identity_number} onChange={(e) => setData('identity_number', e.target.value)} className="w-full px-4 py-3 border border-gray-200 rounded focus:outline-none focus:border-[#CC1A1A]" />
-                                {errors.identity_number ? <p className="text-red-500 text-xs mt-1">{errors.identity_number}</p> : null}
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Jenis Dokumen</label>
-                                <select value={data.identity_type} onChange={(e) => setData('identity_type', e.target.value)} className="w-full px-4 py-3 border border-gray-200 rounded focus:outline-none focus:border-[#CC1A1A]">
-                                    <option value="MyKad">MyKad</option>
-                                    <option value="MyTentera">MyTentera</option>
-                                    <option value="MyPolis">MyPolis</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Tarikh Lahir</label>
-                                <input type="date" value={data.birth_date} onChange={(e) => setData('birth_date', e.target.value)} className="w-full px-4 py-3 border border-gray-200 rounded focus:outline-none focus:border-[#CC1A1A]" />
-                                {errors.birth_date ? <p className="text-red-500 text-xs mt-1">{errors.birth_date}</p> : null}
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Telefon</label>
-                                <input type="tel" value={data.phone} onChange={(e) => setData('phone', e.target.value)} className="w-full px-4 py-3 border border-gray-200 rounded focus:outline-none focus:border-[#CC1A1A]" />
-                                {errors.phone ? <p className="text-red-500 text-xs mt-1">{errors.phone}</p> : null}
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Presint</label>
-                                <input type="text" value={data.presint} onChange={(e) => setData('presint', e.target.value)} className="w-full px-4 py-3 border border-gray-200 rounded focus:outline-none focus:border-[#CC1A1A]" />
-                                {errors.presint ? <p className="text-red-500 text-xs mt-1">{errors.presint}</p> : null}
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">E-mel</label>
-                                <input type="email" value={data.email} onChange={(e) => setData('email', e.target.value)} className="w-full px-4 py-3 border border-gray-200 rounded focus:outline-none focus:border-[#CC1A1A]" />
-                                {errors.email ? <p className="text-red-500 text-xs mt-1">{errors.email}</p> : null}
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Sahkan E-mel</label>
-                                <input type="email" value={data.email_confirmation} onChange={(e) => setData('email_confirmation', e.target.value)} className="w-full px-4 py-3 border border-gray-200 rounded focus:outline-none focus:border-[#CC1A1A]" />
-                            </div>
-                        </div>
 
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Alamat</label>
-                            <textarea value={data.address} onChange={(e) => setData('address', e.target.value)} rows={3} className="w-full px-4 py-3 border border-gray-200 rounded focus:outline-none focus:border-[#CC1A1A] resize-none" />
-                            {errors.address ? <p className="text-red-500 text-xs mt-1">{errors.address}</p> : null}
-                        </div>
+                            <hr />
 
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-3">Jenis Bantuan</label>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                {aidOptions.map((opt) => (
-                                    <label key={opt.value} className={`flex items-center gap-3 p-4 border rounded cursor-pointer transition-colors ${data.aid_types.includes(opt.value) ? 'border-[#CC1A1A] bg-red-50' : 'border-gray-200 hover:border-gray-300'}`}>
-                                        <input type="checkbox" checked={data.aid_types.includes(opt.value)} onChange={() => toggleAidType(opt.value)} className="accent-[#CC1A1A]" />
-                                        <span className="text-sm">{opt.label}</span>
-                                    </label>
-                                ))}
-                            </div>
-                        </div>
-
-                        {needsPatient ? (
-                            <div className="border border-amber-200 bg-amber-50 rounded-xl p-6 space-y-4">
-                                <p className="text-sm font-bold text-amber-800">Maklumat Pesakit (Katil Hospital / Kerusi Roda)</p>
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <div>
-                                        <input type="text" placeholder="Nama pesakit" value={data.patient_name} onChange={(e) => setData('patient_name', e.target.value)} className="w-full px-4 py-3 border border-gray-200 rounded focus:outline-none focus:border-[#CC1A1A]" />
-                                        {errors.patient_name ? <p className="text-red-500 text-xs mt-1">{errors.patient_name}</p> : null}
+                            <form id="bantuan-form" className="public-form bantuan-form" action="/daftar" method="post" encType="multipart/form-data" noValidate ref={formRef} onSubmit={handleSubmit} hidden={success}>
+                                {/* Section 1: Personal Data */}
+                                <div className="bantuan-section">
+                                    <h3 className="bantuan-section-title">Maklumat Diri</h3>
+                                    <div className="form-row">
+                                        <div className="field">
+                                            <label htmlFor="full_name">Nama Penuh</label>
+                                            <input id="full_name" name="full_name" required maxLength={255} />
+                                        </div>
+                                        <div className="field">
+                                            <label htmlFor="identity_number">No. Kad Pengenalan</label>
+                                            <input id="identity_number" name="identity_number" required maxLength={50} placeholder="contoh: 901234-14-5678" />
+                                        </div>
                                     </div>
-                                    <div>
-                                        <input type="text" placeholder="No. KP pesakit" value={data.patient_identity_number} onChange={(e) => setData('patient_identity_number', e.target.value)} className="w-full px-4 py-3 border border-gray-200 rounded focus:outline-none focus:border-[#CC1A1A]" />
-                                        {errors.patient_identity_number ? <p className="text-red-500 text-xs mt-1">{errors.patient_identity_number}</p> : null}
+                                    <div className="form-row">
+                                        <div className="field">
+                                            <label htmlFor="identity_type">Jenis Kad Pengenalan</label>
+                                            <select id="identity_type" name="identity_type" required defaultValue="">
+                                                <option value="">— Sila pilih —</option>
+                                                <option value="MyKad">MyKad</option>
+                                                <option value="MyTentera">MyTentera</option>
+                                                <option value="MyPolis">MyPolis</option>
+                                            </select>
+                                        </div>
+                                        <div className="field">
+                                            <label htmlFor="birth_date">Tarikh Lahir</label>
+                                            <input id="birth_date" name="birth_date" type="text" placeholder="Pilih tarikh lahir" autoComplete="off" required ref={birthDateRef} />
+                                        </div>
                                     </div>
-                                    <div>
-                                        <input type="tel" placeholder="No. telefon pesakit" value={data.patient_phone} onChange={(e) => setData('patient_phone', e.target.value)} className="w-full px-4 py-3 border border-gray-200 rounded focus:outline-none focus:border-[#CC1A1A]" />
-                                        {errors.patient_phone ? <p className="text-red-500 text-xs mt-1">{errors.patient_phone}</p> : null}
+                                    <div className="form-row">
+                                        <div className="field">
+                                            <label htmlFor="phone">No. Telefon</label>
+                                            <input id="phone" name="phone" type="tel" required maxLength={50} />
+                                        </div>
+                                        <div className="field">
+                                            <label htmlFor="email">E-mel</label>
+                                            <input id="email" name="email" type="email" required maxLength={255} />
+                                        </div>
                                     </div>
-                                    <div>
-                                        <input type="text" placeholder="Alamat pesakit" value={data.patient_address} onChange={(e) => setData('patient_address', e.target.value)} className="w-full px-4 py-3 border border-gray-200 rounded focus:outline-none focus:border-[#CC1A1A]" />
-                                        {errors.patient_address ? <p className="text-red-500 text-xs mt-1">{errors.patient_address}</p> : null}
+                                    <div className="form-row">
+                                        <div className="field full-width">
+                                            <label htmlFor="email_confirmation">Sahkan E-mel</label>
+                                            <input id="email_confirmation" name="email_confirmation" type="email" required maxLength={255} />
+                                        </div>
+                                    </div>
+                                    <div className="field">
+                                        <label htmlFor="address">Alamat</label>
+                                        <textarea id="address" name="address" required rows={2}></textarea>
+                                        <span className="field-hint">Wilayah Persekutuan Putrajaya sahaja</span>
+                                    </div>
+                                    <div className="form-row">
+                                        <div className="field">
+                                            <label htmlFor="presint">Presint</label>
+                                            <select id="presint" name="presint" required defaultValue="">
+                                                <option value="">— Sila pilih —</option>
+                                                {Array.from({ length: 17 }, (_, i) => i + 1).map((i) => (
+                                                    <option key={i} value={`Presint ${i}`}>Presint {i}</option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                        <div className="field">
+                                            <label htmlFor="photo">Gambar (Opsional)</label>
+                                            <input id="photo" name="photo" type="file" accept="image/jpeg,image/png" className="file-input" />
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        ) : null}
 
-                        <div className="text-center">
-                            <button type="submit" disabled={processing} className="inline-flex items-center gap-2 px-10 py-4 bg-[#CC1A1A] text-white text-xs font-bold uppercase tracking-widest rounded hover:bg-[#9E1212] transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
-                                {processing ? 'Menghantar...' : 'Hantar Permohonan'}
-                            </button>
+                                {/* Section 2: Aid Type */}
+                                <div className="bantuan-section">
+                                    <h3 className="bantuan-section-title">Jenis Bantuan</h3>
+                                    <p className="bantuan-section-desc">Pilih satu jenis bantuan yang diperlukan.</p>
+                                    <div className="aid-section-body">
+                                        <div className="aid-options">
+                                            {aidOptions.map((option) => (
+                                                <label key={option.value} className={`aid-option${aidType === option.value ? ' selected' : ''}`} data-aid={option.value}>
+                                                    <input
+                                                        type="radio"
+                                                        name="aid_types[]"
+                                                        value={option.value}
+                                                        className="aid-radio"
+                                                        checked={aidType === option.value}
+                                                        onChange={() => setAidType(option.value)}
+                                                    />
+                                                    <div className="aid-option-card">
+                                                        <div className="aid-icon">{option.icon}</div>
+                                                        <div className="aid-body">
+                                                            <h4>{option.title}</h4>
+                                                        </div>
+                                                    </div>
+                                                </label>
+                                            ))}
+                                        </div>
+
+                                        {/* Conditional: Patient fields for hospital / wheelchair aid */}
+                                        <div className="aid-conditional" id="aid-patient-fields" hidden={!needsPatient}>
+                                            <h4 className="bantuan-subsection-title">Maklumat Pesakit</h4>
+                                            <div className="form-row">
+                                                <div className="field">
+                                                    <label htmlFor="patient_name">Nama Pesakit</label>
+                                                    <input id="patient_name" name="patient_name" maxLength={255} required={needsPatient} />
+                                                </div>
+                                                <div className="field">
+                                                    <label htmlFor="patient_identity_number">No. KP Pesakit</label>
+                                                    <input id="patient_identity_number" name="patient_identity_number" maxLength={50} required={needsPatient} />
+                                                </div>
+                                            </div>
+                                            <div className="form-row">
+                                                <div className="field">
+                                                    <label htmlFor="patient_phone">No. Telefon Pesakit</label>
+                                                    <input id="patient_phone" name="patient_phone" type="tel" maxLength={50} required={needsPatient} />
+                                                </div>
+                                                <div className="field">
+                                                    <label htmlFor="patient_address">Alamat Pesakit</label>
+                                                    <textarea id="patient_address" name="patient_address" rows={2} required={needsPatient}></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Section 3: Verification */}
+                                <div className="bantuan-section">
+                                    <h3 className="bantuan-section-title">Pengesahan</h3>
+                                    <div className="field">
+                                        <label htmlFor="voter_proof">Bukti Daftar Pemilih (Screenshot)</label>
+                                        <input id="voter_proof" name="voter_proof" type="file" accept="image/jpeg,image/png,application/pdf" className="file-input" />
+                                        <span className="field-hint">Sila muat naik tangkap layar daftar pemilih dari portal SPR</span>
+                                    </div>
+                                    <div className="field bantuan-terms">
+                                        <label className="checkbox-label" htmlFor="terms">
+                                            <input type="checkbox" id="terms" required />
+                                            <span className="checkbox-copy">Saya mengaku bahawa semua maklumat di atas adalah benar dan saya bersetuju dengan terma dan syarat serta polisi privasi (PDPA).</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <button className="btn btn-red btn-lg bantuan-submit" type="submit" disabled={submitting}>
+                                    <span className="bantuan-submit-label">{submitting ? 'Menghantar...' : 'Hantar Borang Bantuan'}</span>
+                                    <span className="bantuan-submit-arrow" aria-hidden="true">&rarr;</span>
+                                </button>
+                                <div id="form-feedback" className={`form-feedback${feedback ? ' show' : ''}${feedbackError ? ' error' : ''}`} role="status">{feedback}</div>
+                            </form>
                         </div>
-                    </form>
+                    </div>
+
+                    {/* Success state */}
+                    <div className="bantuan-success" id="bantuan-success" hidden={!success}>
+                        <div className="bantuan-success-icon">
+                            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" /><polyline points="22 4 12 14.01 9 11.01" /></svg>
+                        </div>
+                        <h2 className="section-title">DATA ANDA DITERIMA</h2>
+                        <p className="bantuan-success-text">Terima kasih. Permohonan bantuan anda telah diterima. Pentadbir akan menghubungi anda untuk tindakan lanjut.</p>
+                        <a href="/" className="btn btn-blue btn-lg">Kembali ke Laman Utama &rarr;</a>
+                    </div>
                 </div>
             </section>
+
+            {/* Confirmation Modal */}
+            <div className={`bantuan-modal-backdrop${modalOpen ? ' open' : ''}`} id="bantuan-confirm-modal" onClick={(event) => { if (event.target === event.currentTarget) setModalOpen(false); }}>
+                <div className="bantuan-modal">
+                    <div className="bantuan-modal-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10" /><path d="M12 16v-4M12 8h.01" /></svg>
+                    </div>
+                    <h3 className="bantuan-modal-title">Sahkan Penghantaran</h3>
+                    <p className="bantuan-modal-desc">Pastikan semua maklumat yang anda isi adalah betul. Klik "Ya, Hantar" untuk menghantar borang.</p>
+                    <div className="bantuan-modal-actions">
+                        <button className="btn btn-outline bantuan-modal-cancel" type="button" onClick={() => setModalOpen(false)}>Batal</button>
+                        <button className="btn btn-red bantuan-modal-confirm" type="button" onClick={confirmSubmit}>Ya, Hantar &rarr;</button>
+                    </div>
+                </div>
+            </div>
         </PublicLayout>
     );
 }

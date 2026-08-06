@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 
 createInertiaApp({
-    title: (title) => title ? `${title} — Tak Banyak Alasan` : 'Tak Banyak Alasan — Kempen UMNO Putrajaya',
+    title: (title) => title || 'Tak Banyak Alasan - Kempen UMNO Putrajaya',
     resolve: (name) =>
         resolvePageComponent(
             `./Pages/${name}.tsx`,

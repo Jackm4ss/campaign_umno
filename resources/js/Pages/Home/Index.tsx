@@ -16,7 +16,7 @@ export default function HomeIndex(props: HomePageProps) {
             <About />
             <UpcomingEvents events={props.campaignEvents ?? []} />
             <Programs programs={props.programs ?? []} />
-            <Activities />
+            <Activities gallery={props.gallery ?? []} />
             <JoinSection />
         </PublicLayout>
     );

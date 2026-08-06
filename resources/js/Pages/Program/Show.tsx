@@ -33,7 +33,7 @@ export default function ProgramShow({ program, siblings }: ProgramShowProps) {
                             <header className="program-detail-header">
                                 <span className="section-label">Program Kami</span>
                                 <h1 className="section-title program-detail-title">{program.title}</h1>
-                                <p className="program-detail-lead">{program.lead}</p>
+                                <div className="program-detail-lead" dangerouslySetInnerHTML={{ __html: program.lead }} />
                             </header>
 
                             <div className="program-detail-media">
@@ -79,8 +79,13 @@ export default function ProgramShow({ program, siblings }: ProgramShowProps) {
                                     <h2 className="program-detail-siblings-title">Program lain</h2>
                                     <ul className="program-detail-siblings-list">
                                         {siblings.map((sibling) => (
-                                            <li key={sibling.slug}>
-                                                <a href={`/program/${sibling.slug}`}>{sibling.title}</a>
+                                            <li key={sibling.slug} className="program-detail-siblings-item">
+                                                <a href={`/program/${sibling.slug}`} className="program-detail-siblings-card">
+                                                    <span className="program-detail-siblings-thumb">
+                                                        <img src={sibling.image_url} alt={sibling.title} loading="lazy" />
+                                                    </span>
+                                                    <span className="program-detail-siblings-card-title">{sibling.title}</span>
+                                                </a>
                                             </li>
                                         ))}
                                     </ul>

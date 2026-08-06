@@ -146,4 +146,3 @@ return new class extends Migration
         Schema::dropIfExists('event_categories');
     }
 };
-

@@ -1,4 +1,5 @@
 import { Link } from '@inertiajs/react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import type { CampaignEventContentData } from '../../../types';
 
 interface Props {
@@ -6,6 +7,42 @@ interface Props {
 }
 
 export default function UpcomingEvents({ events }: Props) {
+    const trackRef = useRef<HTMLDivElement>(null);
+    const [canPrev, setCanPrev] = useState(false);
+    const [canNext, setCanNext] = useState(false);
+
+    const updateArrows = useCallback(() => {
+        const track = trackRef.current;
+        if (!track) return;
+
+        const maxScroll = track.scrollWidth - track.clientWidth;
+        setCanPrev(track.scrollLeft > 4);
+        setCanNext(track.scrollLeft < maxScroll - 4);
+    }, []);
+
+    useEffect(() => {
+        const track = trackRef.current;
+        if (!track) return;
+
+        updateArrows();
+        track.addEventListener('scroll', updateArrows, { passive: true });
+        window.addEventListener('resize', updateArrows);
+
+        return () => {
+            track.removeEventListener('scroll', updateArrows);
+            window.removeEventListener('resize', updateArrows);
+        };
+    }, [updateArrows, events.length]);
+
+    const scrollByCard = (direction: number) => {
+        const track = trackRef.current;
+        if (!track) return;
+
+        const card = track.querySelector<HTMLElement>('.acara-card');
+        const step = card ? card.offsetWidth + 16 : 316;
+        track.scrollBy({ left: direction * step, behavior: 'smooth' });
+    };
+
     return (
         <section id="acara" className="acara section-pad-top">
             <div className="container">
@@ -16,21 +53,27 @@ export default function UpcomingEvents({ events }: Props) {
                 </div>
             </div>
 
-            <div className="acara-marquee-track" role="region" aria-label="Senarai acara akan datang">
-                <div className="acara-marquee-inner">
-                    {[1, 2].map((loopSet) =>
-                        events.map((event) => (
+            {events.length === 0 ? (
+                <div className="container">
+                    <div className="acara-empty">
+                        <p className="acara-empty-title">Tiada acara buat masa ini.</p>
+                        <p className="acara-empty-text">Nantikan pengumuman terkini di halaman ini dan media sosial kami.</p>
+                    </div>
+                </div>
+            ) : (
+                <div className="acara-carousel">
+                    <div className="acara-carousel-track" ref={trackRef} role="region" aria-label="Senarai acara akan datang">
+                        {events.map((event) => (
                             <Link
-                                key={`${loopSet}-${event.slug}`}
+                                key={event.slug}
                                 href={`/acara/${event.slug}`}
                                 className="acara-card"
-                                {...(loopSet === 2 ? { 'aria-hidden': true, tabIndex: -1 } : {})}
                                 aria-label={`${event.title} — Detail selengkapnya`}
                             >
                                 <div className="acara-card-media">
                                     <img
                                         src={event.image_url}
-                                        alt={loopSet === 1 ? event.title : ''}
+                                        alt={event.title}
                                         loading="lazy"
                                         className="acara-card-img"
                                     />
@@ -44,10 +87,31 @@ export default function UpcomingEvents({ events }: Props) {
                                     <span className="acara-card-place">{event.place}</span>
                                 </div>
                             </Link>
-                        )),
-                    )}
+                        ))}
+                    </div>
+
+                    <div className="acara-carousel-nav">
+                        <button
+                            type="button"
+                            className="acara-carousel-arrow acara-carousel-arrow--prev"
+                            aria-label="Acara sebelumnya"
+                            onClick={() => scrollByCard(-1)}
+                            disabled={!canPrev}
+                        >
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6" /></svg>
+                        </button>
+                        <button
+                            type="button"
+                            className="acara-carousel-arrow acara-carousel-arrow--next"
+                            aria-label="Acara seterusnya"
+                            onClick={() => scrollByCard(1)}
+                            disabled={!canNext}
+                        >
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6" /></svg>
+                        </button>
+                    </div>
                 </div>
-            </div>
+            )}
         </section>
     );
 }

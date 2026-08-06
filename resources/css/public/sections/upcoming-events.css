@@ -24,26 +24,84 @@
   content: none;
 }
 
-.acara-marquee-track {
+.acara-carousel {
+  position: relative;
   width: 100%;
-  overflow: hidden;
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
-  mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
   padding-bottom: 24px;
 }
 
-.acara-marquee-inner {
+.acara-carousel-track {
   display: flex;
   flex-direction: row;
   gap: 16px;
-  width: max-content;
-  animation: acara-marquee-scroll 56s linear infinite;
-  /* Room for hard offset shadow under cards */
-  padding: 4px 6px 14px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  /* Room for hard offset shadow under cards; full bleed to viewport edges */
+  padding: 4px max(calc((100vw - var(--container)) / 2 + 24px), 24px) 14px;
 }
 
-.acara-marquee-inner:hover {
-  animation-play-state: paused;
+.acara-carousel-track::-webkit-scrollbar {
+  display: none;
+}
+
+.acara-carousel-track > .acara-card {
+  scroll-snap-align: start;
+}
+
+/* Arrow nav is desktop/laptop only; smaller screens swipe by touch */
+.acara-carousel-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 8px 0 0;
+}
+
+@media (max-width: 1023px) {
+  .acara-carousel-nav {
+    display: none;
+  }
+}
+
+.acara-carousel-arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #fff;
+  color: var(--blue-deep);
+  border: 3px solid var(--blue-deep);
+  box-shadow: 4px 4px 0 var(--blue-deep);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease, opacity 0.15s ease;
+}
+
+.acara-carousel-arrow:hover:not(:disabled) {
+  background: var(--red);
+  color: #fff;
+  border-color: var(--red);
+  box-shadow: 4px 4px 0 var(--blue-deep);
+}
+
+.acara-carousel-arrow:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+@media (max-width: 768px) {
+  .acara-carousel-track {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .acara-carousel-arrow {
+    width: 40px;
+    height: 40px;
+  }
 }
 
 /* Neubrutalist card: thick ink border + hard offset shadow, raw corners */
@@ -60,17 +118,6 @@
   border: 3px solid var(--blue-deep);
   box-shadow: 6px 6px 0 var(--blue-deep);
   transition: box-shadow 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
-}
-
-/* Match Jom Sertai even/odd vertical offset on media well */
-.acara-card:nth-child(odd) {
-  margin-top: 0;
-  margin-bottom: 60px;
-}
-
-.acara-card:nth-child(even) {
-  margin-top: 60px;
-  margin-bottom: 0;
 }
 
 .acara-card:hover,
@@ -192,11 +239,6 @@
   line-height: 1.4;
 }
 
-@keyframes acara-marquee-scroll {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-
 @media (max-width: 768px) {
   .acara {
     padding-top: 80px;
@@ -210,20 +252,8 @@
     width: 220px;
   }
 
-  .acara-card:nth-child(odd) {
-    margin-bottom: 45px;
-  }
-
-  .acara-card:nth-child(even) {
-    margin-top: 45px;
-  }
-
   .acara-card-media {
     height: 255px;
-  }
-
-  .acara-marquee-inner {
-    animation-duration: 42s;
   }
 
   /* Touch: always show CTA chip (hover weak on mobile) */
@@ -242,20 +272,23 @@
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .acara-marquee-inner {
-    animation: none;
-    flex-wrap: wrap;
-    width: 100%;
-    max-width: var(--container);
-    margin: 0 auto;
-    padding: 0 24px 24px;
-    justify-content: center;
-  }
+.acara-empty {
+  margin: 8px 0 40px;
+  padding: 36px 28px;
+  border: 2px dashed rgba(17, 23, 29, 0.25);
+  background: #fff;
+  text-align: center;
+}
 
-  .acara-card:nth-child(odd),
-  .acara-card:nth-child(even) {
-    margin-top: 0;
-    margin-bottom: 0;
-  }
+.acara-empty-title {
+  margin: 0 0 6px;
+  font-weight: 800;
+  font-size: 16px;
+  color: var(--blue-deep);
+}
+
+.acara-empty-text {
+  margin: 0;
+  font-size: 14px;
+  color: var(--text2);
 }

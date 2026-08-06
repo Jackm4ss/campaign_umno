@@ -30,20 +30,16 @@ final class PublicHomeViewData
             ->take(24)
             ->get();
 
-        if ($items->isNotEmpty()) {
-            return $items->map(fn (GalleryItem $item) => [
-                'id' => $item->id,
-                'type' => $item->type->value ?? 'photo',
-                'title' => $item->title,
-                'src' => $this->mediaOrPath($item, 'image', 'assets/event-1.jpg'),
-                'caption' => '',
-                'category' => str_contains(strtolower($item->type->value ?? ''), 'video') ? 'media' : 'kegiatan',
-                'label' => str_contains(strtolower($item->type->value ?? ''), 'video') ? 'Media' : 'Kegiatan',
-                'url' => $item->external_url,
-            ])->all();
-        }
-
-        return $this->defaultGallery();
+        return $items->map(fn (GalleryItem $item) => [
+            'id' => $item->id,
+            'type' => $item->type->value ?? 'photo',
+            'title' => $item->title,
+            'src' => $this->mediaOrPath($item, 'image', 'assets/event-1.jpg'),
+            'caption' => '',
+            'category' => str_contains(strtolower($item->type->value ?? ''), 'video') ? 'media' : 'kegiatan',
+            'label' => str_contains(strtolower($item->type->value ?? ''), 'video') ? 'Media' : 'Kegiatan',
+            'url' => $item->external_url,
+        ])->all();
     }
 
     /** @return array<int, array<string, mixed>> */
@@ -86,34 +82,6 @@ final class PublicHomeViewData
                 'cta' => $e->cta ?? [],
             ])
             ->all();
-    }
-
-    /** @return array<int, array{id: int, type: string, src: string, title: string, caption: string, category: string, label: string, url: null}> */
-    private function defaultGallery(): array
-    {
-        $items = [
-            ['umno-gotong-royong-putraharmoni.jpg', 'Gotong Royong Putra Harmoni', 'Kerja komuniti bersama jentera setempat.', 'kegiatan', 'Kegiatan'],
-            ['umno-gotong-royong-surau.jpg', 'Gotong Royong Surau', 'Kerja bakti menjaga ruang ibadah komuniti.', 'kegiatan', 'Kegiatan'],
-            ['tba-pek-makanan-ramadan-2025.jpg', 'Pek Makanan Ramadan', 'Bantuan asas kepada warga Putrajaya.', 'komuniti', 'Komuniti'],
-            ['umno-ziarah-prihatin-2025.jpg', 'Ziarah Prihatin', 'Lawatan keprihatinan kepada warga memerlukan.', 'komuniti', 'Komuniti'],
-            ['adnan-khidmat-2024.jpg', 'Khidmat Rakyat 2024', 'Program khidmat dan kehadiran bersama warga.', 'kegiatan', 'Kegiatan'],
-            ['tengku-adnan-umno.jpg', 'Tengku Adnan Tengku Mansor', 'Kepimpinan UMNO Bahagian Putrajaya.', 'kepimpinan', 'Kepimpinan'],
-        ];
-
-        return array_map(function (array $row): array {
-            [$file, $title, $caption, $category, $label] = $row;
-
-            return [
-                'id' => 0,
-                'type' => 'photo',
-                'src' => asset('assets/'.$file),
-                'title' => $title,
-                'caption' => $caption,
-                'category' => $category,
-                'label' => $label,
-                'url' => null,
-            ];
-        }, $items);
     }
 
     /**

@@ -21,8 +21,13 @@ final class PublicProgramController extends Controller
             ->published()
             ->where('slug', '!=', $slug)
             ->ordered()
-            ->get(['slug', 'title'])
-            ->map(fn (Program $p) => ['slug' => $p->slug, 'title' => $p->title])
+            ->get()
+            ->map(fn (Program $p) => [
+                'slug' => $p->slug,
+                'title' => $p->title,
+                'image_url' => $p->getFirstMediaUrl('cover', 'thumb')
+                    ?: ($p->image_path ? asset(ltrim($p->image_path, '/')) : asset('assets/program-sukan.jpg')),
+            ])
             ->values()
             ->all();
 

@@ -21,8 +21,13 @@ final class PublicEventController extends Controller
             ->published()
             ->where('slug', '!=', $slug)
             ->ordered()
-            ->get(['slug', 'title'])
-            ->map(fn (CampaignEventContent $e) => ['slug' => $e->slug, 'title' => $e->title])
+            ->get()
+            ->map(fn (CampaignEventContent $e) => [
+                'slug' => $e->slug,
+                'title' => $e->title,
+                'image_url' => $e->getFirstMediaUrl('banner', 'thumb')
+                    ?: ($e->image_path ? asset(ltrim($e->image_path, '/')) : asset('assets/event-1.jpg')),
+            ])
             ->values()
             ->all();
 

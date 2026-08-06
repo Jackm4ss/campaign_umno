@@ -21,6 +21,7 @@ final class CampaignEventContent extends Model implements HasMedia
         'slug',
         'title',
         'date_label',
+        'starts_at',
         'place',
         'short_desc',
         'image_path',
@@ -36,6 +37,7 @@ final class CampaignEventContent extends Model implements HasMedia
         'cta' => 'array',
         'is_published' => 'boolean',
         'sort_order' => 'integer',
+        'starts_at' => 'date',
     ];
 
     public function scopePublished(Builder $query): Builder

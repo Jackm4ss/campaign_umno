@@ -49,6 +49,17 @@
   border-radius: 12px;
   display: flex;
   align-items: flex-start; /* odd: image flush top */
+  text-decoration: none;
+}
+
+.kegiatan-empty {
+  margin: 8px 0 40px;
+  padding: 36px 28px;
+  border: 2px dashed rgba(17, 23, 29, 0.25);
+  background: #fff;
+  text-align: center;
+  font-size: 14px;
+  color: var(--text2);
 }
 
 /* Even items: image pushed 60px down */
@@ -72,6 +83,29 @@
 @keyframes marquee-scroll {
   0%   { transform: translateX(0); }
   100% { transform: translateX(-50%); }
+}
+
+/* Few items: render a static, single-copy row instead of looping. */
+.marquee-inner--static {
+  animation: none;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 24px 24px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-inner {
+    animation: none;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    max-width: var(--container);
+    margin: 0 auto;
+    padding: 0 24px 24px;
+  }
 }
 
 @media (max-width: 768px) {

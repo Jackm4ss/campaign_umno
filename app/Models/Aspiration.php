@@ -14,5 +14,6 @@ final class Aspiration extends Model
         'email',
         'phone',
         'message',
+        'source',
     ];
 }

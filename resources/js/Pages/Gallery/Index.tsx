@@ -175,33 +175,21 @@ export default function GalleryIndex({ gallery }: GalleryPageProps) {
                         </>
                     ) : null}
 
-                    <div className="ig-lightbox-stage" role="dialog" aria-modal="true" aria-labelledby="galeri-lightbox-title">
+                    <div className="ig-lightbox-stage" role="dialog" aria-modal="true" aria-label={current.title}>
                         <button type="button" className="ig-lightbox-close" aria-label="Tutup" onClick={closeLightbox}>
                             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" /></svg>
                         </button>
 
-                        <div className="ig-lightbox-frame">
+                        <div className="ig-lightbox-frame ig-lightbox-frame--media-only">
                             <div className="ig-lightbox-media">
                                 <img src={current.src} alt={current.title} />
                             </div>
-                            <aside className="ig-lightbox-side">
-                                <div className="ig-lightbox-side-head">
-                                    <span className="ig-lightbox-avatar" aria-hidden="true">
-                                        <img src="/assets/admin-logo-blue.png" alt="" width={36} height={36} />
-                                    </span>
-                                    <div className="ig-lightbox-side-meta">
-                                        <span className="ig-lightbox-handle" translate="no">umno.putrajaya</span>
-                                        <span className="ig-lightbox-chip">{current.label || current.category}</span>
-                                    </div>
-                                </div>
-                                <div className="ig-lightbox-side-body">
-                                    <h2 id="galeri-lightbox-title">{current.title}</h2>
-                                    <p>{current.caption}</p>
-                                </div>
-                                <div className="ig-lightbox-side-foot">
-                                    <span className="ig-lightbox-counter">{visibleItems.length ? `${activeIndex + 1} / ${visibleItems.length}` : ''}</span>
-                                </div>
-                            </aside>
+
+                            {current.url ? (
+                                <a className="ig-lightbox-watch" href={current.url} target="_blank" rel="noopener noreferrer">
+                                    Tonton di {current.label || 'platform'} &rarr;
+                                </a>
+                            ) : null}
                         </div>
                     </div>
                 </div>

@@ -1,4 +1,5 @@
 import { FormEvent, useState } from 'react';
+import { detectSource } from '../../../lib/source';
 
 interface FormState {
     name: string;
@@ -21,6 +22,7 @@ export default function JoinSection() {
     const [feedback, setFeedback] = useState('');
     const [feedbackError, setFeedbackError] = useState(false);
     const [submitting, setSubmitting] = useState(false);
+    const [source] = useState(() => detectSource());
 
     const set = (key: keyof FormState) => (event: { target: { value: string } }) =>
         setForm((current) => ({ ...current, [key]: event.target.value }));
@@ -65,6 +67,7 @@ export default function JoinSection() {
                     <p className="mengenai-text">Hantar aspirasi anda untuk masa depan Putrajaya yang lebih baik.</p>
                 </div>
                 <form id="aspiration-form" className="public-form" action="/aspirasi" method="post" noValidate onSubmit={handleSubmit}>
+                    <input type="hidden" name="source" value={source} />
                     <div className="form-row">
                         <div className="field">
                             <label htmlFor="name">Nama penuh</label>

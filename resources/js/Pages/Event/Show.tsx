@@ -42,7 +42,7 @@ export default function EventShow({ event, siblings }: EventShowProps) {
                                         <strong>Lokasi</strong> {event.place}
                                     </span>
                                 </div>
-                                <p className="event-detail-lead">{event.lead}</p>
+                                <div className="event-detail-lead" dangerouslySetInnerHTML={{ __html: event.lead }} />
                             </header>
 
                             <div className="event-detail-media">
@@ -88,8 +88,13 @@ export default function EventShow({ event, siblings }: EventShowProps) {
                                     <h2 className="event-detail-siblings-title">Acara lain</h2>
                                     <ul className="event-detail-siblings-list">
                                         {siblings.map((sibling) => (
-                                            <li key={sibling.slug}>
-                                                <a href={`/acara/${sibling.slug}`}>{sibling.title}</a>
+                                            <li key={sibling.slug} className="event-detail-siblings-item">
+                                                <a href={`/acara/${sibling.slug}`} className="event-detail-siblings-card">
+                                                    <span className="event-detail-siblings-thumb">
+                                                        <img src={sibling.image_url} alt={sibling.title} loading="lazy" />
+                                                    </span>
+                                                    <span className="event-detail-siblings-card-title">{sibling.title}</span>
+                                                </a>
                                             </li>
                                         ))}
                                     </ul>

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Providers\Filament;
 
+use App\Http\Middleware\SetAdminLocale;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -57,12 +58,11 @@ final class AdminPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
-                \App\Http\Middleware\SetAdminLocale::class,
+                SetAdminLocale::class,
             ])
             ->authMiddleware([
                 Authenticate::class,
             ])
-            ->databaseNotifications()
             ->sidebarCollapsibleOnDesktop()
             ->maxContentWidth('full');
     }

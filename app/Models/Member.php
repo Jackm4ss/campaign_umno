@@ -30,6 +30,7 @@ final class Member extends Model implements HasMedia
         'voter_proof_path',
         'aid_status',
         'aid_proof_path',
+        'source',
     ];
 
     protected $casts = [

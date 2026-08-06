@@ -79,12 +79,12 @@ export interface GalleryPageProps {
 
 export interface ProgramShowProps {
     program: ProgramData;
-    siblings: { slug: string; title: string }[];
+    siblings: { slug: string; title: string; image_url: string }[];
     settings: Record<string, unknown>;
 }
 
 export interface EventShowProps {
     event: CampaignEventContentData;
-    siblings: { slug: string; title: string }[];
+    siblings: { slug: string; title: string; image_url: string }[];
     settings: Record<string, unknown>;
 }

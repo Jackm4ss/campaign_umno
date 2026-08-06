@@ -25,4 +25,3 @@ class TurnstileValidator
         return (bool) $response->json('success', false);
     }
 }
-

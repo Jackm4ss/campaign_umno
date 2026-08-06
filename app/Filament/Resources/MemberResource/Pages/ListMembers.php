@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources\MemberResource\Pages;
 
 use App\Filament\Resources\MemberResource;
+use App\Filament\Resources\MemberResource\Widgets\MemberStatsWidget;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 
@@ -15,5 +16,10 @@ final class ListMembers extends ListRecords
     protected function getHeaderActions(): array
     {
         return [Actions\CreateAction::make()];
+    }
+
+    protected function getHeaderWidgets(): array
+    {
+        return [MemberStatsWidget::class];
     }
 }

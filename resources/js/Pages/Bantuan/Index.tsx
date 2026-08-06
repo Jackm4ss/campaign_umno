@@ -2,7 +2,9 @@ import { Head } from '@inertiajs/react';
 import { FormEvent, memo, useEffect, useRef, useState } from 'react';
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
+import Swal from 'sweetalert2';
 import PublicLayout from '../../Layouts/PublicLayout';
+import { detectSource } from '../../lib/source';
 
 /**
  * Flatpickr owns this DOM entirely: the input is created imperatively so
@@ -98,6 +100,7 @@ export default function BantuanIndex() {
     const [feedback, setFeedback] = useState('');
     const [feedbackError, setFeedbackError] = useState(false);
     const [submitting, setSubmitting] = useState(false);
+    const [source] = useState(() => detectSource());
 
     const needsPatient = aidType === 'katil_hospital_kerusi_roda';
 
@@ -126,15 +129,6 @@ export default function BantuanIndex() {
 
         setFeedback('');
         setFeedbackError(false);
-
-        const email = (form.querySelector('#email') as HTMLInputElement)?.value ?? '';
-        const emailConf = (form.querySelector('#email_confirmation') as HTMLInputElement)?.value ?? '';
-
-        if (email !== emailConf) {
-            showFeedback('E-mel dan pengesahan e-mel tidak sepadan.', true);
-            (form.querySelector('#email_confirmation') as HTMLInputElement)?.focus();
-            return;
-        }
 
         if (!aidType) {
             showFeedback('Sila pilih jenis bantuan.', true);
@@ -180,7 +174,13 @@ export default function BantuanIndex() {
             setSuccess(true);
             window.scrollTo({ top: 0, behavior: 'smooth' });
         } catch (error) {
-            showFeedback(error instanceof Error ? error.message : 'Sila cuba lagi.', true);
+            Swal.fire({
+                icon: 'error',
+                title: 'Tidak Dapat Dihantar',
+                text: error instanceof Error ? error.message : 'Sila cuba lagi.',
+                confirmButtonText: 'OK',
+                confirmButtonColor: '#CC1A1A',
+            });
         } finally {
             setSubmitting(false);
         }
@@ -212,6 +212,7 @@ export default function BantuanIndex() {
                             <hr />
 
                             <form id="bantuan-form" className="public-form bantuan-form" action="/daftar" method="post" encType="multipart/form-data" noValidate ref={formRef} onSubmit={handleSubmit} hidden={success}>
+                                <input type="hidden" name="source" value={source} />
                                 {/* Section 1: Personal Data */}
                                 <div className="bantuan-section">
                                     <h3 className="bantuan-section-title">Maklumat Diri</h3>
@@ -248,12 +249,6 @@ export default function BantuanIndex() {
                                         <div className="field">
                                             <label htmlFor="email">E-mel</label>
                                             <input id="email" name="email" type="email" required maxLength={255} />
-                                        </div>
-                                    </div>
-                                    <div className="form-row">
-                                        <div className="field full-width">
-                                            <label htmlFor="email_confirmation">Sahkan E-mel</label>
-                                            <input id="email_confirmation" name="email_confirmation" type="email" required maxLength={255} />
                                         </div>
                                     </div>
                                     <div className="field">

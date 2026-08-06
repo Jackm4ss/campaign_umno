@@ -1,0 +1,24 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Filament\Resources\ProgramResource\Pages;
+
+use App\Filament\Resources\ProgramResource;
+use Filament\Actions;
+use Filament\Resources\Pages\EditRecord;
+
+final class EditProgram extends EditRecord
+{
+    protected static string $resource = ProgramResource::class;
+
+    protected function getHeaderActions(): array
+    {
+        return [Actions\DeleteAction::make()];
+    }
+
+    protected function afterSave(): void
+    {
+        cache()->forget('homepage_data');
+    }
+}

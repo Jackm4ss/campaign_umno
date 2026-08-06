@@ -5,12 +5,18 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Services\PublicHomeViewData;
-use Illuminate\Contracts\View\View;
+use Inertia\Inertia;
+use Inertia\Response;
 
 final class PublicGalleryController extends Controller
 {
-    public function __invoke(PublicHomeViewData $viewData): View
+    public function __invoke(PublicHomeViewData $viewData): Response
     {
-        return view('public.gallery', $viewData->toArray());
+        $data = $viewData->toArray();
+
+        return Inertia::render('Gallery/Index', [
+            'gallery' => $data['gallery'],
+            'settings' => $data['settings'],
+        ]);
     }
 }

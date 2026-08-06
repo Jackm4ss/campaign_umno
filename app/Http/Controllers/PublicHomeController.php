@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Services\PublicHomeViewData;
-use Illuminate\Contracts\View\View;
+use Inertia\Inertia;
+use Inertia\Response;
 
 final class PublicHomeController extends Controller
 {
-    public function __invoke(PublicHomeViewData $viewData): View
+    public function __invoke(PublicHomeViewData $viewData): Response
     {
-        return view('public.home', $viewData->toArray());
+        return Inertia::render('Home/Index', $viewData->toArray());
     }
 }

@@ -4,33 +4,24 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use Illuminate\Contracts\View\View;
+use Inertia\Inertia;
+use Inertia\Response;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Response as HttpResponse;
 
 final class PublicBantuanController extends Controller
 {
-    /**
-     * Display the standalone bantuan (aid request) page.
-     */
-    public function index(): View
+    public function index(): Response
     {
-        return view('public.bantuan');
+        return Inertia::render('Bantuan/Index');
     }
 
-    /**
-     * Show the QR landing page with styled instructions.
-     */
-    public function qrPage(): View
+    public function qrPage(): Response
     {
-        return view('public.bantuan-qr');
+        return Inertia::render('Bantuan/QrPage');
     }
 
-    /**
-     * Generate a QR code (PNG) that links directly to the bantuan form.
-     * Usage: <img src="{{ route('bantuan.qr') }}">
-     */
-    public function qr(): Response
+    public function qr(): HttpResponse
     {
         $url = route('bantuan.index');
 

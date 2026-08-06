@@ -4,21 +4,40 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Support\CampaignPrograms;
-use Illuminate\Contracts\View\View;
-use Illuminate\Http\Request;
+use App\Models\Program;
+use Inertia\Inertia;
+use Inertia\Response;
 
 final class PublicProgramController extends Controller
 {
-    public function show(Request $request, string $slug): View
+    public function show(string $slug): Response
     {
-        $program = CampaignPrograms::find($slug);
+        $program = Program::query()
+            ->published()
+            ->bySlug($slug)
+            ->firstOrFail();
 
-        abort_if($program === null, 404);
+        $siblings = Program::query()
+            ->published()
+            ->where('slug', '!=', $slug)
+            ->ordered()
+            ->get(['slug', 'title'])
+            ->map(fn (Program $p) => ['slug' => $p->slug, 'title' => $p->title])
+            ->values()
+            ->all();
 
-        return view('public.program-show', [
-            'program' => $program,
-            'siblings' => CampaignPrograms::siblings($slug),
+        return Inertia::render('Program/Show', [
+            'program' => [
+                'id' => $program->id,
+                'slug' => $program->slug,
+                'title' => $program->title,
+                'short_desc' => $program->short_desc,
+                'image_url' => $program->image_path ? asset($program->image_path) : asset('assets/program-sukan.jpg'),
+                'lead' => $program->lead,
+                'sections' => $program->sections ?? [],
+                'cta' => $program->cta ?? [],
+            ],
+            'siblings' => $siblings,
             'settings' => [],
         ]);
     }

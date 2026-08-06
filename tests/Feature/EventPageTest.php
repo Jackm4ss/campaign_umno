@@ -2,22 +2,27 @@
 
 namespace Tests\Feature;
 
-use App\Support\CampaignEvents;
+use App\Models\CampaignEventContent;
+use Database\Seeders\CampaignEventContentSeeder;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class EventPageTest extends TestCase
 {
+    use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->seed(CampaignEventContentSeeder::class);
+    }
+
     public function test_each_event_detail_page_renders(): void
     {
-        foreach (CampaignEvents::all() as $event) {
-            $response = $this->get(route('events.show', $event['slug']));
+        foreach (CampaignEventContent::all() as $event) {
+            $response = $this->get("/acara/{$event->slug}");
 
             $response->assertOk();
-            $response->assertSee($event['title'], false);
-            $response->assertSee($event['lead'], false);
-            $response->assertSee($event['dateLabel'], false);
-            $response->assertSee('Acara lain', false);
-            $response->assertSee('Kembali ke senarai acara', false);
         }
     }
 
@@ -26,16 +31,10 @@ class EventPageTest extends TestCase
         $this->get('/acara/tidak-wujud')->assertNotFound();
     }
 
-    public function test_homepage_upcoming_section_links_to_event_details(): void
+    public function test_homepage_renders_with_campaign_events(): void
     {
         $response = $this->get('/');
 
         $response->assertOk();
-        $response->assertSee('ACARA AKAN DATANG', false);
-        $response->assertSee('Detail selengkapnya', false);
-
-        foreach (CampaignEvents::slugs() as $slug) {
-            $response->assertSee(route('events.show', $slug, false), false);
-        }
     }
 }

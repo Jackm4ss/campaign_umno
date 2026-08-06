@@ -25,7 +25,7 @@ export default function Activities({ gallery }: Props) {
                 </div>
             ) : (
                 <div className="marquee-track" aria-label="Dokumentasi kegiatan">
-                    <div className={`marquee-inner${items.length < 6 ? ' marquee-inner--few' : ''}`}>
+                    <div className={`marquee-inner${items.length < 6 ? ' marquee-inner--static' : ''}`}>
                         {/* First set */}
                         {items.map((item, i) => (
                             <a href="/galeri" className="marquee-item" key={`a-${item.id}`} title={item.title}>

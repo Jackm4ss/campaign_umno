@@ -1,8 +1,56 @@
 import { Head } from '@inertiajs/react';
-import { FormEvent, useEffect, useRef, useState } from 'react';
+import { FormEvent, memo, useEffect, useRef, useState } from 'react';
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
 import PublicLayout from '../../Layouts/PublicLayout';
+
+/**
+ * Flatpickr owns this DOM entirely: the input is created imperatively so
+ * React never re-reconciles it. This prevents the duplicate-input bug
+ * where parent re-renders (aid type selection, etc.) would restore the
+ * hidden original input next to flatpickr's visible alt input.
+ */
+const BirthDatePicker = memo(function BirthDatePicker() {
+    const containerRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const container = containerRef.current;
+        if (!container) return;
+
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.id = 'birth_date';
+        input.name = 'birth_date';
+        input.placeholder = 'Pilih tarikh lahir';
+        input.autocomplete = 'off';
+        input.required = true;
+        container.appendChild(input);
+
+        const instance = flatpickr(input, {
+            dateFormat: 'Y-m-d',
+            altInput: true,
+            altFormat: 'j F Y',
+            maxDate: 'today',
+            locale: {
+                months: {
+                    shorthand: ['Jan', 'Feb', 'Mac', 'Apr', 'Mei', 'Jun', 'Jul', 'Ogo', 'Sep', 'Okt', 'Nov', 'Dis'],
+                    longhand: ['Januari', 'Februari', 'Mac', 'April', 'Mei', 'Jun', 'Julai', 'Ogos', 'September', 'Oktober', 'November', 'Disember'],
+                },
+                weekdays: {
+                    shorthand: ['Ahd', 'Isn', 'Sel', 'Rab', 'Kha', 'Jum', 'Sab'],
+                    longhand: ['Ahad', 'Isnin', 'Selasa', 'Rabu', 'Khamis', 'Jumaat', 'Sabtu'],
+                },
+            },
+        });
+
+        return () => {
+            (Array.isArray(instance) ? instance : [instance]).forEach((i) => i.destroy());
+            input.remove();
+        };
+    }, []);
+
+    return <div ref={containerRef}></div>;
+});
 
 const aidOptions = [
     {
@@ -44,7 +92,6 @@ const aidOptions = [
 
 export default function BantuanIndex() {
     const formRef = useRef<HTMLFormElement>(null);
-    const birthDateRef = useRef<HTMLInputElement>(null);
     const [aidType, setAidType] = useState('');
     const [modalOpen, setModalOpen] = useState(false);
     const [success, setSuccess] = useState(false);
@@ -53,29 +100,6 @@ export default function BantuanIndex() {
     const [submitting, setSubmitting] = useState(false);
 
     const needsPatient = aidType === 'katil_hospital_kerusi_roda';
-
-    useEffect(() => {
-        if (!birthDateRef.current) return;
-        const instance = flatpickr(birthDateRef.current, {
-            dateFormat: 'Y-m-d',
-            altInput: true,
-            altFormat: 'j F Y',
-            maxDate: 'today',
-            locale: {
-                months: {
-                    shorthand: ['Jan', 'Feb', 'Mac', 'Apr', 'Mei', 'Jun', 'Jul', 'Ogo', 'Sep', 'Okt', 'Nov', 'Dis'],
-                    longhand: ['Januari', 'Februari', 'Mac', 'April', 'Mei', 'Jun', 'Julai', 'Ogos', 'September', 'Oktober', 'November', 'Disember'],
-                },
-                weekdays: {
-                    shorthand: ['Ahd', 'Isn', 'Sel', 'Rab', 'Kha', 'Jum', 'Sab'],
-                    longhand: ['Ahad', 'Isnin', 'Selasa', 'Rabu', 'Khamis', 'Jumaat', 'Sabtu'],
-                },
-            },
-        });
-        return () => {
-            (Array.isArray(instance) ? instance : [instance]).forEach((i) => i.destroy());
-        };
-    }, []);
 
     useEffect(() => {
         if (!modalOpen) return;
@@ -213,7 +237,7 @@ export default function BantuanIndex() {
                                         </div>
                                         <div className="field">
                                             <label htmlFor="birth_date">Tarikh Lahir</label>
-                                            <input id="birth_date" name="birth_date" type="text" placeholder="Pilih tarikh lahir" autoComplete="off" required ref={birthDateRef} />
+                                            <BirthDatePicker />
                                         </div>
                                     </div>
                                     <div className="form-row">

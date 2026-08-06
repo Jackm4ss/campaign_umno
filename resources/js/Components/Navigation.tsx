@@ -1,5 +1,6 @@
 import { Link, usePage } from '@inertiajs/react';
 import { useEffect, useState } from 'react';
+import { baseUrl } from '../lib/url';
 
 export default function Navigation() {
     const [open, setOpen] = useState(false);
@@ -49,7 +50,7 @@ export default function Navigation() {
         <>
             <nav className={`navbar${scrolled ? ' scrolled' : ''}`} aria-label="Navigasi utama">
                 <div className="container nav-bar-inner">
-                    <a className="nav-logo" href="/#utama" aria-label="Tak Banyak Alasan">
+                    <a className="nav-logo" href={baseUrl('/#utama')} aria-label="Tak Banyak Alasan">
                         <img src="/assets/admin-logo-blue.png" alt="Tak Banyak Alasan" />
                     </a>
 
@@ -90,15 +91,15 @@ export default function Navigation() {
                 </div>
 
                 <div className="nav-links">
-                    <a href="/#utama" className={url === '/' ? 'active' : ''} onClick={close}>Utama</a>
-                    <a href="/#mengenai" onClick={close}>Mengapa Tak Banyak Alasan</a>
-                    <a href="/#kegiatan" onClick={close}>Aktiviti Tak Banyak Alasan</a>
-                    <a href="/#sertai" onClick={close}>Aspirasi Anda, Tekad Kami</a>
-                    <Link href="/galeri" className={url.startsWith('/galeri') ? 'active' : ''} onClick={close}>Foto &amp; Video</Link>
+                    <a href={baseUrl('/#utama')} className={url === '/' ? 'active' : ''} onClick={close}>Utama</a>
+                    <a href={baseUrl('/#mengenai')} onClick={close}>Mengapa Tak Banyak Alasan</a>
+                    <a href={baseUrl('/#kegiatan')} onClick={close}>Aktiviti Tak Banyak Alasan</a>
+                    <a href={baseUrl('/#sertai')} onClick={close}>Aspirasi Anda, Tekad Kami</a>
+                    <a href={baseUrl('/galeri')} className={url.startsWith('/galeri') ? 'active' : ''} onClick={close}>Foto &amp; Video</a>
                 </div>
 
                 <div className="nav-btn">
-                    <Link className="btn btn-red nav-cta" href="/bantuan" onClick={close}>Inisiatif Tak Banyak Alasan</Link>
+                    <a className="btn btn-red nav-cta" href={baseUrl('/bantuan')} onClick={close}>Inisiatif Tak Banyak Alasan</a>
                 </div>
             </aside>
         </>

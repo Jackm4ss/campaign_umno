@@ -5,6 +5,7 @@ import 'flatpickr/dist/flatpickr.min.css';
 import Swal from 'sweetalert2';
 import PublicLayout from '../../Layouts/PublicLayout';
 import { detectSource } from '../../lib/source';
+import { baseUrl } from '../../lib/url';
 
 /**
  * Flatpickr owns this DOM entirely: the input is created imperatively so
@@ -192,7 +193,7 @@ export default function BantuanIndex() {
             <section className="bantuan-page section-pad">
                 <div className="container bantuan-container">
                     <div className="bantuan-card-shell">
-                        <a href="/" className="bantuan-card-back" title="Kembali ke Laman Utama">
+                        <a href={baseUrl('/')} className="bantuan-card-back" title="Kembali ke Laman Utama">
                             <span className="bantuan-back-pad">
                                 <svg className="bantuan-back-fillet bantuan-back-fillet--a" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" aria-hidden="true"><path d="m100,0H0v100C0,44.77,44.77,0,100,0Z" fill="currentColor"></path></svg>
                                 <span className="bantuan-back-circle">
@@ -358,7 +359,7 @@ export default function BantuanIndex() {
                         </div>
                         <h2 className="section-title">DATA ANDA DITERIMA</h2>
                         <p className="bantuan-success-text">Terima kasih. Permohonan bantuan anda telah diterima. Pentadbir akan menghubungi anda untuk tindakan lanjut.</p>
-                        <a href="/" className="btn btn-blue btn-lg">Kembali ke Laman Utama &rarr;</a>
+                        <a href={baseUrl('/')} className="btn btn-blue btn-lg">Kembali ke Laman Utama &rarr;</a>
                     </div>
                 </div>
             </section>

@@ -33,6 +33,7 @@ final class HandleInertiaRequests extends Middleware
                 'message' => $request->session()->get('message'),
                 'error' => $request->session()->get('error'),
             ],
+            'baseUrl' => config('app.url'),
             'ziggy' => fn () => [
                 ...(new Ziggy)->toArray(),
                 'location' => $request->url(),

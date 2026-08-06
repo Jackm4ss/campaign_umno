@@ -1,5 +1,6 @@
-import { Head, Link } from '@inertiajs/react';
+import { Head } from '@inertiajs/react';
 import PublicLayout from '../../Layouts/PublicLayout';
+import { baseUrl } from '../../lib/url';
 
 export default function BantuanQrPage() {
     return (
@@ -34,15 +35,15 @@ export default function BantuanQrPage() {
                             </div>
                         </div>
 
-                        <Link href="/bantuan" className="btn btn-red btn-lg bantuan-qr-cta">
+                        <a href={baseUrl('/bantuan')} className="btn btn-red btn-lg bantuan-qr-cta">
                             Buka Borang Bantuan
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
-                        </Link>
+                        </a>
 
-                        <Link href="/" className="btn btn-blue btn-lg bantuan-qr-home">
+                        <a href={baseUrl('/')} className="btn btn-blue btn-lg bantuan-qr-home">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
-                            Back to Home
-                        </Link>
+                            Kembali ke Laman Utama
+                        </a>
                     </div>
                 </div>
             </section>

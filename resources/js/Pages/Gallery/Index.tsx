@@ -2,6 +2,7 @@ import { Head } from '@inertiajs/react';
 import { useEffect, useMemo, useState } from 'react';
 import PublicLayout from '../../Layouts/PublicLayout';
 import type { GalleryItemData, GalleryPageProps } from '../../types';
+import { baseUrl } from '../../lib/url';
 
 const categoryMeta: Record<string, string> = {
     all: 'Semua',
@@ -79,7 +80,7 @@ export default function GalleryIndex({ gallery }: GalleryPageProps) {
 
             <section id="galeri" className="ig-galeri" aria-labelledby="ig-galeri-title">
                 <div className="ig-shell">
-                    <a href="/" className="ig-back">
+                    <a href={baseUrl('/')} className="ig-back">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
                         <span>back</span>
                     </a>

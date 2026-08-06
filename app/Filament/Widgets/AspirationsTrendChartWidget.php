@@ -46,4 +46,16 @@ final class AspirationsTrendChartWidget extends ChartWidget
     {
         return 'line';
     }
+
+    protected function getOptions(): array
+    {
+        return [
+            'scales' => [
+                'y' => [
+                    'beginAtZero' => true,
+                    'ticks' => ['stepSize' => 1],
+                ],
+            ],
+        ];
+    }
 }

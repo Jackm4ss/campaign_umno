@@ -7,7 +7,23 @@ use App\Http\Controllers\PublicHomeController;
 use App\Http\Controllers\PublicProgramController;
 use App\Http\Controllers\PublicSubmissionController;
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 
+// ── Subdomain: aspirasi (form aspirasi sahaja) ──────────────
+Route::domain('aspirasi.takbanyakalasan.com')->group(function () {
+    Route::get('/', fn () => Inertia::render('Standalone/Aspirasi'))->name('standalone.aspirasi');
+    Route::post('/aspirasi', [PublicSubmissionController::class, 'aspiration']);
+});
+
+// ── Subdomain: bantuan (borang bantuan sahaja) ──────────────
+Route::domain('bantuan.takbanyakalasan.com')->group(function () {
+    Route::get('/', [PublicBantuanController::class, 'index'])->name('standalone.bantuan');
+    Route::get('/qr', [PublicBantuanController::class, 'qrPage']);
+    Route::get('/qr-image', [PublicBantuanController::class, 'qr']);
+    Route::post('/daftar', [PublicSubmissionController::class, 'member']);
+});
+
+// ── Main domain ─────────────────────────────────────────────
 Route::get('/', PublicHomeController::class)->name('home');
 
 // Standalone public pages

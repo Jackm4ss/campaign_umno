@@ -1,17 +1,12 @@
 import { Head } from '@inertiajs/react';
-import Navigation from '../../Components/Navigation';
+import PublicLayout from '../../Layouts/PublicLayout';
 import JoinSection from '../Home/sections/JoinSection';
-import Footer from '../../Components/Footer';
 
 export default function Aspirasi() {
     return (
-        <>
+        <PublicLayout>
             <Head title="Aspirasi - Tak Banyak Alasan" />
-            <Navigation />
-            <main>
-                <JoinSection />
-            </main>
-            <Footer />
-        </>
+            <JoinSection />
+        </PublicLayout>
     );
 }

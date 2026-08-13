@@ -37,7 +37,7 @@ final class PublicHomeViewData
             'src' => $this->mediaOrPath($item, 'image', 'assets/event-1.jpg'),
             'caption' => '',
             'category' => str_contains(strtolower($item->type->value ?? ''), 'video') ? 'media' : 'kegiatan',
-            'label' => str_contains(strtolower($item->type->value ?? ''), 'video') ? 'Media' : 'Kegiatan',
+            'label' => str_contains(strtolower($item->type->value ?? ''), 'video') ? 'Media' : 'Aktiviti',
             'url' => $item->external_url,
         ])->all();
     }
@@ -74,6 +74,7 @@ final class PublicHomeViewData
                 'slug' => $e->slug,
                 'title' => $e->title,
                 'date_label' => $e->date_label,
+                'starts_at' => $this->eventDate($e),
                 'place' => $e->place,
                 'short_desc' => $e->short_desc,
                 'image_url' => $this->mediaOrPath($e, 'banner', 'assets/event-1.jpg'),
@@ -82,6 +83,32 @@ final class PublicHomeViewData
                 'cta' => $e->cta ?? [],
             ])
             ->all();
+    }
+
+    private function eventDate(CampaignEventContent $event): ?string
+    {
+        if ($event->starts_at !== null) {
+            return $event->starts_at->format('Y-m-d');
+        }
+
+        if (! preg_match('/^(\d{1,2})\s+(\p{L}+)\s+(\d{4})$/u', trim($event->date_label), $matches)) {
+            return null;
+        }
+
+        $months = [
+            'januari' => 1, 'februari' => 2, 'mac' => 3, 'april' => 4,
+            'mei' => 5, 'jun' => 6, 'julai' => 7, 'ogos' => 8,
+            'september' => 9, 'oktober' => 10, 'november' => 11, 'disember' => 12,
+        ];
+        $month = $months[mb_strtolower($matches[2])] ?? null;
+        $day = (int) $matches[1];
+        $year = (int) $matches[3];
+
+        if ($month === null || ! checkdate($month, $day, $year)) {
+            return null;
+        }
+
+        return sprintf('%04d-%02d-%02d', $year, $month, $day);
     }
 
     /**

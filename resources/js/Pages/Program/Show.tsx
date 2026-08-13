@@ -31,7 +31,6 @@ export default function ProgramShow({ program, siblings }: ProgramShowProps) {
 
                         <article className="program-detail-card">
                             <header className="program-detail-header">
-                                <span className="section-label">Program Kami</span>
                                 <h1 className="section-title program-detail-title">{program.title}</h1>
                                 <div className="program-detail-lead" dangerouslySetInnerHTML={{ __html: program.lead }} />
                             </header>

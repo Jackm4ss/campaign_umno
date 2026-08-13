@@ -3,6 +3,7 @@ import { FormEvent, memo, useEffect, useRef, useState } from 'react';
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
 import Swal from 'sweetalert2';
+import LegalConsentFields from '../../Components/LegalConsentFields';
 import PublicLayout from '../../Layouts/PublicLayout';
 import { detectSource } from '../../lib/source';
 import { baseUrl } from '../../lib/url';
@@ -136,9 +137,17 @@ export default function BantuanIndex() {
             return;
         }
 
-        const terms = form.querySelector('#terms') as HTMLInputElement;
-        if (!terms.checked) {
-            showFeedback('Sila setujui terma dan syarat.', true);
+        const terms = form.elements.namedItem('terms_accepted') as HTMLInputElement | null;
+        if (!terms?.checked) {
+            showFeedback('Sila baca dan setujui Terma & Syarat Permohonan Bantuan.', true);
+            terms?.focus();
+            return;
+        }
+
+        const privacy = form.elements.namedItem('privacy_accepted') as HTMLInputElement | null;
+        if (!privacy?.checked) {
+            showFeedback('Sila baca dan setujui Dasar Privasi.', true);
+            privacy?.focus();
             return;
         }
 
@@ -167,7 +176,7 @@ export default function BantuanIndex() {
                 body: new FormData(form),
             });
 
-            const data = await response.json();
+            const data: { message?: string; errors?: Record<string, string[]> } = await response.json();
             if (!response.ok) {
                 throw new Error(Object.values(data.errors ?? {})[0]?.[0] ?? data.message ?? 'Sila semak semula borang anda.');
             }
@@ -205,7 +214,6 @@ export default function BantuanIndex() {
 
                         <div className="bantuan-card-wrap">
                             <div className="bantuan-card-header">
-                                <span className="section-label">Bantuan Rakyat</span>
                                 <h1 className="section-title bantuan-title">BORANG BANTUAN</h1>
                                 <p className="bantuan-intro">Sila lengkapkan borang di bawah. Permohonan anda akan diproses dalam tempoh lima (5) hari bekerja. Admin akan berhubung semula melalui E-Mel atau Whatsapp jika permohonan diluluskan.</p>
                             </div>
@@ -244,7 +252,7 @@ export default function BantuanIndex() {
                                     </div>
                                     <div className="form-row">
                                         <div className="field">
-                                            <label htmlFor="phone">No. Telefon</label>
+                                            <label htmlFor="phone">No. WhatsApp</label>
                                             <input id="phone" name="phone" type="tel" required maxLength={50} />
                                         </div>
                                         <div className="field">
@@ -315,7 +323,7 @@ export default function BantuanIndex() {
                                             </div>
                                             <div className="form-row">
                                                 <div className="field">
-                                                    <label htmlFor="patient_phone">No. Telefon Pesakit</label>
+                                                    <label htmlFor="patient_phone">No. WhatsApp Pesakit</label>
                                                     <input id="patient_phone" name="patient_phone" type="tel" maxLength={50} required={needsPatient} />
                                                 </div>
                                                 <div className="field">
@@ -335,12 +343,7 @@ export default function BantuanIndex() {
                                         <input id="voter_proof" name="voter_proof" type="file" accept="image/jpeg,image/png,application/pdf" className="file-input" />
                                         <span className="field-hint">Sila muat naik tangkap layar daftar pemilih dari portal SPR</span>
                                     </div>
-                                    <div className="field bantuan-terms">
-                                        <label className="checkbox-label" htmlFor="terms">
-                                            <input type="checkbox" id="terms" required />
-                                            <span className="checkbox-copy">Saya mengaku bahawa semua maklumat di atas adalah benar dan saya bersetuju dengan terma dan syarat serta polisi privasi (PDPA).</span>
-                                        </label>
-                                    </div>
+                                    <LegalConsentFields idPrefix="aid" />
                                 </div>
 
                                 <button className="btn btn-red btn-lg bantuan-submit" type="submit" disabled={submitting}>

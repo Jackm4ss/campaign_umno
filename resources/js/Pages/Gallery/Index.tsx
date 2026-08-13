@@ -6,7 +6,7 @@ import { baseUrl } from '../../lib/url';
 
 const categoryMeta: Record<string, string> = {
     all: 'Semua',
-    kegiatan: 'Kegiatan',
+    kegiatan: 'Aktiviti',
     komuniti: 'Komuniti',
     kepimpinan: 'Kepimpinan',
     media: 'Media',
@@ -75,14 +75,14 @@ export default function GalleryIndex({ gallery }: GalleryPageProps) {
 
     return (
         <PublicLayout>
-            <Head title="Galeri Kempen - Tak Banyak Alasan" />
+            <Head title="Foto Galeri - Tak Banyak Alasan" />
             <a href="#galeri" className="skip-link">Langkau ke kandungan galeri</a>
 
             <section id="galeri" className="ig-galeri" aria-labelledby="ig-galeri-title">
                 <div className="ig-shell">
                     <a href={baseUrl('/')} className="ig-back">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
-                        <span>back</span>
+                        <span>Kembali</span>
                     </a>
 
                     {/* Profile header */}
@@ -92,7 +92,7 @@ export default function GalleryIndex({ gallery }: GalleryPageProps) {
                         </div>
                         <div className="ig-profile-meta">
                             <div className="ig-profile-row">
-                                <h1 id="ig-galeri-title" className="ig-handle" translate="no">umno.putrajaya</h1>
+                                <h1 id="ig-galeri-title" className="ig-handle" translate="no">takbanyakalasan</h1>
                                 <span className="ig-badge">Galeri</span>
                             </div>
                             <ul className="ig-stats" aria-label="Statistik galeri">
@@ -102,7 +102,7 @@ export default function GalleryIndex({ gallery }: GalleryPageProps) {
                             </ul>
                             <div className="ig-bio">
                                 <p className="ig-bio-name">Tak Banyak Alasan</p>
-                                <p className="ig-bio-text">Dokumentasi visual kempen UMNO Putrajaya — kegiatan, komuniti, kepimpinan & media.</p>
+                                <p className="ig-bio-text">Dokumentasi visual Tak Banyak Alasan — aktiviti, komuniti, kepimpinan dan media.</p>
                             </div>
                         </div>
                     </header>
@@ -122,41 +122,47 @@ export default function GalleryIndex({ gallery }: GalleryPageProps) {
                         ))}
                     </div>
 
-                    {/* Dense square grid */}
-                    <div className="ig-grid" id="galeri-grid" role="list">
+                    {/* Autoplay slideshow; hovering or focusing pauses movement. */}
+                    <div className="ig-slideshow" id="galeri-grid" role="list" aria-label="Slideshow foto galeri">
                         {items.length === 0 ? (
                             <p className="ig-empty-full">Belum ada dokumentasi untuk dipaparkan.</p>
+                        ) : visibleItems.length === 0 ? (
+                            <p className="ig-empty">Tiada catatan untuk penapis ini.</p>
                         ) : (
-                            visibleItems.map((item: GalleryItemData) => {
-                                const isVideo = Boolean(item.url);
-                                const index = visibleItems.indexOf(item);
-                                return (
-                                    <button
-                                        key={`${item.id}-${index}`}
-                                        type="button"
-                                        className={`ig-cell${isVideo ? ' ig-cell--video' : ''}`}
-                                        role="listitem"
-                                        data-category={item.category}
-                                        aria-label={`Buka ${item.title}`}
-                                        onClick={() => setActiveIndex(index)}
-                                    >
-                                        <img loading="lazy" decoding="async" src={item.src} alt={item.title} width={400} height={400} />
-                                        <span className="ig-cell-shade" aria-hidden="true"></span>
-                                        {isVideo ? (
-                                            <span className="ig-cell-video" aria-hidden="true">
-                                                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z" /></svg>
+                            <div className={`ig-slideshow-track${visibleItems.length < 2 ? ' is-static' : ''}`}>
+                                {(visibleItems.length < 2 ? visibleItems : [...visibleItems, ...visibleItems]).map((item: GalleryItemData, index) => {
+                                    const isVideo = Boolean(item.url);
+                                    const sourceIndex = index % visibleItems.length;
+                                    const duplicate = index >= visibleItems.length;
+
+                                    return (
+                                        <button
+                                            key={`${item.id}-${index}`}
+                                            type="button"
+                                            className={`ig-cell ig-slide${isVideo ? ' ig-cell--video' : ''}`}
+                                            role="listitem"
+                                            tabIndex={duplicate ? -1 : 0}
+                                            aria-hidden={duplicate || undefined}
+                                            data-category={item.category}
+                                            aria-label={`Buka ${item.title}`}
+                                            onClick={() => setActiveIndex(sourceIndex)}
+                                        >
+                                            <img loading="lazy" decoding="async" src={item.src} alt={duplicate ? '' : item.title} width={400} height={500} />
+                                            <span className="ig-cell-shade" aria-hidden="true"></span>
+                                            {isVideo ? (
+                                                <span className="ig-cell-video" aria-hidden="true">
+                                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z" /></svg>
+                                                </span>
+                                            ) : null}
+                                            <span className="ig-cell-hover">
+                                                <span className="ig-cell-title">{item.title}</span>
                                             </span>
-                                        ) : null}
-                                        <span className="ig-cell-hover">
-                                            <span className="ig-cell-title">{item.title}</span>
-                                        </span>
-                                    </button>
-                                );
-                            })
+                                        </button>
+                                    );
+                                })}
+                            </div>
                         )}
                     </div>
-
-                    <p className="ig-empty" hidden={visibleItems.length > 0 || items.length === 0}>Tiada catatan untuk penapis ini.</p>
                 </div>
             </section>
 
@@ -167,7 +173,7 @@ export default function GalleryIndex({ gallery }: GalleryPageProps) {
 
                     {visibleItems.length > 1 ? (
                         <>
-                            <button type="button" className="ig-lightbox-nav ig-lightbox-prev" aria-label="Catatan sebelumnya" onClick={() => step(-1)}>
+                            <button type="button" className="ig-lightbox-nav ig-lightbox-prev" aria-label="Catatan terdahulu" onClick={() => step(-1)}>
                                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" aria-hidden="true"><path d="M15 18l-6-6 6-6" /></svg>
                             </button>
                             <button type="button" className="ig-lightbox-nav ig-lightbox-next" aria-label="Catatan seterusnya" onClick={() => step(1)}>

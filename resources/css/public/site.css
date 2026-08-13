@@ -13,6 +13,7 @@
 @import './sections/articles.css';
 @import './sections/bantuan.css';
 @import './layout/footer.css';
+@import './layout/legal-modal.css';
 @import './layout/cookie-consent.css';
 @import './layout/back-to-top.css';
 @import './home.css';

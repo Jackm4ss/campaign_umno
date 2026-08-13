@@ -11,6 +11,7 @@
   background: #fff;
   z-index: 1000;
   border-bottom: 1px solid var(--border);
+  box-shadow: 0 4px 18px rgba(2, 11, 38, 0.09);
   transform: translateY(0);
   transition: height 0.25s ease, box-shadow 0.25s ease;
 }
@@ -23,7 +24,7 @@
 .navbar .container.nav-bar-inner {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   height: 100%;
   width: 100%;
   max-width: min(var(--container), 100%);
@@ -66,7 +67,8 @@
   background: transparent;
   cursor: pointer;
   z-index: 1003;
-  position: relative;
+  position: absolute;
+  right: 24px;
   transition: background 0.2s ease, opacity 0.2s ease;
 }
 
@@ -260,6 +262,10 @@ body.nav-open {
   .nav-logo img {
     height: 40px;
     max-width: 168px;
+  }
+
+  .menu-toggle {
+    right: 16px;
   }
 
   .nav-menu {

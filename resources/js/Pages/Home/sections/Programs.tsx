@@ -10,9 +10,8 @@ export default function Programs({ programs }: Props) {
         <section id="program" className="program section-pad">
             <div className="container">
                 <div className="program-header fade-up">
-                    <span className="section-label">Program Kami</span>
                     <h2 className="section-title">PROGRAM TAK BANYAK ALASAN</h2>
-                    <p className="mengenai-text">Enam teras program kempen untuk warga Putrajaya.</p>
+                    <p className="mengenai-text">Enam teras program untuk warga Putrajaya.</p>
                 </div>
 
                 <div className="program-grid">

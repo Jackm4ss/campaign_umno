@@ -22,6 +22,12 @@
 .join-grid { display: grid; grid-template-columns: .8fr 1.2fr; gap: 64px; align-items: start; }
 .join-copy { position: sticky; top: 100px; }
 .join-copy .section-title { margin: 14px 0 20px; }
+.join-qr-card { display: inline-flex; align-items: center; gap: 14px; margin-top: 24px; padding: 10px 14px 10px 10px; border: 2px solid var(--blue-deep); background: #fff; color: var(--blue-deep); text-decoration: none; box-shadow: 5px 5px 0 var(--red); transition: transform .15s ease, box-shadow .15s ease; }
+.join-qr-card:hover { color: var(--red); transform: translate(-2px, -2px); box-shadow: 7px 7px 0 var(--red); }
+.join-qr-card img { display: block; width: 96px; height: 96px; background: #fff; }
+.join-qr-card span { display: flex; flex-direction: column; gap: 5px; max-width: 170px; }
+.join-qr-card strong { font-size: 13px; line-height: 1.35; }
+.join-qr-card small { color: var(--text-muted); font-size: 10px; line-height: 1.4; }
 .public-form { padding: 36px; border: 1px solid var(--border); background: #fff; box-shadow: 0 18px 50px rgba(2, 11, 38, .08); }
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
 .field { display: flex; flex-direction: column; gap: 7px; margin-bottom: 18px; }

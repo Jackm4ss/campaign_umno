@@ -2,12 +2,12 @@ export default function Hero() {
     return (
         <section className="hero" id="utama">
             <div className="hero-bg">
-                <img src="/assets/collage-bg.jpg" alt="UMNO Activities Collage" className="hero-bg-collage" />
+                <img src="/assets/collage-bg.jpg" alt="Kolaj aktiviti Tak Banyak Alasan" className="hero-bg-collage" />
                 <div className="hero-bg-overlay"></div>
             </div>
 
             <div className="hero-right">
-                <img src="/assets/tokoh.png" alt="Pemimpin UMNO" className="hero-tokoh" id="heroTokoh" />
+                <img src="/assets/tokoh.png" alt="Tokoh Tak Banyak Alasan" className="hero-tokoh" id="heroTokoh" />
             </div>
 
             <div className="hero-content">

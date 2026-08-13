@@ -1,4 +1,4 @@
-import { Link, usePage } from '@inertiajs/react';
+import { usePage } from '@inertiajs/react';
 import { useEffect, useState } from 'react';
 import { baseUrl } from '../lib/url';
 
@@ -91,11 +91,10 @@ export default function Navigation() {
                 </div>
 
                 <div className="nav-links">
-                    <a href={baseUrl('/#utama')} className={url === '/' ? 'active' : ''} onClick={close}>Utama</a>
-                    <a href={baseUrl('/#mengenai')} onClick={close}>Mengapa Tak Banyak Alasan</a>
-                    <a href={baseUrl('/#kegiatan')} onClick={close}>Aktiviti Tak Banyak Alasan</a>
+                    <a href={baseUrl('/#mengenai')} className={url === '/' ? 'active' : ''} onClick={close}>Tentang Kami</a>
+                    <a href={baseUrl('/#aktiviti')} onClick={close}>Aktiviti Kami</a>
                     <a href={baseUrl('/#sertai')} onClick={close}>Aspirasi Anda, Tekad Kami</a>
-                    <a href={baseUrl('/galeri')} className={url.startsWith('/galeri') ? 'active' : ''} onClick={close}>Foto &amp; Video</a>
+                    <a href={baseUrl('/galeri')} className={url.startsWith('/galeri') ? 'active' : ''} onClick={close}>Foto Galeri</a>
                 </div>
 
                 <div className="nav-btn">

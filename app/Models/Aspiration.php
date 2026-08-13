@@ -11,6 +11,7 @@ final class Aspiration extends Model
     protected $fillable = [
         'name',
         'identity_number',
+        'identity_type',
         'email',
         'phone',
         'message',

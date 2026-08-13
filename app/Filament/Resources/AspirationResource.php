@@ -34,6 +34,7 @@ final class AspirationResource extends Resource
         return $form->schema([
             Forms\Components\Section::make('Aspiration Details')->schema([
                 Forms\Components\TextInput::make('name')->label('Name')->disabled(),
+                Forms\Components\TextInput::make('identity_type')->label('Identity Type')->disabled(),
                 Forms\Components\TextInput::make('identity_number')->label('IC Number')->disabled(),
                 Forms\Components\TextInput::make('email')->label('Email')->disabled(),
                 Forms\Components\TextInput::make('phone')->label('Phone')->disabled(),
@@ -51,6 +52,7 @@ final class AspirationResource extends Resource
                         ->label('Name')
                         ->view('filament.tables.columns.initials-avatar'),
                     Infolists\Components\TextEntry::make('identity_number')->label('IC Number'),
+                    Infolists\Components\TextEntry::make('identity_type')->label('Identity Type'),
                     Infolists\Components\TextEntry::make('email')->label('Email'),
                     Infolists\Components\TextEntry::make('phone')->label('Phone'),
                     Infolists\Components\TextEntry::make('message')->label('Message')->columnSpanFull(),
@@ -74,6 +76,7 @@ final class AspirationResource extends Resource
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('email')->label('Email')->searchable(),
+                Tables\Columns\TextColumn::make('identity_type')->label('Identity Type')->badge(),
                 Tables\Columns\TextColumn::make('phone')->label('Phone'),
                 Tables\Columns\TextColumn::make('message')->label('Message')->limit(50),
                 Tables\Columns\TextColumn::make('source')

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PublicAspirasiController;
 use App\Http\Controllers\PublicBantuanController;
 use App\Http\Controllers\PublicEventController;
 use App\Http\Controllers\PublicGalleryController;
@@ -7,11 +8,12 @@ use App\Http\Controllers\PublicHomeController;
 use App\Http\Controllers\PublicProgramController;
 use App\Http\Controllers\PublicSubmissionController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 // ── Subdomain: aspirasi (form aspirasi sahaja) ──────────────
 Route::domain('aspirasi.takbanyakalasan.com')->group(function () {
-    Route::get('/', fn () => Inertia::render('Standalone/Aspirasi'))->name('standalone.aspirasi');
+    Route::get('/', [PublicAspirasiController::class, 'index'])->name('standalone.aspirasi');
+    Route::get('/qr', [PublicAspirasiController::class, 'qrPage']);
+    Route::get('/qr-image', [PublicAspirasiController::class, 'qr']);
     Route::post('/aspirasi', [PublicSubmissionController::class, 'aspiration']);
 });
 
@@ -28,6 +30,9 @@ Route::get('/', PublicHomeController::class)->name('home');
 
 // Standalone public pages
 Route::get('/galeri', PublicGalleryController::class)->name('gallery.index');
+Route::get('/aspirasi', [PublicAspirasiController::class, 'index'])->name('aspirasi.index');
+Route::get('/aspirasi/qr', [PublicAspirasiController::class, 'qrPage'])->name('aspirasi.qr-page');
+Route::get('/aspirasi/qr-image', [PublicAspirasiController::class, 'qr'])->name('aspirasi.qr');
 Route::get('/bantuan', [PublicBantuanController::class, 'index'])->name('bantuan.index');
 Route::get('/bantuan/qr', [PublicBantuanController::class, 'qrPage'])->name('bantuan.qr-page');
 Route::get('/bantuan/qr-image', [PublicBantuanController::class, 'qr'])->name('bantuan.qr');

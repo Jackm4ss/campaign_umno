@@ -37,6 +37,7 @@ final class PublicEventController extends Controller
                 'slug' => $event->slug,
                 'title' => $event->title,
                 'date_label' => $event->date_label,
+                'starts_at' => $event->starts_at?->format('Y-m-d'),
                 'place' => $event->place,
                 'short_desc' => $event->short_desc,
                 'image_url' => $event->getFirstMediaUrl('banner', 'webp')

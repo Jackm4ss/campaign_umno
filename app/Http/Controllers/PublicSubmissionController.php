@@ -33,14 +33,17 @@ class PublicSubmissionController extends Controller
 
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'identity_number' => ['required', 'string', 'max:50'],
+            'identity_type' => ['required', 'in:MyKad,MyTentera,MyPolis'],
+            'identity_number' => ['required', 'string', 'regex:/^\d{12}$/'],
             'email' => ['required', 'email', 'max:255'],
             'phone' => ['required', 'string', 'max:50'],
             'message' => ['required', 'string', 'max:1500'],
-        ]);
+            'terms_accepted' => ['required', 'accepted'],
+            'privacy_accepted' => ['required', 'accepted'],
+        ], $this->consentValidationMessages());
 
         Aspiration::create([
-            ...$data,
+            ...collect($data)->except(['terms_accepted', 'privacy_accepted'])->all(),
             'source' => $this->normalizeSource($request->input('source')),
         ]);
 
@@ -87,7 +90,9 @@ class PublicSubmissionController extends Controller
                 'nullable',
                 'string',
             ],
-        ]);
+            'terms_accepted' => ['required', 'accepted'],
+            'privacy_accepted' => ['required', 'accepted'],
+        ], $this->consentValidationMessages());
 
         $existing = Member::query()
             ->where('identity_number', $data['identity_number'])
@@ -121,6 +126,8 @@ class PublicSubmissionController extends Controller
                 'patient_identity_number',
                 'patient_phone',
                 'patient_address',
+                'terms_accepted',
+                'privacy_accepted',
             ])->all(),
             'aid_status' => AidStatus::BelumAdaTindakan,
             'source' => $this->normalizeSource($request->input('source')),
@@ -161,5 +168,19 @@ class PublicSubmissionController extends Controller
                 'cf-turnstile-response' => 'Pengesahan anti-bot gagal. Sila cuba lagi.',
             ]);
         }
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    private function consentValidationMessages(): array
+    {
+        return [
+            'terms_accepted.required' => 'Sila setujui Terma & Syarat Permohonan Bantuan.',
+            'terms_accepted.accepted' => 'Sila setujui Terma & Syarat Permohonan Bantuan.',
+            'privacy_accepted.required' => 'Sila setujui Dasar Privasi.',
+            'privacy_accepted.accepted' => 'Sila setujui Dasar Privasi.',
+            'identity_number.regex' => 'No. kad pengenalan mesti mengandungi tepat 12 digit tanpa tanda sengkang.',
+        ];
     }
 }

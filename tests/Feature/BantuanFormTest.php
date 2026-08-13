@@ -42,6 +42,55 @@ class BantuanFormTest extends TestCase
         $this->assertStringContainsString('<svg', $response->getContent());
     }
 
+    public function test_aspirasi_page_and_qr_page_render(): void
+    {
+        $this->get('/aspirasi')->assertOk();
+        $this->get('/aspirasi/qr')->assertOk();
+    }
+
+    public function test_aspirasi_qr_returns_svg(): void
+    {
+        $response = $this->get('/aspirasi/qr-image');
+
+        $response->assertOk();
+        $response->assertHeader('Content-Type', 'image/svg+xml');
+        $this->assertStringContainsString('<svg', $response->getContent());
+    }
+
+    public function test_member_submission_requires_terms_and_privacy_consent(): void
+    {
+        $response = $this->postJson('/daftar', [
+            'full_name' => 'Pemohon Tanpa Persetujuan',
+            'identity_number' => '900101-14-5555',
+            'identity_type' => 'MyKad',
+            'birth_date' => '1990-01-01',
+            'phone' => '0123456789',
+            'email' => 'tanpa-consent@example.com',
+            'address' => 'Presint 9, Putrajaya',
+            'presint' => 'Presint 9',
+        ]);
+
+        $response->assertStatus(422);
+        $response->assertJsonValidationErrors(['terms_accepted', 'privacy_accepted']);
+        $this->assertDatabaseMissing('members', ['identity_number' => '900101-14-5555']);
+    }
+
+    public function test_aspiration_submission_requires_terms_and_privacy_consent(): void
+    {
+        $response = $this->postJson('/aspirasi', [
+            'name' => 'Aspirasi Tanpa Persetujuan',
+            'identity_type' => 'MyKad',
+            'identity_number' => '900101146666',
+            'email' => 'aspirasi-tanpa-consent@example.com',
+            'phone' => '0123456789',
+            'message' => 'Aspirasi ujian.',
+        ]);
+
+        $response->assertStatus(422);
+        $response->assertJsonValidationErrors(['terms_accepted', 'privacy_accepted']);
+        $this->assertDatabaseMissing('aspirations', ['identity_number' => '900101146666']);
+    }
+
     public function test_member_aid_form_submission_creates_member_and_aid_request(): void
     {
         $payload = [
@@ -54,6 +103,8 @@ class BantuanFormTest extends TestCase
             'address' => 'Presint 9, Putrajaya',
             'presint' => 'Presint 9',
             'aid_types' => ['wang_tunai'],
+            'terms_accepted' => '1',
+            'privacy_accepted' => '1',
         ];
 
         $response = $this->postJson('/daftar', $payload);
@@ -87,6 +138,8 @@ class BantuanFormTest extends TestCase
             'address' => 'Presint 9, Putrajaya',
             'presint' => 'Presint 9',
             'source' => 'TikTok',
+            'terms_accepted' => '1',
+            'privacy_accepted' => '1',
         ];
 
         $response = $this->postJson('/daftar', $payload);
@@ -107,6 +160,8 @@ class BantuanFormTest extends TestCase
             'address' => 'Presint 9, Putrajaya',
             'presint' => 'Presint 9',
             'source' => 'wechat',
+            'terms_accepted' => '1',
+            'privacy_accepted' => '1',
         ];
 
         $response = $this->postJson('/daftar', $payload);
@@ -129,6 +184,8 @@ class BantuanFormTest extends TestCase
             'address' => 'Presint 9, Putrajaya',
             'presint' => 'Presint 9',
             'aid_types' => ['wang_tunai'],
+            'terms_accepted' => '1',
+            'privacy_accepted' => '1',
         ]);
 
         $response->assertStatus(422);
@@ -149,6 +206,8 @@ class BantuanFormTest extends TestCase
             'email' => 'test@example.com',
             'address' => 'Presint 9, Putrajaya',
             'presint' => 'Presint 9',
+            'terms_accepted' => '1',
+            'privacy_accepted' => '1',
         ]);
 
         $response->assertStatus(422);
@@ -168,6 +227,8 @@ class BantuanFormTest extends TestCase
             'email' => 'test@example.com',
             'address' => 'Presint 9, Putrajaya',
             'presint' => 'Presint 9',
+            'terms_accepted' => '1',
+            'privacy_accepted' => '1',
         ]);
 
         $response->assertStatus(422);
@@ -186,6 +247,8 @@ class BantuanFormTest extends TestCase
             'address' => 'Presint 9, Putrajaya',
             'presint' => 'Presint 9',
             'aid_types' => ['katil_hospital_kerusi_roda'],
+            'terms_accepted' => '1',
+            'privacy_accepted' => '1',
         ];
 
         $response = $this->postJson('/daftar', $payload);
@@ -215,6 +278,8 @@ class BantuanFormTest extends TestCase
             'patient_identity_number' => '850101-14-1234',
             'patient_phone' => '0198765432',
             'patient_address' => 'Presint 11, Putrajaya',
+            'terms_accepted' => '1',
+            'privacy_accepted' => '1',
         ];
 
         $response = $this->postJson('/daftar', $payload);
@@ -236,17 +301,61 @@ class BantuanFormTest extends TestCase
     {
         $payload = [
             'name' => 'Abu Aspirasi',
-            'identity_number' => '880808-14-4444',
+            'identity_type' => 'MyTentera',
+            'identity_number' => '880808144444',
             'email' => 'abu@example.com',
             'phone' => '0123456789',
             'message' => 'Semoga Putrajaya lebih baik.',
             'source' => 'facebook',
+            'terms_accepted' => '1',
+            'privacy_accepted' => '1',
         ];
 
         $response = $this->postJson('/aspirasi', $payload);
 
         $response->assertOk();
-        $this->assertDatabaseHas('aspirations', ['email' => 'abu@example.com', 'source' => 'facebook']);
+        $this->assertDatabaseHas('aspirations', [
+            'email' => 'abu@example.com',
+            'identity_type' => 'MyTentera',
+            'source' => 'facebook',
+        ]);
+    }
+
+    public function test_aspiration_rejects_unknown_identity_type(): void
+    {
+        $response = $this->postJson('/aspirasi', [
+            'name' => 'Jenis Kad Tidak Sah',
+            'identity_type' => 'Passport',
+            'identity_number' => '900101145555',
+            'email' => 'kad-tidak-sah@example.com',
+            'phone' => '0123456789',
+            'message' => 'Aspirasi ujian.',
+            'terms_accepted' => '1',
+            'privacy_accepted' => '1',
+        ]);
+
+        $response->assertStatus(422);
+        $response->assertJsonValidationErrors(['identity_type']);
+        $this->assertDatabaseMissing('aspirations', ['email' => 'kad-tidak-sah@example.com']);
+    }
+
+    public function test_aspiration_identity_number_must_be_exactly_twelve_digits(): void
+    {
+        foreach (['12345678901', '1234567890123', '90010114ABCD'] as $index => $identityNumber) {
+            $response = $this->postJson('/aspirasi', [
+                'name' => 'Format Kad Tidak Sah',
+                'identity_type' => 'MyKad',
+                'identity_number' => $identityNumber,
+                'email' => "format-kad-{$index}@example.com",
+                'phone' => '0123456789',
+                'message' => 'Aspirasi ujian.',
+                'terms_accepted' => '1',
+                'privacy_accepted' => '1',
+            ]);
+
+            $response->assertStatus(422);
+            $response->assertJsonValidationErrors(['identity_number']);
+        }
     }
 
     /**

@@ -217,7 +217,48 @@
   outline-offset: 2px;
 }
 
-/* ---------- Dense 3-col grid (Instagram signature) ---------- */
+/* ---------- Autoplay gallery slideshow ---------- */
+.ig-slideshow {
+  width: 100%;
+  overflow: hidden;
+  padding: 6px 0 18px;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 4%, #000 96%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 4%, #000 96%, transparent);
+}
+
+.ig-slideshow-track {
+  display: flex;
+  width: max-content;
+  gap: 14px;
+  padding: 0 7px;
+  animation: ig-slideshow-scroll 42s linear infinite;
+  will-change: transform;
+}
+
+.ig-slideshow:hover .ig-slideshow-track,
+.ig-slideshow:focus-within .ig-slideshow-track {
+  animation-play-state: paused;
+}
+
+.ig-slideshow-track.is-static {
+  width: 100%;
+  justify-content: center;
+  animation: none;
+}
+
+.ig-slide {
+  flex: 0 0 clamp(240px, 28vw, 370px);
+  width: clamp(240px, 28vw, 370px);
+  aspect-ratio: 4 / 5;
+}
+
+@keyframes ig-slideshow-scroll {
+  to {
+    transform: translateX(calc(-50% - 7px));
+  }
+}
+
+/* Shared gallery cell and lightbox-trigger styling. */
 .ig-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -562,8 +603,14 @@ body.galeri-lightbox-open {
     max-width: none;
   }
 
-  .ig-grid {
-    gap: 2px;
+  .ig-slideshow {
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  .ig-slide {
+    flex-basis: min(76vw, 310px);
+    width: min(76vw, 310px);
   }
 
   .ig-cell-hover {
@@ -588,6 +635,14 @@ body.galeri-lightbox-open {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .ig-slideshow {
+    overflow-x: auto;
+  }
+
+  .ig-slideshow-track {
+    animation: none;
+  }
+
   .ig-cell img,
   .ig-cell-shade,
   .ig-cell-hover,

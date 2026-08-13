@@ -35,6 +35,7 @@ export interface CampaignEventContentData {
     slug: string;
     title: string;
     date_label: string;
+    starts_at: string | null;
     place: string;
     short_desc: string;
     image_url: string;

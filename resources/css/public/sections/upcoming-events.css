@@ -1,18 +1,13 @@
-/* ACARA AKAN DATANG — marquee cards (same motion language as Jom Sertai) */
+/* AKTIVITI TERKINI — two-month interactive calendar */
 .acara {
-  background: var(--bg);
-  padding: 100px 0 0;
+  background: #eef3ff;
   overflow: hidden;
 }
 
-.acara.section-pad-top {
-  padding-top: 100px;
-}
-
 .acara-header {
-  text-align: center;
   max-width: 900px;
-  margin: 0 auto 64px;
+  margin: 0 auto 38px;
+  text-align: center;
 }
 
 .acara-header .section-label {
@@ -24,271 +19,262 @@
   content: none;
 }
 
-.acara-carousel {
-  position: relative;
-  width: 100%;
-  padding-bottom: 24px;
-}
-
-.acara-carousel-track {
-  display: flex;
-  flex-direction: row;
-  gap: 16px;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-  /* Room for hard offset shadow under cards; full bleed to viewport edges */
-  padding: 4px max(calc((100vw - var(--container)) / 2 + 24px), 24px) 14px;
-}
-
-.acara-carousel-track::-webkit-scrollbar {
-  display: none;
-}
-
-.acara-carousel-track > .acara-card {
-  scroll-snap-align: start;
-}
-
-/* Arrow nav is desktop/laptop only; smaller screens swipe by touch */
-.acara-carousel-nav {
+.calendar-toolbar {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 16px;
-  padding: 8px 0 0;
+  gap: 18px;
+  margin-bottom: 22px;
+  color: var(--blue-deep);
+  font: 800 13px/1.3 Inter, system-ui, sans-serif;
+  letter-spacing: 0.02em;
+  text-align: center;
 }
 
-@media (max-width: 1023px) {
-  .acara-carousel-nav {
-    display: none;
-  }
-}
-
-.acara-carousel-arrow {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 48px;
-  height: 48px;
+.calendar-nav-button {
+  display: grid;
+  flex: 0 0 42px;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  border: 2px solid var(--blue-deep);
   border-radius: 50%;
   background: #fff;
   color: var(--blue-deep);
-  border: 3px solid var(--blue-deep);
-  box-shadow: 4px 4px 0 var(--blue-deep);
   cursor: pointer;
-  transition: background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease, opacity 0.15s ease;
+  box-shadow: 3px 3px 0 var(--blue-deep);
+  transition: transform 0.15s ease, background 0.15s ease, color 0.15s ease;
 }
 
-.acara-carousel-arrow:hover:not(:disabled) {
+.calendar-nav-button:hover:not(:disabled) {
   background: var(--red);
   color: #fff;
-  border-color: var(--red);
-  box-shadow: 4px 4px 0 var(--blue-deep);
+  transform: translate(-1px, -1px);
 }
 
-.acara-carousel-arrow:disabled {
+.calendar-nav-button:disabled {
   opacity: 0.35;
   cursor: default;
 }
 
-@media (max-width: 768px) {
-  .acara-carousel-track {
-    padding-left: 16px;
-    padding-right: 16px;
-  }
-
-  .acara-carousel-arrow {
-    width: 40px;
-    height: 40px;
-  }
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
 }
 
-/* Neubrutalist card: thick ink border + hard offset shadow, raw corners */
-.acara-card {
-  flex-shrink: 0;
-  width: 300px;
-  display: flex;
-  flex-direction: column;
-  text-decoration: none;
-  color: inherit;
-  border-radius: 0;
-  overflow: hidden;
+.calendar-month {
+  min-width: 0;
+  padding: 22px;
+  border: 2px solid var(--blue-deep);
   background: #fff;
-  border: 3px solid var(--blue-deep);
   box-shadow: 6px 6px 0 var(--blue-deep);
-  transition: box-shadow 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
 }
 
-.acara-card:hover,
-.acara-card:focus-visible {
-  border-color: var(--red);
-  box-shadow: 8px 8px 0 var(--red);
-  transform: translate(-2px, -2px);
-}
-
-.acara-card:active {
-  border-color: var(--blue-deep);
-  box-shadow: 3px 3px 0 var(--blue-deep);
-  transform: translate(1px, 1px);
-}
-
-.acara-card:focus-visible {
-  outline: 3px solid var(--red);
-  outline-offset: 3px;
-}
-
-.acara-card-media {
-  position: relative;
-  width: 100%;
-  height: 340px;
-  overflow: hidden;
-  background: var(--bg2);
-  border-bottom: 3px solid var(--blue-deep);
-}
-
-.acara-card:hover .acara-card-media,
-.acara-card:focus-visible .acara-card-media {
-  border-bottom-color: var(--red);
-}
-
-.acara-card-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  transition: transform 0.35s ease;
-}
-
-.acara-card:hover .acara-card-img,
-.acara-card:focus-visible .acara-card-img {
-  transform: scale(1.03);
-}
-
-.acara-card-overlay {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 16px;
-  background: rgba(2, 11, 38, 0.55);
-  opacity: 0;
-  transition: opacity 0.15s ease;
-}
-
-.acara-card:hover .acara-card-overlay,
-.acara-card:focus-visible .acara-card-overlay {
-  opacity: 1;
-}
-
-.acara-card-cta {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 12px 16px;
-  border-radius: 0;
-  background: var(--red);
-  color: #fff;
-  font-size: 12px;
-  font-weight: 800;
-  letter-spacing: 0.04em;
+.calendar-month-title {
+  margin: 0 0 18px;
+  color: var(--blue-deep);
+  font: 500 clamp(25px, 3vw, 34px)/1 Bebas Neue, sans-serif;
+  letter-spacing: 0.02em;
+  text-align: center;
   text-transform: uppercase;
-  border: 3px solid var(--blue-deep);
-  box-shadow: 4px 4px 0 var(--blue-deep);
-  transform: translateY(6px);
-  transition: transform 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
 }
 
-.acara-card:hover .acara-card-cta,
-.acara-card:focus-visible .acara-card-cta {
-  transform: translateY(0);
+.calendar-weekdays,
+.calendar-days {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
 }
 
-.acara-card-cta:hover {
-  background: var(--red-dark);
+.calendar-weekdays span {
+  padding: 8px 2px;
+  border-bottom: 2px solid var(--blue-deep);
+  color: rgba(2, 11, 38, 0.62);
+  font: 800 11px/1 Inter, system-ui, sans-serif;
+  text-align: center;
+  text-transform: uppercase;
 }
 
-.acara-card-meta {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  padding: 14px 14px 16px;
+.calendar-day {
+  position: relative;
+  min-width: 0;
+  min-height: 86px;
+  padding: 7px 5px;
+  border-right: 1px solid #dfe4ef;
+  border-bottom: 1px solid #dfe4ef;
   background: #fff;
 }
 
-.acara-card-date {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+.calendar-day:nth-child(7n) {
+  border-right: 0;
+}
+
+.calendar-day--empty {
+  background: #f7f8fb;
+}
+
+.calendar-day--active {
+  background: #fff5f5;
+}
+
+.calendar-day-number {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--blue-deep);
+  font: 700 12px/1 Inter, system-ui, sans-serif;
+}
+
+.calendar-day--active .calendar-day-number {
   color: var(--red);
 }
 
-.acara-card-title {
-  font-family: 'Inter', sans-serif;
-  font-size: 15px;
-  font-weight: 800;
-  line-height: 1.35;
-  color: var(--blue-deep);
+.calendar-event-link {
+  display: flex;
+  align-items: flex-start;
+  gap: 3px;
+  margin-top: 3px;
+  padding: 4px;
+  background: var(--red);
+  color: #fff;
+  font: 700 9px/1.25 Inter, system-ui, sans-serif;
+  text-decoration: none;
 }
 
-.acara-card-place {
-  font-size: 12px;
-  color: var(--text-muted);
-  line-height: 1.4;
+.calendar-event-link svg {
+  flex: 0 0 auto;
 }
 
-@media (max-width: 768px) {
-  .acara {
-    padding-top: 80px;
-  }
-
-  .acara-header {
-    margin-bottom: 48px;
-  }
-
-  .acara-card {
-    width: 220px;
-  }
-
-  .acara-card-media {
-    height: 255px;
-  }
-
-  /* Touch: always show CTA chip (hover weak on mobile) */
-  .acara-card-overlay {
-    opacity: 1;
-    background: linear-gradient(to top, rgba(2, 11, 38, 0.8) 0%, transparent 55%);
-    align-items: flex-end;
-    padding-bottom: 14px;
-  }
-
-  .acara-card-cta {
-    transform: none;
-    font-size: 11px;
-    padding: 10px 12px;
-    box-shadow: 3px 3px 0 var(--blue-deep);
-  }
+.calendar-event-link span {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
 }
 
-.acara-empty {
-  margin: 8px 0 40px;
-  padding: 36px 28px;
-  border: 2px dashed rgba(17, 23, 29, 0.25);
+.calendar-event-link:hover,
+.calendar-event-link:focus-visible {
+  background: var(--blue-deep);
+}
+
+.calendar-event-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 28px;
+}
+
+.calendar-event-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+  padding: 16px;
+  border: 2px solid var(--blue-deep);
   background: #fff;
+  color: var(--blue-deep);
+  text-decoration: none;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.calendar-event-card:hover,
+.calendar-event-card:focus-visible {
+  box-shadow: 5px 5px 0 var(--red);
+  transform: translate(-2px, -2px);
+}
+
+.calendar-event-card-icon {
+  display: grid;
+  flex: 0 0 44px;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  background: var(--red);
+  color: #fff;
+}
+
+.calendar-event-card-copy {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  flex-direction: column;
+  gap: 4px;
+  font: 400 12px/1.45 Inter, system-ui, sans-serif;
+}
+
+.calendar-event-card-copy strong {
+  font-size: 15px;
+}
+
+.calendar-event-card-date {
+  color: var(--red);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.calendar-event-card-arrow {
+  flex: 0 0 auto;
+  font-size: 22px;
+}
+
+.calendar-empty {
+  margin: 28px 0 0;
+  color: rgba(2, 11, 38, 0.62);
+  font: 600 13px/1.5 Inter, system-ui, sans-serif;
   text-align: center;
 }
 
-.acara-empty-title {
-  margin: 0 0 6px;
-  font-weight: 800;
-  font-size: 16px;
-  color: var(--blue-deep);
+@media (max-width: 900px) {
+  .calendar-grid,
+  .calendar-event-list {
+    grid-template-columns: 1fr;
+  }
 }
 
-.acara-empty-text {
-  margin: 0;
-  font-size: 14px;
-  color: var(--text2);
+@media (max-width: 560px) {
+  .calendar-toolbar {
+    gap: 10px;
+    font-size: 11px;
+  }
+
+  .calendar-month {
+    padding: 12px;
+    box-shadow: 4px 4px 0 var(--blue-deep);
+  }
+
+  .calendar-day {
+    min-height: 64px;
+    padding: 5px 2px;
+  }
+
+  .calendar-weekdays span,
+  .calendar-day-number {
+    font-size: 9px;
+  }
+
+  .calendar-event-link {
+    justify-content: center;
+    padding: 4px 1px;
+  }
+
+  .calendar-event-link span {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+  }
+
+  .calendar-event-card {
+    align-items: flex-start;
+    padding: 13px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .calendar-nav-button,
+  .calendar-event-card {
+    transition: none;
+  }
 }

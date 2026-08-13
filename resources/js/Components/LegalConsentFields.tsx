@@ -15,17 +15,17 @@ export default function LegalConsentFields({ idPrefix }: Props) {
             <div className="legal-consent-fields">
                 <div className="legal-consent-row">
                     <input type="checkbox" id={termsId} name="terms_accepted" value="1" required />
-                    <label htmlFor={termsId}>
-                        Saya telah membaca dan bersetuju dengan{' '}
+                    <div className="legal-consent-copy">
+                        <label htmlFor={termsId}>Saya telah membaca dan bersetuju dengan</label>{' '}
                         <button type="button" className="legal-inline-link" onClick={() => setOpenDocument('terms')}>Terma &amp; Syarat Permohonan Bantuan</button>.
-                    </label>
+                    </div>
                 </div>
                 <div className="legal-consent-row">
                     <input type="checkbox" id={privacyId} name="privacy_accepted" value="1" required />
-                    <label htmlFor={privacyId}>
-                        Saya bersetuju dengan pemprosesan maklumat peribadi saya sebagaimana diterangkan dalam{' '}
+                    <div className="legal-consent-copy">
+                        <label htmlFor={privacyId}>Saya bersetuju dengan pemprosesan maklumat peribadi saya sebagaimana diterangkan dalam</label>{' '}
                         <button type="button" className="legal-inline-link" onClick={() => setOpenDocument('privacy')}>Dasar Privasi</button>.
-                    </label>
+                    </div>
                 </div>
             </div>
 

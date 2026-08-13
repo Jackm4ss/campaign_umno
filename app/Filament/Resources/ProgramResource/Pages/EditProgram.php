@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources\ProgramResource\Pages;
 
 use App\Filament\Resources\ProgramResource;
+use App\Support\RichArticleContent;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
@@ -27,8 +28,23 @@ final class EditProgram extends EditRecord
         // Slug never changes after creation.
         unset($data['slug']);
 
-        // Kandungan Tambahan fields are not exposed in the form; keep stored values.
-        unset($data['sections'], $data['cta']);
+        // The editor owns the complete article after save.
+        $data['sections'] = [];
+
+        // CTA stays automatic and is not exposed to non-technical admins.
+        unset($data['cta']);
+
+        return $data;
+    }
+
+    protected function mutateFormDataBeforeFill(array $data): array
+    {
+        // Seeded records store extra blocks separately. Present them as one simple article.
+        $data['lead'] = RichArticleContent::fromLegacySections(
+            (string) ($data['lead'] ?? ''),
+            $data['sections'] ?? [],
+        );
+        unset($data['sections']);
 
         return $data;
     }

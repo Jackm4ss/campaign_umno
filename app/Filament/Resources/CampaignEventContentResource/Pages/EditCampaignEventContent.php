@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources\CampaignEventContentResource\Pages;
 
 use App\Filament\Resources\CampaignEventContentResource;
+use App\Support\RichArticleContent;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
@@ -27,8 +28,11 @@ final class EditCampaignEventContent extends EditRecord
         // Slug never changes after creation.
         unset($data['slug']);
 
-        // Kandungan Tambahan fields are not exposed in the form; keep stored values.
-        unset($data['sections'], $data['cta']);
+        // The editor owns the complete article after save.
+        $data['sections'] = [];
+
+        // CTA stays hidden from non-technical admins and keeps its stored value.
+        unset($data['cta']);
 
         // Public label follows the picked date; keep the old one if no date given.
         if (($data['starts_at'] ?? null) !== null && $data['starts_at'] !== '') {
@@ -36,6 +40,18 @@ final class EditCampaignEventContent extends EditRecord
         } else {
             unset($data['starts_at']);
         }
+
+        return $data;
+    }
+
+    protected function mutateFormDataBeforeFill(array $data): array
+    {
+        // Seeded records store extra blocks separately. Present them as one simple article.
+        $data['lead'] = RichArticleContent::fromLegacySections(
+            (string) ($data['lead'] ?? ''),
+            $data['sections'] ?? [],
+        );
+        unset($data['sections']);
 
         return $data;
     }

@@ -142,21 +142,56 @@
   color: var(--text-muted);
 }
 
-.event-detail-lead {
+.event-detail-content {
   font-size: 15px;
-  color: var(--text-muted);
-  max-width: 640px;
+  color: var(--text2);
   line-height: 1.7;
-  margin: 0 auto;
+  margin: 0 0 28px;
 }
 
-/* lead is stored as RichEditor HTML; keep generated paragraphs inline-clean */
-.event-detail-lead p {
-  margin: 0;
+.event-detail-content > :first-child {
+  margin-top: 0;
 }
 
-.event-detail-lead p + p {
-  margin-top: 8px;
+.event-detail-content > :last-child {
+  margin-bottom: 0;
+}
+
+.event-detail-content p {
+  margin: 0 0 12px;
+}
+
+.event-detail-content h2,
+.event-detail-content h3 {
+  margin: 24px 0 12px;
+  color: var(--blue-deep);
+  font-family: 'Inter', sans-serif;
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 1.35;
+}
+
+.event-detail-content ul,
+.event-detail-content ol {
+  margin: 0 0 16px;
+  padding-left: 1.15rem;
+}
+
+.event-detail-content li {
+  margin-bottom: 8px;
+  line-height: 1.65;
+}
+
+.event-detail-content li::marker {
+  color: var(--red);
+}
+
+.event-detail-content a {
+  color: var(--blue);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 .event-detail-media {

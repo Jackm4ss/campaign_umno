@@ -34,9 +34,10 @@ Only `routes/web.php` (plus `console.php` and health `/up`). No `routes/api.php`
 
 ### Admin forms (built for non-technical admins)
 
-Programs / Campaign Events / Gallery create+edit forms are deliberately minimal — do not re-add fields without asking:
+Programs / Campaign Events / Gallery create+edit forms are deliberately minimal:
 
-- Only required core fields visible. The sections repeater + CTA fields ("Kandungan Tambahan") are **not exposed in forms at all** — Create pages store `sections => []` / `cta => []` (columns NOT NULL, store `[]` not `null`), edit pages strip them from saved data so stored values are untouched.
+- Programs and Campaign Events each expose one article-style RichEditor only. On edit, `RichArticleContent` merges legacy/seeded `sections` into that editor; on save, the complete article is stored in `lead` and `sections` becomes `[]`.
+- CTA fields stay hidden. Programs receive an automatic default CTA; Campaign Events preserve an existing CTA and store `[]` for new records (JSON columns are NOT NULL, so store `[]` rather than `null`).
 - Campaign Events: **Tarikh Acara** is a Filament `DatePicker` writing `starts_at` (date column); public `date_label` is auto-generated Malay format `j F Y` (e.g. "16 Ogos 2026") in Create/Edit pages — never typed by hand.
 - **Slug never editable** — auto-generated from the title in `CreateProgram` / `CreateCampaignEventContent::mutateFormDataBeforeCreate` (unique suffix); edit pages strip `slug` before save.
 - **`sort_order` never in forms** — ordering is drag-and-drop in the table (`reorderable('sort_order')`).

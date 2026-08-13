@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Models\Program;
+use App\Support\ProgramContent;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -41,7 +42,7 @@ final class PublicProgramController extends Controller
                     ?: ($program->image_path ? asset($program->image_path) : asset('assets/program-sukan.jpg')),
                 'lead' => $program->lead,
                 'sections' => $program->sections ?? [],
-                'cta' => $program->cta ?? [],
+                'cta' => $program->cta ?: ProgramContent::defaultCta(),
             ],
             'siblings' => $siblings,
             'settings' => [],

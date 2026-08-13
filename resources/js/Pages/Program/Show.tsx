@@ -32,7 +32,6 @@ export default function ProgramShow({ program, siblings }: ProgramShowProps) {
                         <article className="program-detail-card">
                             <header className="program-detail-header">
                                 <h1 className="section-title program-detail-title">{program.title}</h1>
-                                <div className="program-detail-lead" dangerouslySetInnerHTML={{ __html: program.lead }} />
                             </header>
 
                             <div className="program-detail-media">
@@ -45,6 +44,8 @@ export default function ProgramShow({ program, siblings }: ProgramShowProps) {
                             </div>
 
                             <div className="program-detail-body">
+                                <div className="program-detail-content" dangerouslySetInnerHTML={{ __html: program.lead }} />
+
                                 {(program.sections ?? []).map((section, index) => (
                                     <section className="program-detail-block" key={`${section.heading}-${index}`}>
                                         <h2 className="program-detail-heading">{section.heading}</h2>

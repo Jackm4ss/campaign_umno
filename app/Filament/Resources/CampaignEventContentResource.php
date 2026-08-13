@@ -85,12 +85,26 @@ final class CampaignEventContentResource extends Resource
                         ->columnSpanFull(),
                 ]),
 
-            Forms\Components\Section::make('Kandungan')
+            Forms\Components\Section::make('Kandungan Acara')
                 ->schema([
                     Forms\Components\RichEditor::make('lead')
-                        ->label('Pengenalan')
-                        ->validationAttribute('Pengenalan')
-                        ->helperText('Penerangan pembuka di bawah tajuk.')
+                        ->label('Isi Kandungan')
+                        ->validationAttribute('Isi Kandungan')
+                        ->helperText('Tulis seperti artikel biasa. Gunakan Tajuk 2 untuk tajuk bahagian dan senarai poin jika diperlukan. Kandungan dipaparkan di bawah gambar acara.')
+                        ->placeholder('Tulis kandungan acara di sini...')
+                        ->toolbarButtons([
+                            'h2',
+                            'h3',
+                            'bold',
+                            'italic',
+                            'underline',
+                            'bulletList',
+                            'orderedList',
+                            'blockquote',
+                            'link',
+                            'undo',
+                            'redo',
+                        ])
                         ->required()
                         ->columnSpanFull(),
                 ]),

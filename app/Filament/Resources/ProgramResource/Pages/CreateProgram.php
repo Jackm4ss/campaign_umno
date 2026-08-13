@@ -6,6 +6,7 @@ namespace App\Filament\Resources\ProgramResource\Pages;
 
 use App\Filament\Resources\ProgramResource;
 use App\Models\Program;
+use App\Support\ProgramContent;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Support\Str;
 
@@ -16,8 +17,8 @@ final class CreateProgram extends CreateRecord
     protected function mutateFormDataBeforeCreate(array $data): array
     {
         $data['slug'] = $this->generateUniqueSlug((string) ($data['title'] ?? 'program'));
-        $data['sections'] = $data['sections'] ?? [];
-        $data['cta'] = $data['cta'] ?? [];
+        $data['sections'] = [];
+        $data['cta'] = ProgramContent::defaultCta();
 
         return $data;
     }

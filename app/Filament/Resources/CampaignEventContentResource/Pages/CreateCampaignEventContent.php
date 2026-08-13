@@ -17,8 +17,8 @@ final class CreateCampaignEventContent extends CreateRecord
     protected function mutateFormDataBeforeCreate(array $data): array
     {
         $data['slug'] = $this->generateUniqueSlug((string) ($data['title'] ?? 'acara'));
-        $data['sections'] = $data['sections'] ?? [];
-        $data['cta'] = $data['cta'] ?? [];
+        $data['sections'] = [];
+        $data['cta'] = [];
         $data['date_label'] = self::formatDateLabel($data['starts_at'] ?? null);
 
         return $data;

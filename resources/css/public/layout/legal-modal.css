@@ -180,7 +180,9 @@
   cursor: pointer;
 }
 
-.legal-consent-row label {
+.legal-consent-copy {
+  flex: 1 1 auto;
+  min-width: 0;
   margin: 0;
   color: var(--text2);
   font-size: 13.5px;
@@ -188,6 +190,17 @@
   letter-spacing: normal;
   line-height: 1.55;
   text-transform: none;
+  text-align: left;
+  text-wrap: pretty;
+}
+
+.legal-consent-row label {
+  margin: 0;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  line-height: inherit;
+  text-transform: inherit;
   cursor: pointer;
 }
 
@@ -200,8 +213,11 @@
   color: var(--blue);
   font: inherit;
   font-weight: 800;
+  line-height: inherit;
+  text-align: left;
   text-decoration: underline;
   text-underline-offset: 3px;
+  vertical-align: baseline;
   cursor: pointer;
 }
 
@@ -243,5 +259,14 @@
 
   .legal-consent-fields {
     padding: 15px;
+  }
+
+  .legal-consent-row {
+    gap: 10px;
+  }
+
+  .legal-consent-copy {
+    font-size: 13px;
+    line-height: 1.5;
   }
 }

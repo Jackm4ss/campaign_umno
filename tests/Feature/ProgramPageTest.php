@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Program;
+use App\Support\ProgramContent;
 use Database\Seeders\ProgramSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Inertia\Testing\AssertableInertia as Assert;
@@ -62,5 +63,26 @@ class ProgramPageTest extends TestCase
 
                 return $page;
             });
+    }
+
+    public function test_program_without_custom_cta_receives_standard_actions(): void
+    {
+        $program = Program::query()->create([
+            'slug' => 'program-cms',
+            'title' => 'Program CMS',
+            'short_desc' => 'Penerangan ringkas.',
+            'lead' => '<p>Kandungan program.</p>',
+            'sections' => [],
+            'cta' => [],
+            'sort_order' => 99,
+            'is_published' => true,
+        ]);
+
+        $this->get("/program/{$program->slug}")
+            ->assertOk()
+            ->assertInertia(fn (Assert $page) => $page
+                ->where('program.lead', '<p>Kandungan program.</p>')
+                ->where('program.sections', [])
+                ->where('program.cta', ProgramContent::defaultCta()));
     }
 }

@@ -41,7 +41,6 @@ export default function EventShow({ event, siblings }: EventShowProps) {
                                         <strong>Lokasi</strong> {event.place}
                                     </span>
                                 </div>
-                                <div className="event-detail-lead" dangerouslySetInnerHTML={{ __html: event.lead }} />
                             </header>
 
                             <div className="event-detail-media">
@@ -54,6 +53,8 @@ export default function EventShow({ event, siblings }: EventShowProps) {
                             </div>
 
                             <div className="event-detail-body">
+                                <div className="event-detail-content" dangerouslySetInnerHTML={{ __html: event.lead }} />
+
                                 {(event.sections ?? []).map((section, index) => (
                                     <section className="event-detail-block" key={`${section.heading}-${index}`}>
                                         <h2 className="event-detail-heading">{section.heading}</h2>

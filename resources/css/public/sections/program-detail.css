@@ -116,25 +116,60 @@
 .program-detail-title {
   font-size: clamp(28px, 4.5vw, 48px);
   line-height: 1.05;
-  margin-bottom: 14px;
+  margin-bottom: 0;
   color: var(--blue-deep);
 }
 
-.program-detail-lead {
+.program-detail-content {
   font-size: 15px;
-  color: var(--text-muted);
-  max-width: 640px;
+  color: var(--text2);
   line-height: 1.7;
-  margin: 0 auto;
+  margin: 0 0 28px;
 }
 
-/* lead is stored as RichEditor HTML; keep generated paragraphs inline-clean */
-.program-detail-lead p {
-  margin: 0;
+.program-detail-content > :first-child {
+  margin-top: 0;
 }
 
-.program-detail-lead p + p {
-  margin-top: 8px;
+.program-detail-content > :last-child {
+  margin-bottom: 0;
+}
+
+.program-detail-content p {
+  margin: 0 0 12px;
+}
+
+.program-detail-content h2,
+.program-detail-content h3 {
+  margin: 24px 0 12px;
+  color: var(--blue-deep);
+  font-family: 'Inter', sans-serif;
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 1.35;
+}
+
+.program-detail-content ul,
+.program-detail-content ol {
+  margin: 0 0 16px;
+  padding-left: 1.15rem;
+}
+
+.program-detail-content li {
+  margin-bottom: 8px;
+  line-height: 1.65;
+}
+
+.program-detail-content li::marker {
+  color: var(--red);
+}
+
+.program-detail-content a {
+  color: var(--blue);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 .program-detail-media {

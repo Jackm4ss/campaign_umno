@@ -10,4 +10,9 @@ use Filament\Resources\Pages\CreateRecord;
 final class CreateGalleryItem extends CreateRecord
 {
     protected static string $resource = GalleryItemResource::class;
+
+    protected function getRedirectUrl(): string
+    {
+        return static::getResource()::getUrl('index');
+    }
 }

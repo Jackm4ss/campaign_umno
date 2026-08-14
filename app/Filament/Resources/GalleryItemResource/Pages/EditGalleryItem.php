@@ -21,4 +21,9 @@ final class EditGalleryItem extends EditRecord
     {
         cache()->forget('homepage_data');
     }
+
+    protected function getRedirectUrl(): string
+    {
+        return static::getResource()::getUrl('index');
+    }
 }

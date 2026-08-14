@@ -99,9 +99,26 @@ final class GalleryItemResource extends Resource
             ->columns([
                 Tables\Columns\ImageColumn::make('image_preview')
                     ->label('')
-                    ->state(fn (GalleryItem $record) => $record->type !== GalleryType::Photo && !$record->getFirstMediaUrl('image', 'thumb') && !$record->image_path
-                        ? null
-                        : ($record->getFirstMediaUrl('image', 'thumb') ?: ($record->image_path ? asset(ltrim($record->image_path, '/')) : asset('assets/event-1.jpg'))))
+                    ->state(function (GalleryItem $record): string {
+                        $media = $record->getFirstMediaUrl('image', 'thumb');
+                        if ($media !== '') {
+                            return $media;
+                        }
+                        if ($record->image_path) {
+                            return asset(ltrim($record->image_path, '/'));
+                        }
+                        if ($record->type === GalleryType::Photo) {
+                            return asset('assets/event-1.jpg');
+                        }
+
+                        return 'data:image/svg+xml,' . rawurlencode(
+                            '<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60">'
+                            . '<rect width="60" height="60" rx="8" fill="#1a1a2e"/>'
+                            . '<circle cx="30" cy="30" r="18" fill="rgba(0,0,0,0.45)" stroke="#fff" stroke-width="1.5"/>'
+                            . '<polygon points="25,20 25,40 42,30" fill="#fff"/>'
+                            . '</svg>'
+                        );
+                    })
                     ->square()
                     ->width(60)
                     ->height(60),

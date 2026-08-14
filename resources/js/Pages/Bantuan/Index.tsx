@@ -231,12 +231,6 @@ export default function BantuanIndex() {
                                             <input id="full_name" name="full_name" required maxLength={255} />
                                         </div>
                                         <div className="field">
-                                            <label htmlFor="identity_number">No. Kad Pengenalan</label>
-                                            <input id="identity_number" name="identity_number" required maxLength={50} placeholder="contoh: 901234-14-5678" />
-                                        </div>
-                                    </div>
-                                    <div className="form-row">
-                                        <div className="field">
                                             <label htmlFor="identity_type">Jenis Kad Pengenalan</label>
                                             <select id="identity_type" name="identity_type" required defaultValue="">
                                                 <option value="">— Sila pilih —</option>
@@ -244,6 +238,12 @@ export default function BantuanIndex() {
                                                 <option value="MyTentera">MyTentera</option>
                                                 <option value="MyPolis">MyPolis</option>
                                             </select>
+                                        </div>
+                                    </div>
+                                    <div className="form-row">
+                                        <div className="field">
+                                            <label htmlFor="identity_number">No. Kad Pengenalan</label>
+                                            <input id="identity_number" name="identity_number" required maxLength={50} placeholder="contoh: 901234-14-5678" />
                                         </div>
                                         <div className="field">
                                             <label htmlFor="birth_date">Tarikh Lahir</label>

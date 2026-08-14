@@ -92,6 +92,17 @@ export default function JoinSection() {
                             <input id="name" name="name" required maxLength={255} value={form.name} onChange={set('name')} />
                         </div>
                         <div className="field">
+                            <label htmlFor="identity_type">Jenis kad pengenalan</label>
+                            <select id="identity_type" name="identity_type" required value={form.identity_type} onChange={set('identity_type')}>
+                                <option value="">— Sila pilih —</option>
+                                <option value="MyKad">MyKad</option>
+                                <option value="MyTentera">MyTentera</option>
+                                <option value="MyPolis">MyPolis</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div className="form-row">
+                        <div className="field">
                             <label htmlFor="identity_number">No. kad pengenalan</label>
                             <input
                                 id="identity_number"
@@ -111,18 +122,7 @@ export default function JoinSection() {
                                     identity_number: event.target.value.replace(/\D/g, '').slice(0, 12),
                                 }))}
                             />
-                            <span className="field-hint">Wajib 12 digit tanpa tanda “-”.</span>
-                        </div>
-                    </div>
-                    <div className="form-row">
-                        <div className="field">
-                            <label htmlFor="identity_type">Jenis kad pengenalan</label>
-                            <select id="identity_type" name="identity_type" required value={form.identity_type} onChange={set('identity_type')}>
-                                <option value="">— Sila pilih —</option>
-                                <option value="MyKad">MyKad</option>
-                                <option value="MyTentera">MyTentera</option>
-                                <option value="MyPolis">MyPolis</option>
-                            </select>
+                            <span className="field-hint">Wajib 12 digit tanpa tanda "-".</span>
                         </div>
                         <div className="field">
                             <label htmlFor="email">E-mel</label>

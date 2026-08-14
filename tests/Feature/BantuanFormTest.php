@@ -61,7 +61,7 @@ class BantuanFormTest extends TestCase
     {
         $response = $this->postJson('/daftar', [
             'full_name' => 'Pemohon Tanpa Persetujuan',
-            'identity_number' => '900101-14-5555',
+            'identity_number' => '900101145555',
             'identity_type' => 'MyKad',
             'birth_date' => '1990-01-01',
             'phone' => '0123456789',
@@ -72,7 +72,7 @@ class BantuanFormTest extends TestCase
 
         $response->assertStatus(422);
         $response->assertJsonValidationErrors(['terms_accepted', 'privacy_accepted']);
-        $this->assertDatabaseMissing('members', ['identity_number' => '900101-14-5555']);
+        $this->assertDatabaseMissing('members', ['identity_number' => '900101145555']);
     }
 
     public function test_aspiration_submission_requires_terms_and_privacy_consent(): void
@@ -95,7 +95,7 @@ class BantuanFormTest extends TestCase
     {
         $payload = [
             'full_name' => 'Ahmad Test',
-            'identity_number' => '901234-14-5678',
+            'identity_number' => '901234145678',
             'identity_type' => 'MyKad',
             'birth_date' => '1990-01-01',
             'phone' => '0123456789',
@@ -114,13 +114,13 @@ class BantuanFormTest extends TestCase
 
         $this->assertDatabaseHas('members', [
             'full_name' => 'Ahmad Test',
-            'identity_number' => '901234-14-5678',
+            'identity_number' => '901234145678',
             'identity_type' => 'MyKad',
             'aid_status' => AidStatus::BelumAdaTindakan->value,
             'source' => 'direct',
         ]);
 
-        $member = Member::where('identity_number', '901234-14-5678')->first();
+        $member = Member::where('identity_number', '901234145678')->first();
         $this->assertNotNull($member);
         $this->assertCount(1, $member->aidRequests);
         $this->assertSame(AidType::WangTunai, $member->aidRequests->first()->type);
@@ -130,7 +130,7 @@ class BantuanFormTest extends TestCase
     {
         $payload = [
             'full_name' => 'Siti TikTok',
-            'identity_number' => '950101-14-1111',
+            'identity_number' => '950101141111',
             'identity_type' => 'MyKad',
             'birth_date' => '1995-01-01',
             'phone' => '0123456789',
@@ -145,14 +145,14 @@ class BantuanFormTest extends TestCase
         $response = $this->postJson('/daftar', $payload);
 
         $response->assertOk();
-        $this->assertDatabaseHas('members', ['identity_number' => '950101-14-1111', 'source' => 'tiktok']);
+        $this->assertDatabaseHas('members', ['identity_number' => '950101141111', 'source' => 'tiktok']);
     }
 
     public function test_unknown_source_is_stored_as_lain_lain(): void
     {
         $payload = [
             'full_name' => 'Ali Unknown',
-            'identity_number' => '950102-14-2222',
+            'identity_number' => '950102142222',
             'identity_type' => 'MyKad',
             'birth_date' => '1995-01-01',
             'phone' => '0123456789',
@@ -167,7 +167,7 @@ class BantuanFormTest extends TestCase
         $response = $this->postJson('/daftar', $payload);
 
         $response->assertOk();
-        $this->assertDatabaseHas('members', ['identity_number' => '950102-14-2222', 'source' => 'lain-lain']);
+        $this->assertDatabaseHas('members', ['identity_number' => '950102142222', 'source' => 'lain-lain']);
     }
 
     public function test_duplicate_member_with_received_aid_is_blocked(): void
@@ -176,7 +176,7 @@ class BantuanFormTest extends TestCase
 
         $response = $this->postJson('/daftar', [
             'full_name' => 'Ahmad Test',
-            'identity_number' => '901234-14-5678',
+            'identity_number' => '901234145678',
             'identity_type' => 'MyKad',
             'birth_date' => '1990-01-01',
             'phone' => '0123456789',
@@ -190,7 +190,7 @@ class BantuanFormTest extends TestCase
 
         $response->assertStatus(422);
         $response->assertJsonValidationErrors(['identity_number']);
-        $this->assertSame(1, Member::query()->where('identity_number', '901234-14-5678')->count());
+        $this->assertSame(1, Member::query()->where('identity_number', '901234145678')->count());
     }
 
     public function test_duplicate_member_with_completed_aid_is_blocked(): void
@@ -199,7 +199,7 @@ class BantuanFormTest extends TestCase
 
         $response = $this->postJson('/daftar', [
             'full_name' => 'Ahmad Test',
-            'identity_number' => '901234-14-5678',
+            'identity_number' => '901234145678',
             'identity_type' => 'MyKad',
             'birth_date' => '1990-01-01',
             'phone' => '0123456789',
@@ -220,7 +220,7 @@ class BantuanFormTest extends TestCase
 
         $response = $this->postJson('/daftar', [
             'full_name' => 'Ahmad Test',
-            'identity_number' => '901234-14-5678',
+            'identity_number' => '901234145678',
             'identity_type' => 'MyKad',
             'birth_date' => '1990-01-01',
             'phone' => '0123456789',
@@ -239,7 +239,7 @@ class BantuanFormTest extends TestCase
     {
         $payload = [
             'full_name' => 'Ahmad Pesakit',
-            'identity_number' => '901234-14-9999',
+            'identity_number' => '901234149999',
             'identity_type' => 'MyKad',
             'birth_date' => '1990-01-01',
             'phone' => '0123456789',
@@ -266,7 +266,7 @@ class BantuanFormTest extends TestCase
     {
         $payload = [
             'full_name' => 'Ahmad Pesakit',
-            'identity_number' => '901234-14-8888',
+            'identity_number' => '901234148888',
             'identity_type' => 'MyKad',
             'birth_date' => '1990-01-01',
             'phone' => '0123456789',
@@ -286,7 +286,7 @@ class BantuanFormTest extends TestCase
 
         $response->assertOk();
 
-        $member = Member::where('identity_number', '901234-14-8888')->first();
+        $member = Member::where('identity_number', '901234148888')->first();
         $this->assertNotNull($member);
         $aid = $member->aidRequests->first();
         $this->assertNotNull($aid);
@@ -366,7 +366,7 @@ class BantuanFormTest extends TestCase
     {
         return array_merge([
             'full_name' => 'Ahmad Sedia Ada',
-            'identity_number' => '901234-14-5678',
+            'identity_number' => '901234145678',
             'identity_type' => 'MyKad',
             'birth_date' => '1990-01-01',
             'phone' => '0123456789',

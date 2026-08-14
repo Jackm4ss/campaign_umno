@@ -243,7 +243,24 @@ export default function BantuanIndex() {
                                     <div className="form-row">
                                         <div className="field">
                                             <label htmlFor="identity_number">No. Kad Pengenalan</label>
-                                            <input id="identity_number" name="identity_number" required maxLength={50} placeholder="contoh: 901234-14-5678" />
+                                            <input
+                                                id="identity_number"
+                                                name="identity_number"
+                                                type="text"
+                                                inputMode="numeric"
+                                                autoComplete="off"
+                                                required
+                                                minLength={12}
+                                                maxLength={12}
+                                                pattern="[0-9]{12}"
+                                                placeholder="Contoh: 901234145678"
+                                                title="Masukkan tepat 12 digit tanpa tanda sengkang"
+                                                onInput={(e) => {
+                                                    const input = e.currentTarget;
+                                                    input.value = input.value.replace(/\D/g, '').slice(0, 12);
+                                                }}
+                                            />
+                                            <span className="field-hint">Wajib 12 digit tanpa tanda "-".</span>
                                         </div>
                                         <div className="field">
                                             <label htmlFor="birth_date">Tarikh Lahir</label>

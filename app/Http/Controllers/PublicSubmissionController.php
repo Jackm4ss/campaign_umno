@@ -57,7 +57,7 @@ class PublicSubmissionController extends Controller
         $data = $request->validate([
             'photo' => ['nullable', 'file', 'mimes:jpg,jpeg,png', 'max:5120'],
             'full_name' => ['required', 'string', 'max:255'],
-            'identity_number' => ['required', 'string', 'max:50'],
+            'identity_number' => ['required', 'string', 'regex:/^\d{12}$/'],
             'identity_type' => ['required', 'in:MyKad,MyTentera,MyPolis'],
             'birth_date' => ['required', 'date'],
             'phone' => ['required', 'string', 'max:50'],

@@ -27,7 +27,7 @@ class AdminSmokeTest extends TestCase
 
         Member::query()->create([
             'full_name' => 'Ahmad Bin Abu',
-            'identity_number' => '850101-14-5555',
+            'identity_number' => '850101145555',
             'identity_type' => 'MyKad',
             'birth_date' => '1985-01-01',
             'phone' => '0121234567',
@@ -40,7 +40,7 @@ class AdminSmokeTest extends TestCase
 
         Aspiration::query()->create([
             'name' => 'Ahmad Bin Ali',
-            'identity_number' => '850101-14-5556',
+            'identity_number' => '850101145556',
             'email' => 'ahmad@example.com',
             'phone' => '0131234567',
             'message' => 'Saya mohon bantuan asas dapur.',

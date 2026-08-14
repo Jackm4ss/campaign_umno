@@ -28,15 +28,29 @@ export default function Activities({ gallery }: Props) {
                     <div className={`marquee-inner${items.length < 6 ? ' marquee-inner--few' : ''}`}>
                         {/* First set */}
                         {items.map((item, i) => (
-                            <a href="/galeri" className="marquee-item" key={`a-${item.id}`} title={item.title}>
-                                <img src={item.src} alt={`Kegiatan Tak Banyak Alasan ${i + 1}`} loading="lazy" />
+                            <a href="/galeri"
+                                className={`marquee-item${item.type !== 'photo' && !item.src ? ' marquee-item--video-no-thumb' : ''}`}
+                                key={`a-${item.id}`} title={item.title}>
+                                {item.src && <img src={item.src} alt={`Kegiatan Tak Banyak Alasan ${i + 1}`} loading="lazy" />}
+                                {item.type !== 'photo' && (
+                                    <span className="galeri-play-overlay" aria-hidden="true">
+                                        <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="23" fill="rgba(0,0,0,0.55)" stroke="#fff" strokeWidth="2"/><polygon points="19,14 19,34 36,24" fill="#fff"/></svg>
+                                    </span>
+                                )}
                             </a>
                         ))}
 
                         {/* Duplicate for seamless loop only when there are enough items */}
                         {items.length >= 6 ? items.map((item) => (
-                            <a href="/galeri" className="marquee-item" aria-hidden="true" tabIndex={-1} key={`b-${item.id}`}>
-                                <img src={item.src} alt="" loading="lazy" />
+                            <a href="/galeri"
+                                className={`marquee-item${item.type !== 'photo' && !item.src ? ' marquee-item--video-no-thumb' : ''}`}
+                                aria-hidden="true" tabIndex={-1} key={`b-${item.id}`}>
+                                {item.src && <img src={item.src} alt="" loading="lazy" />}
+                                {item.type !== 'photo' && (
+                                    <span className="galeri-play-overlay" aria-hidden="true">
+                                        <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="23" fill="rgba(0,0,0,0.55)" stroke="#fff" strokeWidth="2"/><polygon points="19,14 19,34 36,24" fill="#fff"/></svg>
+                                    </span>
+                                )}
                             </a>
                         )) : null}
                     </div>

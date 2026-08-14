@@ -60,16 +60,26 @@ export default function GalleryIndex({ gallery }: GalleryPageProps) {
                     <div className="marquee-track" aria-label="Dokumentasi kegiatan">
                         <div className={`marquee-inner${items.length < 6 ? ' marquee-inner--few' : ''}`}>
                             {items.map((item, i) => (
-                                <button type="button" className="marquee-item" key={`a-${item.id}`}
+                                <button type="button" className={`marquee-item${item.type !== 'photo' && !item.src ? ' marquee-item--video-no-thumb' : ''}`} key={`a-${item.id}`}
                                     title={item.title} onClick={() => setActiveIndex(i)}>
-                                    <img src={item.src} alt={item.title} loading="lazy" />
+                                    {item.src && <img src={item.src} alt={item.title} loading="lazy" />}
+                                    {item.type !== 'photo' && (
+                                        <span className="galeri-play-overlay" aria-hidden="true">
+                                            <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="23" fill="rgba(0,0,0,0.55)" stroke="#fff" strokeWidth="2"/><polygon points="19,14 19,34 36,24" fill="#fff"/></svg>
+                                        </span>
+                                    )}
                                 </button>
                             ))}
                             {items.length >= 6 ? items.map((item, i) => (
-                                <button type="button" className="marquee-item" aria-hidden="true"
+                                <button type="button" className={`marquee-item${item.type !== 'photo' && !item.src ? ' marquee-item--video-no-thumb' : ''}`} aria-hidden="true"
                                     tabIndex={-1} key={`b-${item.id}`}
                                     onClick={() => setActiveIndex(i)}>
-                                    <img src={item.src} alt="" loading="lazy" />
+                                    {item.src && <img src={item.src} alt="" loading="lazy" />}
+                                    {item.type !== 'photo' && (
+                                        <span className="galeri-play-overlay" aria-hidden="true">
+                                            <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="23" fill="rgba(0,0,0,0.55)" stroke="#fff" strokeWidth="2"/><polygon points="19,14 19,34 36,24" fill="#fff"/></svg>
+                                        </span>
+                                    )}
                                 </button>
                             )) : null}
                         </div>
@@ -98,9 +108,14 @@ export default function GalleryIndex({ gallery }: GalleryPageProps) {
                             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" /></svg>
                         </button>
 
-                        <div className="ig-lightbox-frame ig-lightbox-frame--media-only">
+                        <div className={`ig-lightbox-frame${current.url ? '' : ' ig-lightbox-frame--media-only'}`}>
                             <div className="ig-lightbox-media">
-                                <img src={current.src} alt={current.title} />
+                                {current.src
+                                    ? <img src={current.src} alt={current.title} />
+                                    : <div style={{ width: '100%', height: 320, background: '#1a1a2e', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: 12 }}>
+                                        <svg width="80" height="80" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="23" fill="rgba(0,0,0,0.55)" stroke="#fff" strokeWidth="2"/><polygon points="19,14 19,34 36,24" fill="#fff"/></svg>
+                                    </div>
+                                }
                             </div>
 
                             {current.url ? (

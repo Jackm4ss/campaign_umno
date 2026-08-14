@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Enums\GalleryType;
 use App\Models\CampaignEventContent;
 use App\Models\GalleryItem;
 use App\Models\Program;
@@ -34,10 +35,12 @@ final class PublicHomeViewData
             'id' => $item->id,
             'type' => $item->type->value ?? 'photo',
             'title' => $item->title,
-            'src' => $this->mediaOrPath($item, 'image', 'assets/event-1.jpg'),
+            'src' => $item->type !== GalleryType::Photo
+                ? ($item->getFirstMediaUrl('image', 'webp') ?: ($item->image_path ? $this->assetUrl($item->image_path, '') : ''))
+                : $this->mediaOrPath($item, 'image', 'assets/event-1.jpg'),
             'caption' => '',
-            'category' => str_contains(strtolower($item->type->value ?? ''), 'video') ? 'media' : 'kegiatan',
-            'label' => str_contains(strtolower($item->type->value ?? ''), 'video') ? 'Media' : 'Aktiviti',
+            'category' => $item->type !== GalleryType::Photo ? 'media' : 'kegiatan',
+            'label' => $item->type !== GalleryType::Photo ? $item->type->label() : '',
             'url' => $item->external_url,
         ])->all();
     }

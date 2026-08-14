@@ -42,18 +42,20 @@ final class GalleryItemResource extends Resource
                     Forms\Components\Select::make('type')
                         ->label('Jenis')
                         ->validationAttribute('Jenis')
-                        ->helperText('Pilih "Foto" untuk gambar biasa.')
+                        ->helperText('Pilih jenis kandungan galeri.')
+                        ->placeholder('Sila pilih jenis kandungan')
                         ->options(fn () => collect(GalleryType::cases())
                             ->mapWithKeys(fn (GalleryType $type) => [$type->value => $type->label()])
                             ->all())
                         ->required()
-                        ->default(GalleryType::Photo),
+                        ->live(),
                     Forms\Components\TextInput::make('external_url')
-                        ->label('Pautan Video (YouTube/TikTok)')
-                        ->helperText('Isi hanya jika jenis bukan foto.')
+                        ->label('Pautan Video')
+                        ->helperText('Masukkan URL penuh dari YouTube, TikTok, Instagram atau Facebook.')
                         ->url()
                         ->maxLength(255)
-                        ->visible(fn (Forms\Get $get) => $get('type') !== GalleryType::Photo->value),
+                        ->visible(fn (Forms\Get $get): bool => $get('type') !== null && $get('type') !== GalleryType::Photo->value)
+                        ->required(fn (Forms\Get $get): bool => $get('type') !== null && $get('type') !== GalleryType::Photo->value),
                     Forms\Components\Toggle::make('is_published')
                         ->label('Terbitkan')
                         ->helperText('Matikan untuk sembunyi dari laman awam.')
@@ -72,8 +74,13 @@ final class GalleryItemResource extends Resource
                         ))
                         ->columnSpanFull(),
                     Forms\Components\SpatieMediaLibraryFileUpload::make('image')
-                        ->label('Gambar')
-                        ->helperText('Mana-mana resolusi diterima. Gambar dimampatkan secara automatik.')
+                        ->label(fn (Forms\Get $get): string => $get('type') !== null && $get('type') !== GalleryType::Photo->value
+                            ? 'Gambar Thumbnail'
+                            : 'Gambar')
+                        ->helperText(fn (Forms\Get $get): string => $get('type') !== null && $get('type') !== GalleryType::Photo->value
+                            ? 'Opsional. Jika tidak dimuat naik, paparan lalai ikon play akan digunakan.'
+                            : 'Wajib. Mana-mana resolusi diterima. Gambar dimampatkan secara automatik.')
+                        ->required(fn (Forms\Get $get): bool => $get('type') === null || $get('type') === GalleryType::Photo->value)
                         ->collection('image')
                         ->image()
                         ->imagePreviewHeight('160')
@@ -92,7 +99,9 @@ final class GalleryItemResource extends Resource
             ->columns([
                 Tables\Columns\ImageColumn::make('image_preview')
                     ->label('')
-                    ->state(fn (GalleryItem $record) => $record->getFirstMediaUrl('image', 'thumb') ?: ($record->image_path ? asset(ltrim($record->image_path, '/')) : asset('assets/event-1.jpg')))
+                    ->state(fn (GalleryItem $record) => $record->type !== GalleryType::Photo && !$record->getFirstMediaUrl('image', 'thumb') && !$record->image_path
+                        ? null
+                        : ($record->getFirstMediaUrl('image', 'thumb') ?: ($record->image_path ? asset(ltrim($record->image_path, '/')) : asset('assets/event-1.jpg'))))
                     ->square()
                     ->width(60)
                     ->height(60),
@@ -101,7 +110,6 @@ final class GalleryItemResource extends Resource
                     ->label('Jenis')
                     ->badge()
                     ->formatStateUsing(fn (GalleryType $state) => $state->label()),
-                Tables\Columns\TextColumn::make('sort_order')->label('Susunan')->sortable(),
                 Tables\Columns\IconColumn::make('is_published')->label('Terbit')->boolean(),
             ])
             ->reorderable('sort_order')

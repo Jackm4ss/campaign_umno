@@ -273,17 +273,17 @@
     margin-bottom: 24px;
     justify-content: center;
 }
-@media (max-width: 960px) {
-    .aid-option { width: calc((100% - 16px) / 2); }
-}
-@media (max-width: 600px) {
-    .aid-option { width: 100%; }
-}
 .aid-option {
     cursor: pointer;
     position: relative;
     display: flex;
     width: calc((100% - 32px) / 3);
+}
+@media (max-width: 960px) {
+    .aid-option { width: calc((100% - 16px) / 2); }
+}
+@media (max-width: 600px) {
+    .aid-option { width: 100%; }
 }
 .aid-radio {
     position: absolute;

@@ -267,23 +267,15 @@
 
 /* Aid type cards */
 .aid-options {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
     gap: 16px;
     margin-bottom: 24px;
-    justify-content: center;
 }
 .aid-option {
     cursor: pointer;
     position: relative;
     display: flex;
-    width: calc((100% - 32px) / 3);
-}
-@media (max-width: 960px) {
-    .aid-option { width: calc((100% - 16px) / 2); }
-}
-@media (max-width: 600px) {
-    .aid-option { width: 100%; }
 }
 .aid-radio {
     position: absolute;

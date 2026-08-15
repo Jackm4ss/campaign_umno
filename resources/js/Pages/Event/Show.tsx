@@ -15,7 +15,16 @@ export default function EventShow({ event, siblings }: EventShowProps) {
 
     return (
         <PublicLayout>
-            <Head title={`${event.title} - Tak Banyak Alasan`} />
+            <Head>
+                <title>Tak Banyak Alasan</title>
+                <meta name="description" content={event.short_desc || 'Terbukti, Terlihat & Terjamin'} />
+                <meta property="og:title" content="Tak Banyak Alasan" />
+                <meta property="og:description" content={event.short_desc || 'Terbukti, Terlihat & Terjamin'} />
+                {event.image_url && <meta property="og:image" content={event.image_url} />}
+                <meta name="twitter:title" content="Tak Banyak Alasan" />
+                <meta name="twitter:description" content={event.short_desc || 'Terbukti, Terlihat & Terjamin'} />
+                {event.image_url && <meta name="twitter:image" content={event.image_url} />}
+            </Head>
             <section className="event-detail-page section-pad">
                 <div className="container event-detail-container">
                     <div className="event-detail-shell">

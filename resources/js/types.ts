@@ -66,26 +66,36 @@ export interface CtaGroup {
     secondary: { label: string; href: string };
 }
 
+export interface MetaProps {
+    title: string;
+    description: string;
+    image: string;
+}
+
 export interface HomePageProps {
     gallery: GalleryItemData[];
     programs: ProgramData[];
     campaignEvents: CampaignEventContentData[];
     settings: Record<string, unknown>;
+    meta?: MetaProps;
 }
 
 export interface GalleryPageProps {
     gallery: GalleryItemData[];
     settings: Record<string, unknown>;
+    meta?: MetaProps;
 }
 
 export interface ProgramShowProps {
     program: ProgramData;
     siblings: { slug: string; title: string; image_url: string }[];
     settings: Record<string, unknown>;
+    meta?: MetaProps;
 }
 
 export interface EventShowProps {
     event: CampaignEventContentData;
     siblings: { slug: string; title: string; image_url: string }[];
     settings: Record<string, unknown>;
+    meta?: MetaProps;
 }

@@ -13,12 +13,24 @@ final class PublicAspirasiController extends Controller
 {
     public function index(): Response
     {
-        return Inertia::render('Standalone/Aspirasi');
+        return Inertia::render('Standalone/Aspirasi', [
+            'meta' => [
+                'title' => 'Tak Banyak Alasan',
+                'description' => 'Terbukti, Terlihat & Terjamin',
+                'image' => asset('assets/campaign-tak-banyak-alasan-render.png'),
+            ],
+        ]);
     }
 
     public function qrPage(): Response
     {
-        return Inertia::render('Aspirasi/QrPage');
+        return Inertia::render('Aspirasi/QrPage', [
+            'meta' => [
+                'title' => 'Tak Banyak Alasan',
+                'description' => 'Terbukti, Terlihat & Terjamin',
+                'image' => asset('assets/campaign-tak-banyak-alasan-render.png'),
+            ],
+        ]);
     }
 
     public function qr(): HttpResponse

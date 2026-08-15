@@ -66,6 +66,7 @@ class BantuanFormTest extends TestCase
             'birth_date' => '1990-01-01',
             'phone' => '0123456789',
             'email' => 'tanpa-consent@example.com',
+            'email_confirmation' => 'tanpa-consent@example.com',
             'address' => 'Presint 9, Putrajaya',
             'presint' => 'Presint 9',
         ]);
@@ -82,6 +83,7 @@ class BantuanFormTest extends TestCase
             'identity_type' => 'MyKad',
             'identity_number' => '900101146666',
             'email' => 'aspirasi-tanpa-consent@example.com',
+            'email_confirmation' => 'aspirasi-tanpa-consent@example.com',
             'phone' => '0123456789',
             'message' => 'Aspirasi ujian.',
         ]);
@@ -100,13 +102,13 @@ class BantuanFormTest extends TestCase
             'birth_date' => '1990-01-01',
             'phone' => '0123456789',
             'email' => 'test@example.com',
+            'email_confirmation' => 'test@example.com',
             'address' => 'Presint 9, Putrajaya',
             'presint' => 'Presint 9',
             'aid_types' => ['wang_tunai'],
             'terms_accepted' => '1',
             'privacy_accepted' => '1',
         ];
-
         $response = $this->postJson('/daftar', $payload);
 
         $response->assertOk();
@@ -135,13 +137,13 @@ class BantuanFormTest extends TestCase
             'birth_date' => '1995-01-01',
             'phone' => '0123456789',
             'email' => 'siti@example.com',
+            'email_confirmation' => 'siti@example.com',
             'address' => 'Presint 9, Putrajaya',
             'presint' => 'Presint 9',
             'source' => 'TikTok',
             'terms_accepted' => '1',
             'privacy_accepted' => '1',
         ];
-
         $response = $this->postJson('/daftar', $payload);
 
         $response->assertOk();
@@ -157,13 +159,13 @@ class BantuanFormTest extends TestCase
             'birth_date' => '1995-01-01',
             'phone' => '0123456789',
             'email' => 'ali@example.com',
+            'email_confirmation' => 'ali@example.com',
             'address' => 'Presint 9, Putrajaya',
             'presint' => 'Presint 9',
             'source' => 'wechat',
             'terms_accepted' => '1',
             'privacy_accepted' => '1',
         ];
-
         $response = $this->postJson('/daftar', $payload);
 
         $response->assertOk();
@@ -181,13 +183,13 @@ class BantuanFormTest extends TestCase
             'birth_date' => '1990-01-01',
             'phone' => '0123456789',
             'email' => 'test@example.com',
+            'email_confirmation' => 'test@example.com',
             'address' => 'Presint 9, Putrajaya',
             'presint' => 'Presint 9',
             'aid_types' => ['wang_tunai'],
             'terms_accepted' => '1',
             'privacy_accepted' => '1',
         ]);
-
         $response->assertStatus(422);
         $response->assertJsonValidationErrors(['identity_number']);
         $this->assertSame(1, Member::query()->where('identity_number', '901234145678')->count());
@@ -204,12 +206,12 @@ class BantuanFormTest extends TestCase
             'birth_date' => '1990-01-01',
             'phone' => '0123456789',
             'email' => 'test@example.com',
+            'email_confirmation' => 'test@example.com',
             'address' => 'Presint 9, Putrajaya',
             'presint' => 'Presint 9',
             'terms_accepted' => '1',
             'privacy_accepted' => '1',
         ]);
-
         $response->assertStatus(422);
         $response->assertJsonValidationErrors(['identity_number']);
     }
@@ -225,12 +227,12 @@ class BantuanFormTest extends TestCase
             'birth_date' => '1990-01-01',
             'phone' => '0123456789',
             'email' => 'test@example.com',
+            'email_confirmation' => 'test@example.com',
             'address' => 'Presint 9, Putrajaya',
             'presint' => 'Presint 9',
             'terms_accepted' => '1',
             'privacy_accepted' => '1',
         ]);
-
         $response->assertStatus(422);
         $response->assertJsonValidationErrors(['identity_number']);
     }
@@ -244,13 +246,13 @@ class BantuanFormTest extends TestCase
             'birth_date' => '1990-01-01',
             'phone' => '0123456789',
             'email' => 'pesakit@example.com',
+            'email_confirmation' => 'pesakit@example.com',
             'address' => 'Presint 9, Putrajaya',
             'presint' => 'Presint 9',
             'aid_types' => ['katil_hospital_kerusi_roda'],
             'terms_accepted' => '1',
             'privacy_accepted' => '1',
         ];
-
         $response = $this->postJson('/daftar', $payload);
 
         $response->assertStatus(422);
@@ -271,6 +273,7 @@ class BantuanFormTest extends TestCase
             'birth_date' => '1990-01-01',
             'phone' => '0123456789',
             'email' => 'pesakit-ok@example.com',
+            'email_confirmation' => 'pesakit-ok@example.com',
             'address' => 'Presint 9, Putrajaya',
             'presint' => 'Presint 9',
             'aid_types' => ['katil_hospital_kerusi_roda'],
@@ -281,7 +284,6 @@ class BantuanFormTest extends TestCase
             'terms_accepted' => '1',
             'privacy_accepted' => '1',
         ];
-
         $response = $this->postJson('/daftar', $payload);
 
         $response->assertOk();
@@ -304,13 +306,13 @@ class BantuanFormTest extends TestCase
             'identity_type' => 'MyTentera',
             'identity_number' => '880808144444',
             'email' => 'abu@example.com',
+            'email_confirmation' => 'abu@example.com',
             'phone' => '0123456789',
             'message' => 'Semoga Putrajaya lebih baik.',
             'source' => 'facebook',
             'terms_accepted' => '1',
             'privacy_accepted' => '1',
         ];
-
         $response = $this->postJson('/aspirasi', $payload);
 
         $response->assertOk();
@@ -328,12 +330,12 @@ class BantuanFormTest extends TestCase
             'identity_type' => 'Passport',
             'identity_number' => '900101145555',
             'email' => 'kad-tidak-sah@example.com',
+            'email_confirmation' => 'kad-tidak-sah@example.com',
             'phone' => '0123456789',
             'message' => 'Aspirasi ujian.',
             'terms_accepted' => '1',
             'privacy_accepted' => '1',
         ]);
-
         $response->assertStatus(422);
         $response->assertJsonValidationErrors(['identity_type']);
         $this->assertDatabaseMissing('aspirations', ['email' => 'kad-tidak-sah@example.com']);
@@ -347,6 +349,7 @@ class BantuanFormTest extends TestCase
                 'identity_type' => 'MyKad',
                 'identity_number' => $identityNumber,
                 'email' => "format-kad-{$index}@example.com",
+                'email_confirmation' => "format-kad-{$index}@example.com",
                 'phone' => '0123456789',
                 'message' => 'Aspirasi ujian.',
                 'terms_accepted' => '1',
@@ -356,6 +359,43 @@ class BantuanFormTest extends TestCase
             $response->assertStatus(422);
             $response->assertJsonValidationErrors(['identity_number']);
         }
+    }
+    public function test_email_confirmation_mismatch_rejected_for_member(): void
+    {
+        $response = $this->postJson('/daftar', [
+            'full_name' => 'Email Mismatch',
+            'identity_number' => '901234145678',
+            'identity_type' => 'MyKad',
+            'birth_date' => '1990-01-01',
+            'phone' => '0123456789',
+            'email' => 'test@example.com',
+            'email_confirmation' => 'typo@example.com',
+            'address' => 'Presint 9, Putrajaya',
+            'presint' => 'Presint 9',
+            'terms_accepted' => '1',
+            'privacy_accepted' => '1',
+        ]);
+
+        $response->assertStatus(422);
+        $response->assertJsonValidationErrors(['email']);
+    }
+
+    public function test_email_confirmation_mismatch_rejected_for_aspiration(): void
+    {
+        $response = $this->postJson('/aspirasi', [
+            'name' => 'Email Mismatch Aspirasi',
+            'identity_type' => 'MyKad',
+            'identity_number' => '901234145678',
+            'email' => 'test@example.com',
+            'email_confirmation' => 'typo@example.com',
+            'phone' => '0123456789',
+            'message' => 'Aspirasi ujian.',
+            'terms_accepted' => '1',
+            'privacy_accepted' => '1',
+        ]);
+
+        $response->assertStatus(422);
+        $response->assertJsonValidationErrors(['email']);
     }
 
     /**

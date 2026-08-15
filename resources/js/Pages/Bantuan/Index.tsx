@@ -60,6 +60,7 @@ const aidOptions = [
     {
         value: 'keperluan_asas_dapur',
         title: 'Keperluan Asas Dapur',
+        description: 'Beras (1), Bihun (2), Gula (2), Teh Uncang (1), Tepung (2), Susu Tin (2), Minyak Botol (1)',
         icon: (
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 11h18l-1.5 9a2 2 0 0 1-2 2h-11a2 2 0 0 1-2-2L3 11z" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg>
         ),
@@ -67,6 +68,7 @@ const aidOptions = [
     {
         value: 'wang_tunai',
         title: 'Bantuan Wang Tunai',
+        description: 'Bantuan kewangan tunai untuk keperluan mendesak',
         icon: (
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="6" width="20" height="12" rx="2" /><circle cx="12" cy="12" r="2" /><path d="M6 12h.01M18 12h.01" /></svg>
         ),
@@ -74,6 +76,7 @@ const aidOptions = [
     {
         value: 'katil_hospital_kerusi_roda',
         title: 'Katil Hospital / Kerusi Roda',
+        description: 'Pinjaman katil hospital atau kerusi roda untuk pesakit',
         icon: (
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 18v-6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v6" /><path d="M3 18h18" /><path d="M7 10V6a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v4" /></svg>
         ),
@@ -81,6 +84,7 @@ const aidOptions = [
     {
         value: 'van_jenazah_percuma',
         title: 'Van Jenazah Percuma',
+        description: 'Perkhidmatan van jenazah percuma untuk warga Putrajaya',
         icon: (
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 17V7a2 2 0 0 1 2-2h9l5 5v7" /><path d="M3 17h2" /><path d="M14 17h5" /><circle cx="7.5" cy="17.5" r="2.5" /><circle cx="17.5" cy="17.5" r="2.5" /></svg>
         ),
@@ -88,6 +92,7 @@ const aidOptions = [
     {
         value: 'kad_kesihatan_kunan',
         title: 'Kad Kesihatan KuNan',
+        description: 'Untuk kegunaan Klinik KuNan. 50 tahun ke atas — percuma. Bawah 50 tahun — diskaun 50%',
         icon: (
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="5" width="20" height="14" rx="2" /><path d="M2 10h20" /><path d="M6 15h4" /></svg>
         ),
@@ -277,6 +282,13 @@ export default function BantuanIndex() {
                                             <input id="email" name="email" type="email" required maxLength={255} />
                                         </div>
                                     </div>
+                                    <div className="form-row">
+                                        <div className="field full-width">
+                                            <label htmlFor="email_confirmation">Sahkan E-mel</label>
+                                            <input id="email_confirmation" name="email_confirmation" type="email" required maxLength={255} />
+                                            <span className="field-hint">Masukkan semula e-mel anda untuk pengesahan.</span>
+                                        </div>
+                                    </div>
                                     <div className="field">
                                         <label htmlFor="address">Alamat</label>
                                         <textarea id="address" name="address" required rows={2}></textarea>
@@ -319,6 +331,7 @@ export default function BantuanIndex() {
                                                         <div className="aid-icon">{option.icon}</div>
                                                         <div className="aid-body">
                                                             <h4>{option.title}</h4>
+                                                            <p>{option.description}</p>
                                                         </div>
                                                     </div>
                                                 </label>

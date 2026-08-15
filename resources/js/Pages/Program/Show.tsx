@@ -15,7 +15,16 @@ export default function ProgramShow({ program, siblings }: ProgramShowProps) {
 
     return (
         <PublicLayout>
-            <Head title={`${program.title} - Tak Banyak Alasan`} />
+            <Head>
+                <title>Tak Banyak Alasan</title>
+                <meta name="description" content={program.short_desc || 'Terbukti, Terlihat & Terjamin'} />
+                <meta property="og:title" content="Tak Banyak Alasan" />
+                <meta property="og:description" content={program.short_desc || 'Terbukti, Terlihat & Terjamin'} />
+                {program.image_url && <meta property="og:image" content={program.image_url} />}
+                <meta name="twitter:title" content="Tak Banyak Alasan" />
+                <meta name="twitter:description" content={program.short_desc || 'Terbukti, Terlihat & Terjamin'} />
+                {program.image_url && <meta name="twitter:image" content={program.image_url} />}
+            </Head>
             <section className="program-detail-page section-pad">
                 <div className="container program-detail-container">
                     <div className="program-detail-shell">

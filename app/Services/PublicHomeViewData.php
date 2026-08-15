@@ -19,6 +19,11 @@ final class PublicHomeViewData
             'programs' => $this->programs(),
             'campaignEvents' => $this->campaignEvents(),
             'settings' => [],
+            'meta' => [
+                'title' => 'Tak Banyak Alasan',
+                'description' => 'Terbukti, Terlihat & Terjamin',
+                'image' => asset('assets/campaign-tak-banyak-alasan-render.png'),
+            ],
         ];
     }
 

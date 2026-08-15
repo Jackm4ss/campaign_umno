@@ -46,6 +46,12 @@ final class PublicProgramController extends Controller
             ],
             'siblings' => $siblings,
             'settings' => [],
+            'meta' => [
+                'title' => 'Tak Banyak Alasan',
+                'description' => $program->short_desc ?: 'Terbukti, Terlihat & Terjamin',
+                'image' => $program->getFirstMediaUrl('cover', 'webp')
+                    ?: ($program->image_path ? asset($program->image_path) : asset('assets/campaign-tak-banyak-alasan-render.png')),
+            ],
         ]);
     }
 }

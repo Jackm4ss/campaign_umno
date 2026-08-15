@@ -13,12 +13,24 @@ final class PublicBantuanController extends Controller
 {
     public function index(): Response
     {
-        return Inertia::render('Bantuan/Index');
+        return Inertia::render('Bantuan/Index', [
+            'meta' => [
+                'title' => 'Tak Banyak Alasan',
+                'description' => 'Terbukti, Terlihat & Terjamin',
+                'image' => asset('assets/campaign-tak-banyak-alasan-render.png'),
+            ],
+        ]);
     }
 
     public function qrPage(): Response
     {
-        return Inertia::render('Bantuan/QrPage');
+        return Inertia::render('Bantuan/QrPage', [
+            'meta' => [
+                'title' => 'Tak Banyak Alasan',
+                'description' => 'Terbukti, Terlihat & Terjamin',
+                'image' => asset('assets/campaign-tak-banyak-alasan-render.png'),
+            ],
+        ]);
     }
 
     public function qr(): HttpResponse

@@ -8,6 +8,7 @@ interface FormState {
     identity_type: string;
     identity_number: string;
     email: string;
+    email_confirmation: string;
     phone: string;
     message: string;
 }
@@ -17,6 +18,7 @@ const initialState: FormState = {
     identity_type: '',
     identity_number: '',
     email: '',
+    email_confirmation: '',
     phone: '',
     message: '',
 };
@@ -127,6 +129,13 @@ export default function JoinSection() {
                         <div className="field">
                             <label htmlFor="email">E-mel</label>
                             <input id="email" name="email" type="email" required maxLength={255} value={form.email} onChange={set('email')} />
+                        </div>
+                    </div>
+                    <div className="form-row">
+                        <div className="field full-width">
+                            <label htmlFor="email_confirmation">Sahkan E-mel</label>
+                            <input id="email_confirmation" name="email_confirmation" type="email" required maxLength={255} value={form.email_confirmation} onChange={set('email_confirmation')} />
+                            <span className="field-hint">Masukkan semula e-mel anda untuk pengesahan.</span>
                         </div>
                     </div>
                     <div className="form-row">

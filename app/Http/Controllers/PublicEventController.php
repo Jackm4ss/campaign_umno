@@ -48,6 +48,12 @@ final class PublicEventController extends Controller
             ],
             'siblings' => $siblings,
             'settings' => [],
+            'meta' => [
+                'title' => 'Tak Banyak Alasan',
+                'description' => $event->short_desc ?: 'Terbukti, Terlihat & Terjamin',
+                'image' => $event->getFirstMediaUrl('banner', 'webp')
+                    ?: ($event->image_path ? asset($event->image_path) : asset('assets/campaign-tak-banyak-alasan-render.png')),
+            ],
         ]);
     }
 }

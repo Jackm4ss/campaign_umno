@@ -17,6 +17,11 @@ final class PublicGalleryController extends Controller
         return Inertia::render('Gallery/Index', [
             'gallery' => $data['gallery'],
             'settings' => $data['settings'],
+            'meta' => [
+                'title' => 'Tak Banyak Alasan',
+                'description' => 'Terbukti, Terlihat & Terjamin',
+                'image' => asset('assets/campaign-tak-banyak-alasan-render.png'),
+            ],
         ]);
     }
 }

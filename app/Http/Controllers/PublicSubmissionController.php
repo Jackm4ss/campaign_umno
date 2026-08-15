@@ -35,7 +35,7 @@ class PublicSubmissionController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'identity_type' => ['required', 'in:MyKad,MyTentera,MyPolis'],
             'identity_number' => ['required', 'string', 'regex:/^\d{12}$/'],
-            'email' => ['required', 'email', 'max:255'],
+            'email' => ['required', 'email', 'max:255', 'confirmed'],
             'phone' => ['required', 'string', 'max:50'],
             'message' => ['required', 'string', 'max:1500'],
             'terms_accepted' => ['required', 'accepted'],
@@ -61,7 +61,7 @@ class PublicSubmissionController extends Controller
             'identity_type' => ['required', 'in:MyKad,MyTentera,MyPolis'],
             'birth_date' => ['required', 'date'],
             'phone' => ['required', 'string', 'max:50'],
-            'email' => ['required', 'email', 'max:255'],
+            'email' => ['required', 'email', 'max:255', 'confirmed'],
             'address' => ['required', 'string'],
             'presint' => ['required', 'string', 'max:100'],
             'voter_proof' => ['nullable', 'file', 'mimes:jpg,jpeg,png,pdf', 'max:5120'],
@@ -122,6 +122,7 @@ class PublicSubmissionController extends Controller
                 'photo',
                 'voter_proof',
                 'aid_types',
+                'email_confirmation',
                 'patient_name',
                 'patient_identity_number',
                 'patient_phone',
@@ -181,6 +182,7 @@ class PublicSubmissionController extends Controller
             'privacy_accepted.required' => 'Sila setujui Dasar Privasi.',
             'privacy_accepted.accepted' => 'Sila setujui Dasar Privasi.',
             'identity_number.regex' => 'No. kad pengenalan mesti mengandungi tepat 12 digit tanpa tanda sengkang.',
+            'email.confirmed' => 'E-mel dan pengesahan e-mel tidak sepadan.',
         ];
     }
 }

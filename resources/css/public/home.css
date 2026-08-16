@@ -38,6 +38,11 @@
 .form-feedback { display: none; margin-top: 16px; padding: 13px 15px; border-left: 3px solid var(--blue); background: #f0f4ff; font-size: 14px; }
 .form-feedback.error { border-color: var(--red); background: #fff4f4; }
 .form-feedback.show { display: block; }
+.aspirasi-back-bar {
+    background: linear-gradient(135deg, #f9fafc, #eef2ff);
+    padding: 110px 0 0;
+}
+@media (max-width: 768px) { .aspirasi-back-bar { padding-top: 90px; } }
 .aspirasi-back-link {
     display: inline-flex;
     align-items: center;
@@ -49,5 +54,6 @@
     transition: color 0.2s ease;
 }
 .aspirasi-back-link:hover { color: var(--blue-dark); }
+.aspirasi-back-bar + .join { padding-top: 24px; }
 @media (max-width: 992px) { .join-grid { grid-template-columns: 1fr; gap: 30px; } .join-copy { position: static; } }
 @media (max-width: 768px) { .form-row { grid-template-columns: 1fr; gap: 0; } .public-form { padding: 24px; } .article-list a { gap: 12px; padding: 18px; } .article-list h3 { font-size: 16px; } }

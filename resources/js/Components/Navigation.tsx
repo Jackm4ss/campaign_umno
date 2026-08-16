@@ -50,7 +50,7 @@ export default function Navigation() {
         <>
             <nav className={`navbar${scrolled ? ' scrolled' : ''}`} aria-label="Navigasi utama">
                 <div className="container nav-bar-inner">
-                    <a className="nav-logo" href={baseUrl('/#utama')} aria-label="Tak Banyak Alasan">
+                    <a className="nav-logo" href={baseUrl('/')} aria-label="Tak Banyak Alasan">
                         <img src="/assets/admin-logo-blue.png" alt="Tak Banyak Alasan" />
                     </a>
 

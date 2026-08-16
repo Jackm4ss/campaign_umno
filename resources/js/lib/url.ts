@@ -35,3 +35,20 @@ export function baseUrl(path: string): string {
     if (window.location.origin === origin) return path;
     return origin + path;
 }
+
+/**
+ * Build a full URL for a known subdomain (e.g. 'bantuan', 'aspirasi').
+ * On the main domain this returns `https://bantuan.takbanyakalasan.com/path`.
+ * On ANY subdomain it also returns the full subdomain URL.
+ */
+export function subdomainUrl(subdomain: string, path = '/'): string {
+    const origin = mainOrigin();
+    if (!origin) return path;
+
+    try {
+        const main = new URL(origin);
+        return `${main.protocol}//${subdomain}.${main.host}${path}`;
+    } catch {
+        return path;
+    }
+}

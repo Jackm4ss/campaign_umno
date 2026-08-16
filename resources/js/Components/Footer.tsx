@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import LegalModal, { type LegalDocument } from './LegalModal';
-import { baseUrl } from '../lib/url';
+import { baseUrl, subdomainUrl } from '../lib/url';
 
 export default function Footer() {
     const [legalDocument, setLegalDocument] = useState<LegalDocument | null>(null);
@@ -32,8 +32,8 @@ export default function Footer() {
                             <a href={baseUrl('/#mengenai')}>Tentang Kami</a>
                             <a href={baseUrl('/#aktiviti')}>Aktiviti Kami</a>
                             <a href={baseUrl('/galeri')}>Foto Galeri</a>
-                            <a href={baseUrl('/bantuan')}>Borang Bantuan</a>
-                            <a href={baseUrl('/#sertai')}>Aspirasi Anda, Tekad Kami</a>
+                            <a href={subdomainUrl('bantuan')}>Borang Bantuan</a>
+                            <a href={subdomainUrl('aspirasi')}>Aspirasi Anda, Tekad Kami</a>
                         </div>
                     </div>
                     <div className="footer-col">

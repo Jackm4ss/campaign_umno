@@ -1,0 +1,1 @@
+import{n as e,t}from"./app-DvZ50mud.js";import{t as n}from"./PublicLayout-Dx_EnI18.js";import r from"./JoinSection-d4t3eByy.js";var i=t();function a(){return(0,i.jsxs)(n,{children:[(0,i.jsx)(e,{title:`Aspirasi - Tak Banyak Alasan`}),(0,i.jsx)(r,{})]})}export{a as default};

@@ -1,0 +1,1 @@
+var e;function t(){if(e!==void 0)return e;try{let t=document.querySelector(`script[data-page]`);if(t?.textContent){let n=JSON.parse(t.textContent).props?.baseUrl;if(n)return e=new URL(n).origin,e}}catch{}return e=null,null}function n(e){let n=t();return!n||window.location.origin===n?e:n+e}export{n as t};

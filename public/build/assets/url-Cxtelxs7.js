@@ -1,1 +1,0 @@
-function e(e){let t=window.__page?.props?.baseUrl;if(!t)return e;try{let n=new URL(t).origin;return window.location.origin===n?e:n+e}catch{return e}}export{e as t};

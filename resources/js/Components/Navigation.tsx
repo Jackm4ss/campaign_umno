@@ -1,6 +1,6 @@
 import { usePage } from '@inertiajs/react';
 import { useEffect, useState } from 'react';
-import { baseUrl } from '../lib/url';
+import { baseUrl, subdomainUrl } from '../lib/url';
 
 export default function Navigation() {
     const [open, setOpen] = useState(false);
@@ -93,12 +93,12 @@ export default function Navigation() {
                 <div className="nav-links">
                     <a href={baseUrl('/#mengenai')} className={url === '/' ? 'active' : ''} onClick={close}>Tentang Kami</a>
                     <a href={baseUrl('/#aktiviti')} onClick={close}>Aktiviti Kami</a>
-                    <a href={baseUrl('/#sertai')} onClick={close}>Aspirasi Anda, Tekad Kami</a>
+                    <a href={subdomainUrl('aspirasi')} onClick={close}>Aspirasi Anda, Tekad Kami</a>
                     <a href={baseUrl('/galeri')} className={url.startsWith('/galeri') ? 'active' : ''} onClick={close}>Foto Galeri</a>
                 </div>
 
                 <div className="nav-btn">
-                    <a className="btn btn-red nav-cta" href={baseUrl('/bantuan')} onClick={close}>Inisiatif Tak Banyak Alasan</a>
+                    <a className="btn btn-red nav-cta" href={subdomainUrl('bantuan')} onClick={close}>Inisiatif Tak Banyak Alasan</a>
                 </div>
             </aside>
         </>

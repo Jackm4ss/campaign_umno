@@ -1,12 +1,13 @@
 import { Head } from '@inertiajs/react';
 import PublicLayout from '../../Layouts/PublicLayout';
+import { baseUrl } from '../../lib/url';
 import type { EventShowProps } from '../../types';
 
 function resolveHref(href: string, listAnchor: string): string {
-    if (href === 'bantuan') return '/bantuan';
-    if (href === listAnchor) return '/#aktiviti';
+    if (href === 'bantuan') return baseUrl('/bantuan');
+    if (href === listAnchor) return baseUrl('/#aktiviti');
 
-    return `/#${href}`;
+    return baseUrl(`/#${href}`);
 }
 
 export default function EventShow({ event, siblings }: EventShowProps) {
@@ -28,7 +29,7 @@ export default function EventShow({ event, siblings }: EventShowProps) {
             <section className="event-detail-page section-pad">
                 <div className="container event-detail-container">
                     <div className="event-detail-shell">
-                        <a href="/#aktiviti" className="event-detail-back" title="Kembali ke senarai aktiviti">
+                        <a href={baseUrl('/#aktiviti')} className="event-detail-back" title="Kembali ke senarai aktiviti">
                             <span className="event-detail-back-pad">
                                 <svg className="event-detail-back-fillet event-detail-back-fillet--a" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" aria-hidden="true"><path d="m100,0H0v100C0,44.77,44.77,0,100,0Z" fill="currentColor"></path></svg>
                                 <span className="event-detail-back-circle">
@@ -98,7 +99,7 @@ export default function EventShow({ event, siblings }: EventShowProps) {
                                     <ul className="event-detail-siblings-list">
                                         {siblings.map((sibling) => (
                                             <li key={sibling.slug} className="event-detail-siblings-item">
-                                                <a href={`/acara/${sibling.slug}`} className="event-detail-siblings-card">
+                                                <a href={baseUrl(`/acara/${sibling.slug}`)} className="event-detail-siblings-card">
                                                     <span className="event-detail-siblings-thumb">
                                                         <img src={sibling.image_url} alt={sibling.title} loading="lazy" />
                                                     </span>

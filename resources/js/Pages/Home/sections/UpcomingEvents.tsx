@@ -1,5 +1,6 @@
 import { Link } from '@inertiajs/react';
 import { useMemo, useState } from 'react';
+import { baseUrl } from '../../../lib/url';
 import type { CampaignEventContentData } from '../../../types';
 
 interface Props {
@@ -72,7 +73,7 @@ function CalendarMonth({ date, events }: { date: Date; events: CampaignEventCont
                             {dayEvents.map((event) => (
                                 <Link
                                     key={event.slug}
-                                    href={`/acara/${event.slug}`}
+                                    href={baseUrl(`/acara/${event.slug}`)}
                                     className="calendar-event-link"
                                     aria-label={`${event.title}, ${event.date_label}`}
                                     title={event.title}
@@ -143,7 +144,7 @@ export default function UpcomingEvents({ events }: Props) {
                 {visibleEvents.length ? (
                     <div className="calendar-event-list" aria-label="Maklumat aktiviti dalam dua bulan yang dipaparkan">
                         {visibleEvents.map((event) => (
-                            <Link key={event.slug} href={`/acara/${event.slug}`} className="calendar-event-card">
+                            <Link key={event.slug} href={baseUrl(`/acara/${event.slug}`)} className="calendar-event-card">
                                 <span className="calendar-event-card-icon" aria-hidden="true">
                                     <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2"><path d="M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v13a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z" /></svg>
                                 </span>

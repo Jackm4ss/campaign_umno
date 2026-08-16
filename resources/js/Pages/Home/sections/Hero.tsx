@@ -1,3 +1,5 @@
+import { baseUrl } from '../../../lib/url';
+
 export default function Hero() {
     return (
         <section className="hero" id="utama">
@@ -15,11 +17,11 @@ export default function Hero() {
                     <img src="/assets/logo-tba.png" alt="Tak Banyak Alasan" className="hero-logo" id="heroLogo" />
                     <p className="hero-tagline">Terbukti, Terlihat &amp; Terjamin<br />Proven, Seen &amp; Guaranteed</p>
                     <div className="hero-buttons">
-                        <a href="/bantuan" className="hero-btn hero-btn-primary">
+                        <a href={baseUrl('/bantuan')} className="hero-btn hero-btn-primary">
                             <span>Inisiatif Tak Banyak Alasan</span>
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
                         </a>
-                        <a href="/#sertai" className="hero-btn hero-btn-outline">
+                        <a href={baseUrl('/#sertai')} className="hero-btn hero-btn-outline">
                             <span>Aspirasi Anda, Tekad Kami</span>
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
                         </a>

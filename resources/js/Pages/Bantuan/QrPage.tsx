@@ -15,7 +15,7 @@ export default function BantuanQrPage() {
                         </div>
 
                         <div className="bantuan-qr-image-wrap">
-                            <img src="/bantuan/qr-image" alt="Kod QR Borang Bantuan" className="bantuan-qr-image" />
+                            <img src={baseUrl('/bantuan/qr-image')} alt="Kod QR Borang Bantuan" className="bantuan-qr-image" />
                             <div className="bantuan-qr-glow"></div>
                         </div>
 

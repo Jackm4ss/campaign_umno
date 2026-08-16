@@ -1,4 +1,5 @@
 import { Link } from '@inertiajs/react';
+import { baseUrl } from '../../../lib/url';
 import type { ProgramData } from '../../../types';
 
 interface Props {
@@ -18,7 +19,7 @@ export default function Programs({ programs }: Props) {
                     {programs.map((program) => (
                         <Link
                             key={program.slug}
-                            href={`/program/${program.slug}`}
+                            href={baseUrl(`/program/${program.slug}`)}
                             className="program-card fade-up"
                             aria-label={program.title}
                         >

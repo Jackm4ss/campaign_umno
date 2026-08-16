@@ -1,3 +1,4 @@
+import { baseUrl } from '../../../lib/url';
 import type { GalleryItemData } from '../../../types';
 
 interface Props {
@@ -28,7 +29,7 @@ export default function Activities({ gallery }: Props) {
                     <div className={`marquee-inner${items.length < 6 ? ' marquee-inner--few' : ''}`}>
                         {/* First set */}
                         {items.map((item, i) => (
-                            <a href="/galeri"
+                            <a href={baseUrl('/galeri')}
                                 className={`marquee-item${item.type !== 'photo' && !item.src ? ' marquee-item--video-no-thumb' : ''}`}
                                 key={`a-${item.id}`} title={item.title}>
                                 {item.src && <img src={item.src} alt={`Kegiatan Tak Banyak Alasan ${i + 1}`} loading="lazy" />}
@@ -42,7 +43,7 @@ export default function Activities({ gallery }: Props) {
 
                         {/* Duplicate for seamless loop only when there are enough items */}
                         {items.length >= 6 ? items.map((item) => (
-                            <a href="/galeri"
+                            <a href={baseUrl('/galeri')}
                                 className={`marquee-item${item.type !== 'photo' && !item.src ? ' marquee-item--video-no-thumb' : ''}`}
                                 aria-hidden="true" tabIndex={-1} key={`b-${item.id}`}>
                                 {item.src && <img src={item.src} alt="" loading="lazy" />}

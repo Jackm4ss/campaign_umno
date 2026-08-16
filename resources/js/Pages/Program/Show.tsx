@@ -1,12 +1,13 @@
 import { Head } from '@inertiajs/react';
 import PublicLayout from '../../Layouts/PublicLayout';
+import { baseUrl } from '../../lib/url';
 import type { ProgramShowProps } from '../../types';
 
 function resolveHref(href: string, listAnchor: string): string {
-    if (href === 'bantuan') return '/bantuan';
-    if (href === listAnchor) return '/#program';
+    if (href === 'bantuan') return baseUrl('/bantuan');
+    if (href === listAnchor) return baseUrl('/#program');
 
-    return `/#${href}`;
+    return baseUrl(`/#${href}`);
 }
 
 export default function ProgramShow({ program, siblings }: ProgramShowProps) {
@@ -28,7 +29,7 @@ export default function ProgramShow({ program, siblings }: ProgramShowProps) {
             <section className="program-detail-page section-pad">
                 <div className="container program-detail-container">
                     <div className="program-detail-shell">
-                        <a href="/#program" className="program-detail-back" title="Kembali ke senarai program">
+                        <a href={baseUrl('/#program')} className="program-detail-back" title="Kembali ke senarai program">
                             <span className="program-detail-back-pad">
                                 <svg className="program-detail-back-fillet program-detail-back-fillet--a" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" aria-hidden="true"><path d="m100,0H0v100C0,44.77,44.77,0,100,0Z" fill="currentColor"></path></svg>
                                 <span className="program-detail-back-circle">
@@ -89,7 +90,7 @@ export default function ProgramShow({ program, siblings }: ProgramShowProps) {
                                     <ul className="program-detail-siblings-list">
                                         {siblings.map((sibling) => (
                                             <li key={sibling.slug} className="program-detail-siblings-item">
-                                                <a href={`/program/${sibling.slug}`} className="program-detail-siblings-card">
+                                                <a href={baseUrl(`/program/${sibling.slug}`)} className="program-detail-siblings-card">
                                                     <span className="program-detail-siblings-thumb">
                                                         <img src={sibling.image_url} alt={sibling.title} loading="lazy" />
                                                     </span>
